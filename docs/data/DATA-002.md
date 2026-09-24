@@ -1,6 +1,6 @@
 # DATA-002 Philippine hairstyle reassessment and GPU handoff
 
-Status: **structurally finalized on Kaggle; visual QA not performed**. The Supervisor reported 120/120 valid generations and successful automated-unreviewed finalization: 100 train and 20 validation identities, 200 train and 40 validation directional pairs, no exclusions or reported exact-hash split leakage. The finalized artifacts remain in the Supervisor's Kaggle session and have not been independently inspected in this workspace. No TRAIN-002 checkpoint exists. The live registry continues to enable only TRAIN-001. The previous technical shortlist and hash are preserved in [DATA-002-technical-shortlist](DATA-002-technical-shortlist/); its approval hash is superseded.
+Status: **previously structurally finalized, but the unsaved Kaggle artifacts were lost when the interactive session ended**. The Supervisor reported 120/120 valid generations and successful automated-unreviewed finalization: 100 train and 20 validation identities, 200 train and 40 validation directional pairs, no exclusions or reported exact-hash split leakage. A new session found no generated/final files or ZIP, and no saved notebook version exists; see [recovery plan](../experiments/DATA-002-recovery.md). Visual QA was not performed. No TRAIN-002 checkpoint exists. The live registry continues to enable only TRAIN-001. The previous technical shortlist and hash are preserved in [DATA-002-technical-shortlist](DATA-002-technical-shortlist/); its approval hash is superseded.
 
 ## Source and selection
 

@@ -1,6 +1,6 @@
 # TRAIN-002: isolated ten-style Edit-LoRA handoff
 
-Status: **prepared, not executed**. The Supervisor reported DATA-002 structural audit and automated-unreviewed finalization passing on Kaggle; the generated artifacts are not present in this workspace. TRAIN-001 and the three enabled live hairstyles remain unchanged.
+Status: **prepared, not executed; waiting for DATA-002 recovery**. The Supervisor reported DATA-002 structural audit and automated-unreviewed finalization passing on Kaggle, but the interactive files were lost without a saved version or archive. See [recovery plan](DATA-002-recovery.md). TRAIN-001 and the three enabled live hairstyles remain unchanged.
 
 ## Gate before training
 
