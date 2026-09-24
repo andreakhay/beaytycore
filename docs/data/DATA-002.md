@@ -1,6 +1,6 @@
 # DATA-002 Philippine hairstyle reassessment and GPU handoff
 
-Status: **revised selection frozen for Project Lead review**. No FLUX counterpart, final edit pair, or TRAIN-002 checkpoint exists. The live registry continues to enable only TRAIN-001. The previous technical shortlist and hash are preserved in [DATA-002-technical-shortlist](DATA-002-technical-shortlist/); its approval hash is superseded.
+Status: **structurally finalized on Kaggle; visual QA not performed**. The Supervisor reported 120/120 valid generations and successful automated-unreviewed finalization: 100 train and 20 validation identities, 200 train and 40 validation directional pairs, no exclusions or reported exact-hash split leakage. The finalized artifacts remain in the Supervisor's Kaggle session and have not been independently inspected in this workspace. No TRAIN-002 checkpoint exists. The live registry continues to enable only TRAIN-001. The previous technical shortlist and hash are preserved in [DATA-002-technical-shortlist](DATA-002-technical-shortlist/); its approval hash is superseded.
 
 ## Source and selection
 
@@ -171,7 +171,7 @@ print((out / "final/reports/qa.json").read_text())
 
 If a small number of jobs are missing or invalid, the audit lists their exact sample IDs. The fast path can finalize the remaining technically valid groups and calculates actual counts, provided every style retains at least half its planned target representation in each split. Preserve the audit and report exclusions to the Project Lead; do not label the resulting data human-reviewed. The runner's `--all` skips complete outputs whose metadata and hashes verify, so missing jobs can be rerun without repeating successful jobs. A corrupt existing file requires inspection and a deliberate targeted repair before rerunning; the runner will not silently overwrite it.
 
-The final DATA-002 output contains `train|val/reference`, `train|val/target`, target caption `.txt` files, `manifests/pairs.json`, `manifests/selection.json`, `manifests/reviews.json`, copied generation metadata, `reports/generation_audit.json`, `reports/qa.json`, and identity/directional contact sheets. A complete valid run should calculate 100 train plus 20 validation identities and 200 train plus 40 validation directional pairs; these remain projections until the Kaggle audit and finalizer report them.
+The final DATA-002 output contains `train|val/reference`, `train|val/target`, target caption `.txt` files, `manifests/pairs.json`, `manifests/selection.json`, `manifests/reviews.json`, copied generation metadata, `reports/generation_audit.json`, `reports/qa.json`, and identity/directional contact sheets. The Supervisor's Kaggle QA report calculated 100 train plus 20 validation identities and 200 train plus 40 validation directional pairs. The files have not been independently inspected in this workspace.
 
 After generation, initialize a review manifest (this writes **PENDING**, not ACCEPT):
 

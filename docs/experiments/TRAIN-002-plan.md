@@ -1,10 +1,10 @@
 # TRAIN-002: isolated ten-style Edit-LoRA handoff
 
-Status: **prepared, not executed**. TRAIN-001 and the three enabled live hairstyles remain unchanged.
+Status: **prepared, not executed**. The Supervisor reported DATA-002 structural audit and automated-unreviewed finalization passing on Kaggle; the generated artifacts are not present in this workspace. TRAIN-001 and the three enabled live hairstyles remain unchanged.
 
 ## Gate before training
 
-The frozen DATA-002 manifest is SHA-256 `25a3200c9a79be85ce19f690ba81f564d57d55d86d36e6383b0cacd1188ec5ab`. The Supervisor reported a DATA-002 generator exit code of zero and 120 `generated.png` files, but the actual generation directory is not available in the local repository. Run the [artifact audit and automated finalizer](../data/DATA-002.md#authorized-fast-path-for-train-002) on Kaggle first. The finalizer must produce `/kaggle/working/data002/final/reports/qa.json` and `generation_audit.json`. Counts and exclusions must come from those reports, not from the planned 120 jobs. This fast path explicitly records `review_mode: automated_unreviewed` and no visual QA. The ordinary human-review mode remains available.
+The frozen DATA-002 manifest is SHA-256 `25a3200c9a79be85ce19f690ba81f564d57d55d86d36e6383b0cacd1188ec5ab`. The Supervisor reported a completed Kaggle artifact audit with 120/120 valid generations, no issues, and no reported exact-hash split leakage. The automated finalizer exited zero and wrote `/kaggle/working/data002/final/reports/qa.json`: 100 train and 20 validation identities, 200 train and 40 validation directional pairs, balanced target classes, and no exclusions. The actual generation directory remains unavailable in this local workspace. Preserve the finalized dataset and reports before the Kaggle session expires. This fast path records `review_mode: automated_unreviewed` and no visual QA. The ordinary human-review mode remains available.
 
 `notebooks/train002_kaggle.py` validates the final dataset before writing a training config. It checks source manifest equality, frozen SHA-256, audit provenance, identity and pair counts, target balance, 512×512 RGB decoding, caption alignment, both directions per accepted identity, and absence of exact-hash split leakage. Severe loss of a style or a changed dataset stops preparation. It trains only on `final/train/target` with paired `final/train/reference`. Validation identities never enter the trainer.
 
