@@ -18,6 +18,7 @@ CODE_FILES = (
     "scripts/kaggle_inference_requirements.txt",
     "scripts/kaggle_inference_server.py",
     "scripts/kaggle_train002_switch_smoke.py",
+    "scripts/train002_smoke_launcher.py",
     "frontend/e2e/fixtures/portrait.png",
 )
 EXPECTED_ADAPTER_SHA256 = "59d527217a68139bc2aaa4eedbfcd2d5789ef115f8ecb924410eea24a952939b"
