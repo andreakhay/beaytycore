@@ -11,30 +11,45 @@ cd F:\HAIR
 python scripts\package_train002_adapter.py --archive 'D:\Downloads\train002_500_artifacts.zip' --output artifacts\train002_adapter_bundle
 ```
 
-Create a **private Kaggle Dataset** from the two files in `artifacts\train002_adapter_bundle`. Attach it to the smoke notebook along with the existing private TRAIN-001 adapter Dataset. Keep the already used `HAIRCAPSTONE_API_KEY` Kaggle Secret enabled. Do not upload the full optimizer/training archive for this test.
+The ready-to-upload file is `F:\HAIR\artifacts\train002_smoke_handoff.zip` (42,414,343 bytes; SHA-256 `f4923e4a39c10248aee171825bee04ae95cb8777514906c8505fa8abfdb03b87`). It contains only the minimal inference/smoke code, one test portrait, and the derived TRAIN-002 adapter bundle. If missing, build it locally with `python scripts\package_train002_smoke_handoff.py`. Create a **private Kaggle Dataset** containing this ZIP and attach it to the smoke notebook along with the existing private TRAIN-001 adapter Dataset. Keep the already used `HAIRCAPSTONE_API_KEY` Kaggle Secret enabled. The full optimizer/training archive is not needed.
 
 ## Fresh Kaggle notebook
 
-Select T4 GPU and enable Internet. Run this one code cell after attaching both adapter Datasets. It obtains the current repository, finds exactly one verified bundle per training run, loads FLUX Base once, and makes three requests. A normal successful run prints `TRAIN-002 SWITCH SMOKE PASS` and a downloadable ZIP path.
+Select T4 GPU and enable Internet. Run this one code cell after attaching the two Datasets. It unpacks the smoke handoff if Kaggle has not already unpacked it, finds exactly one verified bundle per training run, loads FLUX Base once, and makes three requests. It does not fetch or update Git. A normal successful run prints `TRAIN-002 SWITCH SMOKE PASS` and a downloadable ZIP path.
 
 ```python
 from pathlib import Path
-import json, os, subprocess, sys
+from zipfile import ZipFile
+import json, os, shutil, subprocess, sys
 
-repo = Path('/kaggle/working/CometicsAI')
-if repo.exists():
-    subprocess.run(['git', '-C', str(repo), 'pull', '--ff-only'], check=True, timeout=180)
+inputs = Path('/kaggle/input')
+code_roots = sorted({p.parent.parent for p in inputs.rglob('kaggle_inference_bootstrap.py')
+                     if p.parent.name == 'scripts' and
+                     (p.parent.parent / 'backend/app/style_registry_train002_smoke.json').is_file()})
+if len(code_roots) == 1:
+    handoff_root = code_roots[0].parent
 else:
-    subprocess.run(['git', 'clone', '--depth', '1',
-                    'https://github.com/mark-juswa/CometicsAI.git', str(repo)],
-                   check=True, timeout=180)
+    archives = list(inputs.rglob('train002_smoke_handoff.zip'))
+    assert not code_roots and len(archives) == 1, f'Attach one private TRAIN-002 smoke ZIP: {archives}'
+    handoff_root = Path('/kaggle/working/train002_smoke_input')
+    handoff_root.mkdir(parents=True, exist_ok=True)
+    with ZipFile(archives[0]) as source:
+        assert source.testzip() is None, 'Smoke handoff ZIP is corrupt'
+        assert all((handoff_root / name).resolve().is_relative_to(handoff_root.resolve())
+                   for name in source.namelist()), 'Unsafe ZIP member path'
+        source.extractall(handoff_root)
+
+code_root = handoff_root / 'CometicsAI'
+repo = Path('/kaggle/working/CometicsAI')
+assert code_root.is_dir() and not repo.exists(), 'Use a fresh notebook session for this isolated smoke'
+shutil.copytree(code_root, repo)
 
 os.environ['HAIRCAPSTONE_STYLE_REGISTRY_PATH'] = str(
     repo / 'backend/app/style_registry_train002_smoke.json')
 assert Path(os.environ['HAIRCAPSTONE_STYLE_REGISTRY_PATH']).is_file()
 
 bundles = {}
-for meta_path in Path('/kaggle/input').rglob('metadata.json'):
+for meta_path in sorted(set(inputs.rglob('metadata.json')) | set(handoff_root.rglob('metadata.json'))):
     directory = meta_path.parent
     if not (directory / 'adapter.safetensors').is_file():
         continue
@@ -43,7 +58,7 @@ for meta_path in Path('/kaggle/input').rglob('metadata.json'):
     if experiment in {'TRAIN-001', 'TRAIN-002'}:
         assert experiment not in bundles, f'Duplicate {experiment} adapter bundle'
         bundles[experiment] = directory
-assert set(bundles) == {'TRAIN-001', 'TRAIN-002'}, f'Attach both private adapter Datasets: {bundles}'
+assert set(bundles) == {'TRAIN-001', 'TRAIN-002'}, f'Attach the TRAIN-001 Dataset and TRAIN-002 smoke ZIP: {bundles}'
 print('Adapter bundles:', bundles, flush=True)
 
 subprocess.run([sys.executable, '-u', str(repo / 'scripts/kaggle_inference_bootstrap.py'),
