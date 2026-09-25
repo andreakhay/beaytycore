@@ -1,6 +1,6 @@
 # TRAIN-002 T4 adapter-switch smoke
 
-Status: **VERIFIED from Supervisor's successful Kaggle console report; output ZIP pending local inspection**. On 2026-09-25, the Supervisor ran the isolated localhost smoke with one Kaggle T4 and the combined handoff containing frozen TRAIN-001 and derived TRAIN-002 adapters. The code exited 0 and printed `TRAIN-002 SWITCH SMOKE PASS`. No public tunnel or local web-app request was part of this smoke.
+Status: **VERIFIED routing and restoration, including downloaded artifact inspection**. On 2026-09-25, the Supervisor ran the isolated localhost smoke with one Kaggle T4 and the combined handoff containing frozen TRAIN-001 and derived TRAIN-002 adapters. The code exited 0 and printed `TRAIN-002 SWITCH SMOKE PASS`. No public tunnel or local web-app request was part of this smoke.
 
 ## Reported checks
 
@@ -15,8 +15,8 @@ Status: **VERIFIED from Supervisor's successful Kaggle console report; output ZI
 | 2 | `pixie_cut` | TRAIN-002 | 62.68 | 8304.3 | `14b6c33b0b3680079248f9312b359ab9d03aa2d9eb22766de9c1bca3d4ff5786` |
 | 3 | `crew_cut` | TRAIN-001 | 63.35 | 8304.3 | `ac09c8744e5fa693190a69f2595375bd5edf1bda3c2a49b6f7e32deb2e0e9aa3` |
 
-The two TRAIN-001 responses have identical SHA-256 hashes under the same input, prompt, seed, and generation settings. The smoke code also checked each response's adapter ID/hash, valid 512×512 RGB PNG, and `/health` active adapter after each request. The final health check reported TRAIN-001 active. This verifies routing and restoration in the reported T4 run. The pending `/kaggle/working/train002_switch_smoke.zip` should be downloaded and inspected for durable artifact evidence.
+The Supervisor downloaded `D:/Downloads/train002_switch_smoke.zip` (175,899 bytes; SHA-256 `ae6defe53bb361f297f8ab9a4e347a93323f6e596ea4fb0b09ed336b69fcc94b`). Local inspection found four members, no ZIP CRC error, a `PASS` report, and three decodable 512×512 RGB PNGs whose hashes match the report. The two TRAIN-001 responses are byte-identical under the same input, prompt, seed, and generation settings. The smoke code also checked each response's adapter ID/hash and `/health` active adapter after each request. The final health check reported TRAIN-001 active. This verifies routing and restoration on the T4.
 
 ## Limits and next gate
 
-This is a routing test, not a ten-style quality verdict or public app integration. The held-out TRAIN-002 sheet remains preliminary, including concerns for `curtain_hair`, `pompadour_undercut`, and `side_part_undercut`. A separate live registry/inference handoff is required before the local app can expose any TRAIN-002 style. Preserve TRAIN-001 as the fallback.
+The input fixture is a simple illustration rather than a real portrait. Its generated faces are not evidence of realistic portrait quality or identity preservation. This is a routing test, not a ten-style quality verdict or public app integration. The held-out TRAIN-002 sheet remains preliminary, including concerns for `curtain_hair`, `pompadour_undercut`, and `side_part_undercut`. A separate live registry/inference handoff is required before the local app can expose any TRAIN-002 style. Preserve TRAIN-001 as the fallback.
