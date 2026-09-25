@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "base_model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "base_model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "adapters": {
+    "train001": {
+      "experiment": "TRAIN-001",
+      "dataset_version": "DATA-001",
+      "training_steps": 250,
+      "checkpoint_sha256": "7e3991f8a4e502573d3e82e9ac34c89fdf3f0b66fb337abb026a5b4c9ad080ff",
+      "status": "enabled"
+    },
+    "train002": {
+      "experiment": "TRAIN-002",
+      "dataset_version": "DATA-002",
+      "training_steps": 500,
+      "checkpoint_sha256": "59d527217a68139bc2aaa4eedbfcd2d5789ef115f8ecb924410eea24a952939b",
+      "status": "enabled"
+    }
+  },
+  "styles": [
+    {
+      "style_id": "crew_cut",
+      "display_name": "Crew Cut",
+      "description": "A short, close hairstyle.",
+      "prompt": "Change the person's hairstyle to a crew cut while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train001",
+      "training_label": "CrewCut",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "bob_hair",
+      "display_name": "Bob Hair",
+      "description": "A bob hairstyle.",
+      "prompt": "Change the person's hairstyle to a bob hairstyle while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train001",
+      "training_label": "BobHair",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "layered_hair",
+      "display_name": "Layered Hair",
+      "description": "A layered hairstyle.",
+      "prompt": "Change the person's hairstyle to layered hair while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train001",
+      "training_label": "LayeredHair",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "bun",
+      "display_name": "Bun",
+      "description": "Bun hairstyle.",
+      "prompt": "Change the person's hairstyle to a hair bun while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "Bun",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "curtain_hair",
+      "display_name": "Curtain Hair",
+      "description": "Curtain Hair hairstyle.",
+      "prompt": "Change the person's hairstyle to a curtain hairstyle with a center part while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "CurtainedHair",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "perm_curls",
+      "display_name": "Perm-Style Curls",
+      "description": "Perm-Style Curls hairstyle.",
+      "prompt": "Change the person's hairstyle to defined curls in a perm-style hairstyle while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "Perm",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "pixie_cut",
+      "display_name": "Pixie Cut",
+      "description": "Pixie Cut hairstyle.",
+      "prompt": "Change the person's hairstyle to a pixie cut while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "PixieCut",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "pompadour_undercut",
+      "display_name": "Pompadour Undercut",
+      "description": "Pompadour Undercut hairstyle.",
+      "prompt": "Change the person's hairstyle to a pompadour undercut while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "UndercutPompadour",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "ponytail",
+      "display_name": "Ponytail",
+      "description": "Ponytail hairstyle.",
+      "prompt": "Change the person's hairstyle to a ponytail while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "PonyTail",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "shag_hair",
+      "display_name": "Shag Hair",
+      "description": "Shag Hair hairstyle.",
+      "prompt": "Change the person's hairstyle to a shag haircut while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "shag",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "shoulder_length_hair",
+      "display_name": "Shoulder-Length Hair",
+      "description": "Shoulder-Length Hair hairstyle.",
+      "prompt": "Change the person's hairstyle to shoulder-length hair while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "ShoulderLenHair",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "side_part_undercut",
+      "display_name": "Side-Part Undercut",
+      "description": "Side-Part Undercut hairstyle.",
+      "prompt": "Change the person's hairstyle to a side-part undercut while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "undercutSidepart",
+      "support_status": "experimental"
+    },
+    {
+      "style_id": "wavy_hair",
+      "display_name": "Wavy Hair",
+      "description": "Wavy Hair hairstyle.",
+      "prompt": "Change the person's hairstyle to soft wavy hair while preserving their identity, facial features, expression, pose, clothing, lighting, framing, and background.",
+      "adapter_id": "train002",
+      "training_label": "WaveHair",
+      "support_status": "experimental"
+    }
+  ]
+}

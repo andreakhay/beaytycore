@@ -160,10 +160,10 @@ def dependencies(torch_version: str, cuda_version: str) -> None:
     write_json(OUT / "dependencies.json", {"packages": versions, "torch": torch_version, "cuda": cuda_version})
 
 
-def adapter_directories(explicit: str | None) -> dict[str, tuple[Path, dict]]:
+def adapter_directories(explicit: list[str] | None) -> dict[str, tuple[Path, dict]]:
     sys.path.insert(0, str(ROOT / "scripts"))
     from kaggle_inference_server import read_adapter_metadata
-    candidates = [Path(explicit)] if explicit else list(Path("/kaggle/input").rglob("metadata.json"))
+    candidates = [Path(value) for value in explicit] if explicit else list(Path("/kaggle/input").rglob("metadata.json"))
     valid = {}
     for item in candidates:
         directory = item if item.is_dir() else item.parent
@@ -348,7 +348,7 @@ def start_tunnel(hashes: dict[str, str]) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--adapter-dir", help="Explicit directory with adapter.safetensors and metadata.json")
+    parser.add_argument("--adapter-dir", action="append", help="Adapter directory; repeat for each enabled adapter")
     parser.add_argument("--local-only", action="store_true", help="Start localhost service without public tunnel")
     args = parser.parse_args()
     report, key = audit_environment()

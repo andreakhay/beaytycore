@@ -1,6 +1,7 @@
 """Shared, fail-closed contract for real hairstyle and adapter routing."""
 
 import json
+import os
 from pathlib import Path
 
 
@@ -8,6 +9,8 @@ REGISTRY_PATH = Path(__file__).with_name("style_registry.json")
 
 
 def load_registry(path: Path = REGISTRY_PATH) -> dict:
+    if path == REGISTRY_PATH and os.environ.get("HAIRCAPSTONE_STYLE_REGISTRY_PATH"):
+        path = Path(os.environ["HAIRCAPSTONE_STYLE_REGISTRY_PATH"])
     data = json.loads(path.read_text(encoding="utf-8"))
     if data.get("schema_version") != 1 or not data.get("base_model_id") or not data.get("base_model_revision"):
         raise ValueError("Invalid hairstyle registry header")

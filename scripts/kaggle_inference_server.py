@@ -161,6 +161,7 @@ class FluxRuntime:
                                             adapter_name=adapter_id)
                 self.pipe.set_adapters(adapter_id)
             self.active_adapter = adapter_id
+            self.metadata = self.adapters[adapter_id][1]
         except Exception:
             LOGGER.exception("Adapter switch failed; restoring TRAIN-001")
             try:
@@ -168,6 +169,7 @@ class FluxRuntime:
                 fallback, _ = self.adapters["train001"]
                 self.pipe.load_lora_weights(str(fallback), weight_name="adapter.safetensors")
                 self.active_adapter = "train001"
+                self.metadata = self.adapters["train001"][1]
             except Exception:
                 self.ready = False
                 LOGGER.exception("TRAIN-001 restoration failed; server is no longer ready")
