@@ -1,6 +1,6 @@
 # TRAIN-002 held-out comparison: preliminary review
 
-Status: **evaluation artifacts verified; visual review preliminary; runtime switching unverified**. The Supervisor supplied `D:/Downloads/train002_evaluation.zip` and `D:/Downloads/reference_base_adapter_target (1).jpg` and reported that the comparison looks good. Codex inspected the full-resolution sheet and archive without running GPU inference.
+Status: **evaluation artifacts verified; visual review preliminary; T4 adapter switching reported PASS**. The Supervisor supplied `D:/Downloads/train002_evaluation.zip` and `D:/Downloads/reference_base_adapter_target (1).jpg` and reported that the comparison looks good. Codex inspected the full-resolution sheet and archive without running GPU inference.
 
 ## Artifact checks
 
@@ -25,6 +25,6 @@ The sheet columns are source, Base, TRAIN-002, and paired target, with one held-
 
 This is a useful proof that the adapter can be loaded for evaluation and produces varied hairstyle edits. It is not evidence that TRAIN-002 consistently beats the Base model: Base already follows several of these prompts, and there is only one held-out direction per style in the sheet. The underlying DATA-002 counterparts were accepted structurally without visual review. No new style is enabled by this assessment.
 
-## Next gate
+## Runtime gate
 
-Preserve TRAIN-001 as the live fallback. Before enabling any TRAIN-002 style, make its deployment metadata satisfy the existing runtime contract, run one real T4 TRAIN-001 → TRAIN-002 → TRAIN-001 switch, and confirm output after restoration. The training archive's packaged metadata currently lacks `adapter_id` and the `training_config` object required by `scripts/kaggle_inference_server.py` for non-TRAIN-001 adapters; prepare a derived deployment bundle without changing the original checkpoint or training archive. Recheck `curtain_hair`, `pompadour_undercut`, and `side_part_undercut` before treating them as supported.
+The derived deployment bundle passed metadata/hash checks, and the Supervisor's T4 TRAIN-001 → TRAIN-002 → TRAIN-001 smoke passed with identical first/third output hashes; see [switch smoke](TRAIN-002-switch-smoke.md). Preserve TRAIN-001 as the live fallback. Recheck `curtain_hair`, `pompadour_undercut`, and `side_part_undercut` before treating them as supported. No TRAIN-002 style has been enabled in the live application.

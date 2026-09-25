@@ -1,6 +1,6 @@
 # TRAIN-002 adapter-switch smoke on Kaggle
 
-Status: **prepared; not yet run on a T4**. The live application registry remains TRAIN-001 only. This check runs a separate localhost GPU server with a smoke-only registry, three sequential inference requests, and no public tunnel. It does not train or alter either checkpoint.
+Status: **Supervisor reported a passing T4 run on 2026-09-25; output ZIP pending local inspection**. The live application registry remains TRAIN-001 only. This check runs a separate localhost GPU server with a smoke-only registry, three sequential inference requests, and no public tunnel. It does not train or alter either checkpoint.
 
 ## PC preparation
 
