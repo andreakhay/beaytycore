@@ -16,9 +16,10 @@ def main() -> None:
         raise RuntimeError("Smoke-only registry is missing from the handoff")
     os.environ["HAIRCAPSTONE_STYLE_REGISTRY_PATH"] = str(smoke_registry)
     candidates = set(Path("/kaggle/input").rglob("metadata.json"))
-    local_train002 = ROOT.parent / "train002_adapter/metadata.json"
-    if local_train002.is_file():
-        candidates.add(local_train002)
+    for name in ("train001_adapter", "train002_adapter"):
+        local_metadata = ROOT.parent / name / "metadata.json"
+        if local_metadata.is_file():
+            candidates.add(local_metadata)
     bundles = {}
     for metadata_path in sorted(candidates):
         directory = metadata_path.parent
@@ -31,7 +32,7 @@ def main() -> None:
                 raise RuntimeError(f"Duplicate {experiment} bundle: {directory}")
             bundles[experiment] = directory
     if set(bundles) != {"TRAIN-001", "TRAIN-002"}:
-        raise RuntimeError("Attach the existing TRAIN-001 adapter Dataset and the TRAIN-002 smoke handoff Dataset")
+        raise RuntimeError("Attach the combined TRAIN-001 plus TRAIN-002 smoke handoff Dataset")
     print("Verified bundle paths:", bundles, flush=True)
     subprocess.run([sys.executable, "-u", str(ROOT / "scripts/kaggle_inference_bootstrap.py"),
                     "--adapter-dir", str(bundles["TRAIN-001"]),
