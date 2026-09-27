@@ -68,5 +68,5 @@ class RemoteLocalizedNails:
                 if isinstance(runtime, (int, float)) and runtime >= 0:
                     result.info["runtime_seconds"] = runtime
                 return result
-        except (KeyError, TypeError, ValueError, binascii.Error, UnidentifiedImageError, OSError) as exc:
+        except (KeyError, AttributeError, TypeError, ValueError, binascii.Error, UnidentifiedImageError, OSError) as exc:
             raise NailsGenerationError("The Nails GPU returned an invalid image or model response.") from exc

@@ -16,7 +16,9 @@ test("feature discovery uses the central API", async () => {
 for (const feature of ["hairstyle", "makeup", "nails"] satisfies FeatureId[]) {
   test(`${feature} sends its feature route and multipart fields and parses the result`, async () => {
     const file = new File(["portrait bytes"], "portrait.png", { type: "image/png" });
-    const result = { status: "completed", generator: "test", style: { id: "selected" }, image: { data_url: "data:image/png;base64,test" } };
+    const result = { status: "completed", generator: "test",
+      style: { id: "selected", name: "Selected", description: "Test", status: "available" },
+      image: { data_url: "data:image/png;base64,test", content_type: "image/png", width: 512, height: 512 } };
     let calls = 0;
     globalThis.fetch = async (url, init) => {
       calls++;
@@ -70,4 +72,17 @@ test("validation arrays, network failure, timeout and unreadable responses are s
   await expect(getStyles("nails")).rejects.toMatchObject({ code: "inference_failed", message: "The request could not be completed. Please try again." });
   globalThis.fetch = async () => new Response("not JSON");
   await expect(getStyles("nails")).rejects.toMatchObject({ code: "invalid_response" });
+});
+
+test("successful JSON with the wrong shape cannot reach a feature page", async () => {
+  const file = new File(["image"], "image.png", { type: "image/png" });
+  for (const body of [null, {}, [{ id: "nails" }]]) {
+    globalThis.fetch = async () => Response.json(body);
+    await expect(getFeatures()).rejects.toMatchObject({ code: "invalid_response" });
+    await expect(getStyles("nails")).rejects.toMatchObject({ code: "invalid_response" });
+  }
+  for (const body of [null, {}, { status: "completed", image: null }]) {
+    globalThis.fetch = async () => Response.json(body);
+    await expect(generate("nails", file, "classic_red")).rejects.toMatchObject({ code: "invalid_response" });
+  }
 });

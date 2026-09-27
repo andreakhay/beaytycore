@@ -54,6 +54,9 @@ class RemoteFluxEngine:
         try:
             payload = response.json()
             item = payload["image"]
+            metadata = payload.get("metadata", {})
+            if not isinstance(metadata, dict):
+                raise ValueError("invalid remote metadata")
             if item["content_type"] != "image/png":
                 raise ValueError("unexpected content type")
             data_url = item["data_url"]
@@ -67,8 +70,8 @@ class RemoteFluxEngine:
             with Image.open(BytesIO(content)) as decoded:
                 if decoded.format != "PNG" or decoded.size != (item["width"], item["height"]):
                     raise ValueError("remote image metadata mismatch")
-            return GeneratedImage(content, "image/png", item["width"], item["height"], payload.get("metadata", {}))
-        except (KeyError, TypeError, ValueError, UnidentifiedImageError, OSError) as exc:
+            return GeneratedImage(content, "image/png", item["width"], item["height"], metadata)
+        except (KeyError, AttributeError, TypeError, ValueError, UnidentifiedImageError, OSError) as exc:
             raise RemoteGenerationError("The Kaggle GPU endpoint returned an invalid image response.") from exc
 
 

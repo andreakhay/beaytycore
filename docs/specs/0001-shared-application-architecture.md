@@ -3,6 +3,8 @@
 **Date**: 2026-09-27  
 **Status**: DEPRECATED as a phase 1 routing plan by the Supervisor's 2026-09-27 integration direction; shared GPU runtime remains PROPOSED for later evaluation
 
+**Current implementation**: Phases 1 and 2 established registry dispatch and central frontend calls. Phase 3 locally/mocked validated those paths and hardened malformed-response boundaries. This document's GPU consolidation steps remain proposals, not implemented work or authority to start GPU changes. Live centralized inference validation and GPU consolidation are explicitly deferred. See [current evidence](../experiments/central-architecture-phase3.md) and [state](../../context/state.md).
+
 ## Summary
 
 Use the existing Next.js app and FastAPI application as the one public system. FastAPI owns upload checks, feature selection, result formatting, and the Nails CPU pipeline. The three trained LoRAs can eventually share one loaded FLUX.2 Klein Base in one GPU process, with one adapter active at a time. Keep the current independent GPU services until a bounded switch and output test proves that consolidation preserves their behavior.

@@ -42,7 +42,34 @@ async function responseError(response: Response): Promise<ApiError> {
   return new ApiError(message, code, response.status);
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function hasStrings(value: Record<string, unknown>, fields: string[]): boolean {
+  return fields.every((field) => typeof value[field] === "string");
+}
+
+function isFeature(value: unknown): value is Feature {
+  return isRecord(value) && hasStrings(value, ["id", "name", "description"]);
+}
+
+function isStyle(value: unknown): value is Style {
+  return isRecord(value) && hasStrings(value, ["id", "name", "description", "status"]);
+}
+
+function isGeneration(value: unknown): value is GenerateResponse {
+  if (!isRecord(value) || !hasStrings(value, ["status", "generator"]) || !isStyle(value.style)
+      || !isRecord(value.image)) return false;
+  const image = value.image;
+  return typeof image.data_url === "string" && /^data:image\/(png|jpeg);base64,/.test(image.data_url)
+    && ["image/png", "image/jpeg"].includes(image.content_type as string)
+    && Number.isInteger(image.width) && (image.width as number) > 0
+    && Number.isInteger(image.height) && (image.height as number) > 0
+    && (value.metadata === undefined || isRecord(value.metadata));
+}
+
+async function request<T>(path: string, validate: (value: unknown) => value is T, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
     response = await fetch(`${API_BASE_URL}${path}`, init);
@@ -54,27 +81,29 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   }
   if (!response.ok) throw await responseError(response);
   try {
-    return (await response.json()) as T;
+    const body: unknown = await response.json();
+    if (!validate(body)) throw new Error("Invalid response shape");
+    return body;
   } catch {
     throw new ApiError("The backend returned an unreadable response. Please try again.", "invalid_response", response.status);
   }
 }
 
 export function getFeatures(): Promise<Feature[]> {
-  return request("/features", { cache: "no-store" });
+  return request("/features", (body): body is Feature[] => Array.isArray(body) && body.every(isFeature), { cache: "no-store" });
 }
 
 export function getStyles(featureId: FeatureId): Promise<Style[]> {
-  return request(`/features/${featureId}/styles`, { cache: "no-store" });
+  return request(`/features/${featureId}/styles`, (body): body is Style[] => Array.isArray(body) && body.every(isStyle), { cache: "no-store" });
 }
 
 export function generate(featureId: FeatureId, file: File, styleId: string): Promise<GenerateResponse> {
   const form = new FormData();
   form.append("image", file);
   form.append("style_id", styleId);
-  return request(`/features/${featureId}/generate`, { method: "POST", body: form });
+  return request(`/features/${featureId}/generate`, isGeneration, { method: "POST", body: form });
 }
 
 export function getHealth(): Promise<HealthResponse> {
-  return request("/health", { cache: "no-store" });
+  return request("/health", (body): body is HealthResponse => isRecord(body) && hasStrings(body, ["status", "generator"]), { cache: "no-store" });
 }
