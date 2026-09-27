@@ -1,0 +1,282 @@
+{
+  "status": "TRAINING_FINISHED_REVIEW_REQUIRED",
+  "exit_code": 0,
+  "stop_reason": null,
+  "elapsed_seconds_including_load": 936.52,
+  "whole_gpu_peak_mib_observed": 13531,
+  "losses": [
+    {
+      "step": 0,
+      "loss": 0.01361,
+      "elapsed_seconds": 186.18
+    },
+    {
+      "step": 1,
+      "loss": 0.01361,
+      "elapsed_seconds": 213.84
+    },
+    {
+      "step": 1,
+      "loss": 0.02734,
+      "elapsed_seconds": 213.84
+    },
+    {
+      "step": 2,
+      "loss": 0.02734,
+      "elapsed_seconds": 242.2
+    },
+    {
+      "step": 2,
+      "loss": 0.03074,
+      "elapsed_seconds": 242.2
+    },
+    {
+      "step": 3,
+      "loss": 0.03074,
+      "elapsed_seconds": 271.16
+    },
+    {
+      "step": 3,
+      "loss": 0.08545,
+      "elapsed_seconds": 271.17
+    },
+    {
+      "step": 4,
+      "loss": 0.08545,
+      "elapsed_seconds": 300.78
+    },
+    {
+      "step": 4,
+      "loss": 0.02656,
+      "elapsed_seconds": 300.78
+    },
+    {
+      "step": 5,
+      "loss": 0.02656,
+      "elapsed_seconds": 330.87
+    },
+    {
+      "step": 5,
+      "loss": 0.02108,
+      "elapsed_seconds": 330.87
+    },
+    {
+      "step": 6,
+      "loss": 0.02108,
+      "elapsed_seconds": 361.27
+    },
+    {
+      "step": 6,
+      "loss": 0.4845,
+      "elapsed_seconds": 361.27
+    },
+    {
+      "step": 7,
+      "loss": 0.4845,
+      "elapsed_seconds": 391.97
+    },
+    {
+      "step": 7,
+      "loss": 0.02891,
+      "elapsed_seconds": 391.97
+    },
+    {
+      "step": 8,
+      "loss": 0.02891,
+      "elapsed_seconds": 422.85
+    },
+    {
+      "step": 8,
+      "loss": 0.09007,
+      "elapsed_seconds": 422.85
+    },
+    {
+      "step": 9,
+      "loss": 0.09007,
+      "elapsed_seconds": 453.94
+    },
+    {
+      "step": 9,
+      "loss": 0.1621,
+      "elapsed_seconds": 453.94
+    },
+    {
+      "step": 10,
+      "loss": 0.1621,
+      "elapsed_seconds": 485.26
+    },
+    {
+      "step": 10,
+      "loss": 0.024,
+      "elapsed_seconds": 485.26
+    },
+    {
+      "step": 11,
+      "loss": 0.024,
+      "elapsed_seconds": 516.7
+    },
+    {
+      "step": 11,
+      "loss": 0.4346,
+      "elapsed_seconds": 516.7
+    },
+    {
+      "step": 12,
+      "loss": 0.4346,
+      "elapsed_seconds": 548.29
+    },
+    {
+      "step": 12,
+      "loss": 0.01775,
+      "elapsed_seconds": 548.29
+    },
+    {
+      "step": 13,
+      "loss": 0.01775,
+      "elapsed_seconds": 579.91
+    },
+    {
+      "step": 13,
+      "loss": 0.1782,
+      "elapsed_seconds": 579.91
+    },
+    {
+      "step": 14,
+      "loss": 0.1782,
+      "elapsed_seconds": 611.56
+    },
+    {
+      "step": 14,
+      "loss": 0.02116,
+      "elapsed_seconds": 611.56
+    },
+    {
+      "step": 15,
+      "loss": 0.02116,
+      "elapsed_seconds": 643.22
+    },
+    {
+      "step": 15,
+      "loss": 0.02103,
+      "elapsed_seconds": 643.22
+    },
+    {
+      "step": 16,
+      "loss": 0.02103,
+      "elapsed_seconds": 674.88
+    },
+    {
+      "step": 16,
+      "loss": 0.01404,
+      "elapsed_seconds": 674.88
+    },
+    {
+      "step": 17,
+      "loss": 0.01404,
+      "elapsed_seconds": 706.5
+    },
+    {
+      "step": 17,
+      "loss": 0.02463,
+      "elapsed_seconds": 706.5
+    },
+    {
+      "step": 18,
+      "loss": 0.02463,
+      "elapsed_seconds": 738.08
+    },
+    {
+      "step": 18,
+      "loss": 0.01405,
+      "elapsed_seconds": 738.08
+    },
+    {
+      "step": 19,
+      "loss": 0.01405,
+      "elapsed_seconds": 769.69
+    },
+    {
+      "step": 19,
+      "loss": 0.02992,
+      "elapsed_seconds": 769.69
+    },
+    {
+      "step": 20,
+      "loss": 0.02992,
+      "elapsed_seconds": 801.29
+    },
+    {
+      "step": 20,
+      "loss": 0.03151,
+      "elapsed_seconds": 801.29
+    },
+    {
+      "step": 21,
+      "loss": 0.03151,
+      "elapsed_seconds": 832.91
+    },
+    {
+      "step": 21,
+      "loss": 0.01774,
+      "elapsed_seconds": 832.91
+    },
+    {
+      "step": 22,
+      "loss": 0.01774,
+      "elapsed_seconds": 864.55
+    },
+    {
+      "step": 22,
+      "loss": 0.02267,
+      "elapsed_seconds": 864.55
+    },
+    {
+      "step": 23,
+      "loss": 0.02267,
+      "elapsed_seconds": 896.19
+    },
+    {
+      "step": 23,
+      "loss": 0.02061,
+      "elapsed_seconds": 896.19
+    },
+    {
+      "step": 24,
+      "loss": 0.02061,
+      "elapsed_seconds": 927.83
+    },
+    {
+      "step": 24,
+      "loss": 0.01469,
+      "elapsed_seconds": 927.83
+    },
+    {
+      "step": 25,
+      "loss": 0.01469,
+      "elapsed_seconds": 927.83
+    },
+    {
+      "step": 25,
+      "loss": 0.01469,
+      "elapsed_seconds": 927.83
+    }
+  ],
+  "steps_planned": 25,
+  "last_step_observed": true,
+  "final_checkpoint_and_optimizer_logged_after_last_step": true,
+  "checkpoint_files": [
+    {
+      "path": "/kaggle/working/nails001/checkpoints/nails001_25step/nails001_25step.safetensors",
+      "sha256": "34bf82238dfcc8e6365cd9fa6b63d36700312780f2e396dc6d91f7cc3f829c91",
+      "bytes": 46223600,
+      "step": 25
+    }
+  ],
+  "optimizer_files": [
+    {
+      "path": "/kaggle/working/nails001/checkpoints/nails001_25step/optimizer.pt",
+      "sha256": "c6a4aba5db7462960617b7b70e2e6e4571f413ad9a646a576aa6893dde47f395"
+    }
+  ],
+  "train_log_sha256": "abe22be47834497a83f2db6e45b60c5c522c279c0168d08d18a7f51e5932a839"
+}

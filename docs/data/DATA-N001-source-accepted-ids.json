@@ -1,0 +1,9 @@
+{
+  "review_basis": "Visual review of eight 11K Hands source contact sheets, followed by full-size nail-mask sheets and MediaPipe hand-localization checks on 2026-09-26. These are the final 20 frozen DATA-N001 V1 subjects.",
+  "accepted_identity_ids": [
+    "0000000", "0000004", "0000013", "0000038", "0000045",
+    "0000055", "0000057", "0000062", "0000086", "0000088",
+    "0000506", "0000514", "0000524", "0001021", "0001030",
+    "0001039", "0001060", "0001506", "0001549", "0001593"
+  ]
+}

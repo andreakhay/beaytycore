@@ -1,0 +1,14 @@
+{
+  "schema": "DATA-M001-paired-selection-v1",
+  "dataset_id": "DATA-M001",
+  "source_repository": "cyberagent/FFHQ-Makeup",
+  "source_revision": "25955d8cb70e97b00f3ee9eacffabc9d3fda81a7",
+  "source_archive_sha256": "c15fd40199b4d46050dc864eaed647b0ad41921507c2f99cb1cfec2b46922c6a",
+  "ffhq_metadata_md5": "425ae20f06a4da1d4dc0f46d40ba5fd6",
+  "source_dataset_license": "CC BY-NC-SA 4.0; retain original FFHQ photo author and license metadata",
+  "train_ids": ["003681", "006553", "015406", "017290", "020867", "022625", "035149", "036948", "051141", "059106"],
+  "validation_ids": ["054109", "056266"],
+  "variant_positions": ["makeup_01", "makeup_02", "makeup_03", "makeup_04", "makeup_05"],
+  "variant_semantics": "Archive positions only. These are not project style labels.",
+  "review_rule": "A human reviewer must explicitly ACCEPT every included pair before finalization. Reject an unusable pair; never synthesize a replacement."
+}

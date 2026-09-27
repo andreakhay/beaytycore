@@ -1,0 +1,4 @@
+# Optional local hand localization and DATA-N001 preparation tools.
+-r requirements.txt
+numpy==1.26.4
+mediapipe==0.10.33

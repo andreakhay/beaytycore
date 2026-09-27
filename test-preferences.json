@@ -1,0 +1,10 @@
+{
+  "tool": "pytest",
+  "gate": null,
+  "additionalTools": [],
+  "e2eTool": "playwright",
+  "testDir": "backend/tests",
+  "filePattern": "test_*.py",
+  "packageManager": "npm",
+  "note": "Python API tests run in backend; existing Playwright tests run in frontend/e2e. Tools confirmed by the user for Makeup integration."
+}

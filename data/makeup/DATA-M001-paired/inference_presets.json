@@ -1,0 +1,17 @@
+{
+  "schema": "MAKEUP-001-inference-presets-v1",
+  "purpose": "Ten application prompt presets for held-out Base versus MAKEUP-001 evaluation. They are not DATA-M001 training labels.",
+  "preservation_instruction": "Edit the supplied photo of the same person. Keep their recognizable identity, face shape, eyes, nose, mouth geometry, expression, natural skin tone and skin texture. Keep the original hairstyle, hair color, clothing, background, pose, framing and lighting. Change makeup only. Keep cosmetic color in plausible facial regions and avoid mask-like patches or plastic skin.",
+  "styles": [
+    {"id": "natural_makeup", "name": "Natural Makeup", "instruction": "Apply restrained everyday makeup with light upper-lash definition, soft neutral cheek blush and a muted rose lip."},
+    {"id": "no_makeup_makeup", "name": "No-Makeup Makeup", "instruction": "Apply an extremely subtle but visible makeup look with gentle complexion evening, a faint cheek flush, sheer natural lip tint and minimal lash definition."},
+    {"id": "soft_glam", "name": "Soft Glam", "instruction": "Apply polished soft glam makeup with blended warm neutral upper-eyelid shadow, fine liner, gentle cheek sculpting and a satin nude rose lip."},
+    {"id": "smoky_glam", "name": "Smoky Glam", "instruction": "Apply smoky glam makeup with a localized gradient of deep brown and charcoal shadow on the eyelids and lash lines, defined liner, restrained cheeks and a nude lip."},
+    {"id": "dewy_peach", "name": "Dewy Peach", "instruction": "Apply fresh dewy peach makeup with soft peach blush on the cheeks, warm peach upper-eyelid color, a sheer peach lip and restrained cheekbone glow."},
+    {"id": "rosy_pink", "name": "Rosy Pink", "instruction": "Apply coordinated rosy pink makeup with feathered rose cheek blush, delicate rose upper-eyelid color and a soft pink lip."},
+    {"id": "bronze_golden_glam", "name": "Bronze / Golden Glam", "instruction": "Apply warm bronze and golden makeup with blended bronze upper-eyelid shadow, a small gold highlight, softly warmed cheeks and a warm nude lip."},
+    {"id": "matte_nude", "name": "Matte Nude", "instruction": "Apply matte nude makeup with natural skin texture, subtle neutral brown eyelid definition, light contour and a matte nude lip."},
+    {"id": "classic_red_lip", "name": "Classic Red Lip", "instruction": "Apply a classic rich red lipstick within the existing upper and lower lip outlines, with minimal neutral eye makeup and restrained cheeks. Keep teeth and mouth opening unchanged."},
+    {"id": "bold_evening_glam", "name": "Bold Evening Glam", "instruction": "Apply photorealistic bold evening makeup with blended deep brown and plum upper-eyelid shadow, defined lash lines, softly sculpted cheeks and a rich berry-red lip."}
+  ]
+}

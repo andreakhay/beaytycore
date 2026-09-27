@@ -1,0 +1,36 @@
+# NAILS-001 hybrid integration, 2026-09-27
+
+**Status: LOCAL PARTIAL, LIVE GPU NEEDS VERIFICATION.** The Supervisor froze training and selected the step-50 localized adapter for Classic Red and Glossy Black. Nude Pink, French Tip, and Pink Ombre use the existing DATA-N001 deterministic renderer. This is a hybrid AI nail try-on system. No new checkpoint was trained.
+
+## Model and training evidence retained
+
+- Selected LoRA: `NAILS-001-LOCAL-v1` step 50, SHA-256 `5bff16c67e0014c78a6d938813347685f914f8a608d76407b10f5b54b7a0eb1f`, verified again inside the supplied evidence ZIP.
+- Base: `black-forest-labs/FLUX.2-klein-base-4B` revision `a3b4f4849157f664bdbc776fd7453c2783562f4d`.
+- Evaluation settings retained: 512 by 512 localized fingertip reference image, exact DATA-N001-LOCAL-v1 style caption, bicubic rotate/crop/resize, FP16 Base, 20 inference steps, guidance 4.0, seed 1977. The packaged GPU service pins the evaluated Diffusers Git commit `c943837899b16cbae2f619b8dd4f7bb6f07dd81a` and checks imported runtime versions before loading.
+- Existing held-out [step-50 evaluation](NAILS-001-LOCAL-v1-step050-evaluation.md) is the available quality evidence. Red is recognizable but Base is similar; Black is recognizable and had lower nail-region MAE than Base on all four held-out index fingernails. This does not prove that a full five-nail app request has succeeded.
+
+## Local architecture and preservation
+
+`POST /nails/generate` uses one style ID and shared upload validation. In `NAILS_PREVIEW_MODE=hybrid`, it normalizes the uploaded image to the same white-padded 512 square as DATA-N001, detects one hand, calls the reviewed offline nail segmenter in an isolated Python subprocess, validates the mask, then routes internally. Renderer styles call `render_target`; model styles use the same nail-to-landmark assignment and single-nail crop transform recorded in DATA-N001-LOCAL-v1, call an isolated authenticated GPU service once per nail, inverse-map the crops, then composite only original nail-mask pixels. The final output is always pasted over the original uploaded image through the existing `composite_nails` function. No UI style label exposes the internal path; API metadata records it for evaluation.
+
+The model service verifies the exact step-50 hash before load and includes the hash, Base revision, seed, steps, guidance and active LoRA flag in every response. The local client rejects mismatched metadata or images. A missing GPU does not cause a Red or Black fallback to the renderer or mock. Renderer styles can still work without a GPU if hand and segmenter assets are present.
+
+## Checks completed
+
+- The runtime bundle `data/nails/work/NAILS-001-LOCAL-v1-runtime-v2.bin` contains the unchanged 46,223,600-byte adapter, inference code, pinned requirements and manifest, with no training photos or optimizer. ZIP CRC and all seven member hashes passed. Bundle SHA-256: `adf324b0e2bcf6f23f34641c6448b8874898e4b910750c7cc8fe9c002f072699` (42,214,993 bytes).
+- On real approved identity `0000000`, all five production crop mappings exactly matched the frozen localized manifest and each model input crop was pixel identical to the approved localized reference. This verifies preprocessing, not live GPU output.
+- Real offline MediaPipe plus YOLO segmentation succeeded on selected hands `0000000` and `0000045`. The three renderer results on both hands passed local API/pipeline preservation checks with zero changed pixels outside the detected hard nail mask. Private side-by-side sheets are under ignored `data/nails/work/NAILS-hybrid-local-review/`.
+- An invalid blank 512 by 512 image sent to the live-mode local API returned HTTP 422 with a clear one-hand retake message before segmentation or generation.
+- Visual review: Nude Pink is muted on both hands; French Tip has a natural bed and narrow white distal edge; Pink Ombre has a visible base-to-tip gradient. The production palette softens only the Ombre tip color through an option in the same renderer; the frozen DATA-N001 archive and its default rendering method remain unchanged. Enlarged masks and some soft nail edges remain visible on close inspection.
+- Renderer execution alone took about 0.016 to 0.032 seconds in the initial private two-hand run. Warm end-to-end local API requests on `0000000`, including repeated CPU segmentation, took 5.73 and 5.84 seconds for French Tip and Pink Ombre. A cold Nude Pink request took 11.66 seconds including MediaPipe startup. These are local CPU numbers, not GPU inference times.
+- `cd backend; python -m pytest tests -q`: **110 passed**, one existing `python_multipart` deprecation warning. `cd frontend; npm run build`: passed TypeScript and production build. `cd frontend; npx playwright test e2e/nails.spec.ts`: **1 passed** against the built Next server and local mock API. Playwright required unsandboxed child process execution; a first dev-server attempt was blocked by Next's cross-origin HMR policy for the test's `127.0.0.1` base URL, so the passing run used the production server. Python compilation also passed.
+
+## Remaining verification and limits
+
+No authenticated Kaggle inference session was available in this task. Fresh local checks found no Kaggle CLI, no `~/.kaggle/kaggle.json`, and only CPU Torch `2.10.0+cpu` with CUDA unavailable. Therefore the actual step-50 adapter has **not** been loaded by the new GPU service, and no live Red or Black five-nail result or model-style latency can be claimed. The [live guide](../guides/nails001-hybrid-live-demo.md) gives the exact private bundle upload, notebook cells, health gate and local environment settings. After the Supervisor starts the session, test both model styles on at least two real hands, inspect all five nails, timing and masks, and make a five-style browser contact sheet before demo signoff.
+
+The prior step-50 held-out evaluation recorded a mean of 66.05 seconds per Red index-nail crop and 66.08 seconds per Black crop on its T4. Five sequential crops could therefore take around 5.5 minutes of GPU generation plus network, localization and segmentation overhead. That is an estimate from evaluation, **not** measured live API latency. The first live request must confirm whether the browser and tunnel tolerate a full hand at this speed.
+
+The YOLO checkpoint card declares CC BY 4.0; the Ultralytics runtime uses AGPL 3.0 or its enterprise alternative. Public distribution requires a project-specific license decision. The current source pool is 11K Hands under author-described academic fair use, so private source photos and target pairs should not be published as app examples without checking those terms.
+
+The exact localized crop rules intentionally exclude neighboring nails. In the frozen 20-identity crop review, 14 identities retained all five nail crops; six identities excluded at least two crowded nails, including two identities with only two usable crops. The live model route currently asks for a retake if it cannot isolate every detected nail. This conservative rule keeps inference aligned with the evaluated training representation, but Red and Black acceptance on typical user photos remains unmeasured. Do not loosen the crop rule or claim all-pose support without a live visual test.

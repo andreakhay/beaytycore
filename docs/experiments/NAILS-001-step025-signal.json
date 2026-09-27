@@ -1,0 +1,4364 @@
+{
+  "archive_sha256": "d37b68bc3e06c6ea1b1b013424dd813aafbef83db222cf9223e229d33ad105bb",
+  "train_pairs": 80,
+  "all": {
+    "mask_pct": {
+      "mean": 0.7932186126708984,
+      "median": 0.7192611694335938,
+      "min": 0.601959228515625,
+      "max": 1.194000244140625
+    },
+    "changed_pct": {
+      "mean": 0.7931613922119141,
+      "median": 0.7192611694335938,
+      "min": 0.601959228515625,
+      "max": 1.194000244140625
+    },
+    "changed_of_mask_pct": {
+      "mean": 99.9936686019977,
+      "median": 100.0,
+      "min": 99.76237623762376,
+      "max": 100.0
+    },
+    "possible_crop_area_pct": {
+      "mean": 44.257211685180664,
+      "median": 44.05250549316406,
+      "min": 26.5533447265625,
+      "max": 59.86785888671875
+    },
+    "possible_crop_mask_pct": {
+      "mean": 1.8406954350837743,
+      "median": 1.7577821560213458,
+      "min": 1.3336379472827484,
+      "max": 2.6088955292495117
+    },
+    "possible_crop_upscale": {
+      "mean": 1.4022745421991236,
+      "median": 1.3671586452762923,
+      "min": 1.1689497716894977,
+      "max": 1.695364238410596
+    }
+  },
+  "by_style": {
+    "classic_red": {
+      "mask_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_of_mask_pct": {
+        "mean": 100.0,
+        "median": 100.0,
+        "min": 100.0,
+        "max": 100.0
+      }
+    },
+    "french_tip": {
+      "mask_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_pct": {
+        "mean": 0.7929325103759766,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_of_mask_pct": {
+        "mean": 99.96834300998849,
+        "median": 100.0,
+        "min": 99.76237623762376,
+        "max": 100.0
+      }
+    },
+    "glossy_black": {
+      "mask_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_of_mask_pct": {
+        "mean": 100.0,
+        "median": 100.0,
+        "min": 100.0,
+        "max": 100.0
+      }
+    },
+    "nude_pink": {
+      "mask_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_of_mask_pct": {
+        "mean": 100.0,
+        "median": 100.0,
+        "min": 100.0,
+        "max": 100.0
+      }
+    },
+    "pink_ombre": {
+      "mask_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_pct": {
+        "mean": 0.7932186126708984,
+        "median": 0.7192611694335938,
+        "min": 0.601959228515625,
+        "max": 1.194000244140625
+      },
+      "changed_of_mask_pct": {
+        "mean": 100.0,
+        "median": 100.0,
+        "min": 100.0,
+        "max": 100.0
+      }
+    }
+  },
+  "component_dimensions": {
+    "width": {
+      "mean": 21.4,
+      "median": 21.0,
+      "min": 15,
+      "max": 35
+    },
+    "height": {
+      "mean": 23.2625,
+      "median": 23.0,
+      "min": 12,
+      "max": 32
+    },
+    "pixels": {
+      "mean": 415.875,
+      "median": 403.0,
+      "min": 170,
+      "max": 712
+    }
+  },
+  "french_tip_core_pct": {
+    "mean": 0.157928466796875,
+    "median": 0.14629364013671875,
+    "min": 0.1148223876953125,
+    "max": 0.2254486083984375
+  },
+  "rows": [
+    {
+      "pair_id": "0000000_classic_red",
+      "identity_id": "0000000",
+      "style_id": "classic_red",
+      "mask_pixels": 2135,
+      "mask_pct": 0.8144378662109375,
+      "changed_pixels": 2135,
+      "changed_pct": 0.8144378662109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 29,
+          "height": 14,
+          "pixels": 212
+        },
+        {
+          "width": 20,
+          "height": 20,
+          "pixels": 359
+        },
+        {
+          "width": 26,
+          "height": 24,
+          "pixels": 561
+        },
+        {
+          "width": 25,
+          "height": 24,
+          "pixels": 492
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 511
+        }
+      ],
+      "nail_union_box": [
+        151,
+        185,
+        420,
+        399
+      ],
+      "possible_crop_box": [
+        98,
+        132,
+        473,
+        452
+      ],
+      "possible_crop_area_pct": 45.7763671875,
+      "possible_crop_mask_pct": 1.7791666666666668,
+      "possible_crop_upscale": 1.3653333333333333
+    },
+    {
+      "pair_id": "0000000_nude_pink",
+      "identity_id": "0000000",
+      "style_id": "nude_pink",
+      "mask_pixels": 2135,
+      "mask_pct": 0.8144378662109375,
+      "changed_pixels": 2135,
+      "changed_pct": 0.8144378662109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 29,
+          "height": 14,
+          "pixels": 212
+        },
+        {
+          "width": 20,
+          "height": 20,
+          "pixels": 359
+        },
+        {
+          "width": 26,
+          "height": 24,
+          "pixels": 561
+        },
+        {
+          "width": 25,
+          "height": 24,
+          "pixels": 492
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 511
+        }
+      ],
+      "nail_union_box": [
+        151,
+        185,
+        420,
+        399
+      ],
+      "possible_crop_box": [
+        98,
+        132,
+        473,
+        452
+      ],
+      "possible_crop_area_pct": 45.7763671875,
+      "possible_crop_mask_pct": 1.7791666666666668,
+      "possible_crop_upscale": 1.3653333333333333
+    },
+    {
+      "pair_id": "0000000_glossy_black",
+      "identity_id": "0000000",
+      "style_id": "glossy_black",
+      "mask_pixels": 2135,
+      "mask_pct": 0.8144378662109375,
+      "changed_pixels": 2135,
+      "changed_pct": 0.8144378662109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 29,
+          "height": 14,
+          "pixels": 212
+        },
+        {
+          "width": 20,
+          "height": 20,
+          "pixels": 359
+        },
+        {
+          "width": 26,
+          "height": 24,
+          "pixels": 561
+        },
+        {
+          "width": 25,
+          "height": 24,
+          "pixels": 492
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 511
+        }
+      ],
+      "nail_union_box": [
+        151,
+        185,
+        420,
+        399
+      ],
+      "possible_crop_box": [
+        98,
+        132,
+        473,
+        452
+      ],
+      "possible_crop_area_pct": 45.7763671875,
+      "possible_crop_mask_pct": 1.7791666666666668,
+      "possible_crop_upscale": 1.3653333333333333
+    },
+    {
+      "pair_id": "0000000_french_tip",
+      "identity_id": "0000000",
+      "style_id": "french_tip",
+      "mask_pixels": 2135,
+      "mask_pct": 0.8144378662109375,
+      "changed_pixels": 2135,
+      "changed_pct": 0.8144378662109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 29,
+          "height": 14,
+          "pixels": 212
+        },
+        {
+          "width": 20,
+          "height": 20,
+          "pixels": 359
+        },
+        {
+          "width": 26,
+          "height": 24,
+          "pixels": 561
+        },
+        {
+          "width": 25,
+          "height": 24,
+          "pixels": 492
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 511
+        }
+      ],
+      "nail_union_box": [
+        151,
+        185,
+        420,
+        399
+      ],
+      "possible_crop_box": [
+        98,
+        132,
+        473,
+        452
+      ],
+      "possible_crop_area_pct": 45.7763671875,
+      "possible_crop_mask_pct": 1.7791666666666668,
+      "possible_crop_upscale": 1.3653333333333333,
+      "french_tip_core_pixels": 459,
+      "french_tip_core_pct": 0.1750946044921875
+    },
+    {
+      "pair_id": "0000000_pink_ombre",
+      "identity_id": "0000000",
+      "style_id": "pink_ombre",
+      "mask_pixels": 2135,
+      "mask_pct": 0.8144378662109375,
+      "changed_pixels": 2135,
+      "changed_pct": 0.8144378662109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 29,
+          "height": 14,
+          "pixels": 212
+        },
+        {
+          "width": 20,
+          "height": 20,
+          "pixels": 359
+        },
+        {
+          "width": 26,
+          "height": 24,
+          "pixels": 561
+        },
+        {
+          "width": 25,
+          "height": 24,
+          "pixels": 492
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 511
+        }
+      ],
+      "nail_union_box": [
+        151,
+        185,
+        420,
+        399
+      ],
+      "possible_crop_box": [
+        98,
+        132,
+        473,
+        452
+      ],
+      "possible_crop_area_pct": 45.7763671875,
+      "possible_crop_mask_pct": 1.7791666666666668,
+      "possible_crop_upscale": 1.3653333333333333
+    },
+    {
+      "pair_id": "0000004_classic_red",
+      "identity_id": "0000004",
+      "style_id": "classic_red",
+      "mask_pixels": 2216,
+      "mask_pct": 0.8453369140625,
+      "changed_pixels": 2216,
+      "changed_pct": 0.8453369140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 22,
+          "pixels": 328
+        },
+        {
+          "width": 17,
+          "height": 23,
+          "pixels": 349
+        },
+        {
+          "width": 19,
+          "height": 29,
+          "pixels": 496
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 504
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 539
+        }
+      ],
+      "nail_union_box": [
+        225,
+        164,
+        441,
+        375
+      ],
+      "possible_crop_box": [
+        182,
+        121,
+        484,
+        418
+      ],
+      "possible_crop_area_pct": 34.215545654296875,
+      "possible_crop_mask_pct": 2.4706223381720074,
+      "possible_crop_upscale": 1.695364238410596
+    },
+    {
+      "pair_id": "0000004_nude_pink",
+      "identity_id": "0000004",
+      "style_id": "nude_pink",
+      "mask_pixels": 2216,
+      "mask_pct": 0.8453369140625,
+      "changed_pixels": 2216,
+      "changed_pct": 0.8453369140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 22,
+          "pixels": 328
+        },
+        {
+          "width": 17,
+          "height": 23,
+          "pixels": 349
+        },
+        {
+          "width": 19,
+          "height": 29,
+          "pixels": 496
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 504
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 539
+        }
+      ],
+      "nail_union_box": [
+        225,
+        164,
+        441,
+        375
+      ],
+      "possible_crop_box": [
+        182,
+        121,
+        484,
+        418
+      ],
+      "possible_crop_area_pct": 34.215545654296875,
+      "possible_crop_mask_pct": 2.4706223381720074,
+      "possible_crop_upscale": 1.695364238410596
+    },
+    {
+      "pair_id": "0000004_glossy_black",
+      "identity_id": "0000004",
+      "style_id": "glossy_black",
+      "mask_pixels": 2216,
+      "mask_pct": 0.8453369140625,
+      "changed_pixels": 2216,
+      "changed_pct": 0.8453369140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 22,
+          "pixels": 328
+        },
+        {
+          "width": 17,
+          "height": 23,
+          "pixels": 349
+        },
+        {
+          "width": 19,
+          "height": 29,
+          "pixels": 496
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 504
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 539
+        }
+      ],
+      "nail_union_box": [
+        225,
+        164,
+        441,
+        375
+      ],
+      "possible_crop_box": [
+        182,
+        121,
+        484,
+        418
+      ],
+      "possible_crop_area_pct": 34.215545654296875,
+      "possible_crop_mask_pct": 2.4706223381720074,
+      "possible_crop_upscale": 1.695364238410596
+    },
+    {
+      "pair_id": "0000004_french_tip",
+      "identity_id": "0000004",
+      "style_id": "french_tip",
+      "mask_pixels": 2216,
+      "mask_pct": 0.8453369140625,
+      "changed_pixels": 2216,
+      "changed_pct": 0.8453369140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 22,
+          "pixels": 328
+        },
+        {
+          "width": 17,
+          "height": 23,
+          "pixels": 349
+        },
+        {
+          "width": 19,
+          "height": 29,
+          "pixels": 496
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 504
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 539
+        }
+      ],
+      "nail_union_box": [
+        225,
+        164,
+        441,
+        375
+      ],
+      "possible_crop_box": [
+        182,
+        121,
+        484,
+        418
+      ],
+      "possible_crop_area_pct": 34.215545654296875,
+      "possible_crop_mask_pct": 2.4706223381720074,
+      "possible_crop_upscale": 1.695364238410596,
+      "french_tip_core_pixels": 435,
+      "french_tip_core_pct": 0.1659393310546875
+    },
+    {
+      "pair_id": "0000004_pink_ombre",
+      "identity_id": "0000004",
+      "style_id": "pink_ombre",
+      "mask_pixels": 2216,
+      "mask_pct": 0.8453369140625,
+      "changed_pixels": 2216,
+      "changed_pct": 0.8453369140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 22,
+          "pixels": 328
+        },
+        {
+          "width": 17,
+          "height": 23,
+          "pixels": 349
+        },
+        {
+          "width": 19,
+          "height": 29,
+          "pixels": 496
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 504
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 539
+        }
+      ],
+      "nail_union_box": [
+        225,
+        164,
+        441,
+        375
+      ],
+      "possible_crop_box": [
+        182,
+        121,
+        484,
+        418
+      ],
+      "possible_crop_area_pct": 34.215545654296875,
+      "possible_crop_mask_pct": 2.4706223381720074,
+      "possible_crop_upscale": 1.695364238410596
+    },
+    {
+      "pair_id": "0000013_classic_red",
+      "identity_id": "0000013",
+      "style_id": "classic_red",
+      "mask_pixels": 2525,
+      "mask_pct": 0.9632110595703125,
+      "changed_pixels": 2525,
+      "changed_pct": 0.9632110595703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 24,
+          "height": 28,
+          "pixels": 437
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 385
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 539
+        },
+        {
+          "width": 24,
+          "height": 27,
+          "pixels": 578
+        },
+        {
+          "width": 23,
+          "height": 28,
+          "pixels": 586
+        }
+      ],
+      "nail_union_box": [
+        125,
+        233,
+        439,
+        441
+      ],
+      "possible_crop_box": [
+        63,
+        171,
+        501,
+        503
+      ],
+      "possible_crop_area_pct": 55.4718017578125,
+      "possible_crop_mask_pct": 1.7363976453760248,
+      "possible_crop_upscale": 1.1689497716894977
+    },
+    {
+      "pair_id": "0000013_nude_pink",
+      "identity_id": "0000013",
+      "style_id": "nude_pink",
+      "mask_pixels": 2525,
+      "mask_pct": 0.9632110595703125,
+      "changed_pixels": 2525,
+      "changed_pct": 0.9632110595703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 24,
+          "height": 28,
+          "pixels": 437
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 385
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 539
+        },
+        {
+          "width": 24,
+          "height": 27,
+          "pixels": 578
+        },
+        {
+          "width": 23,
+          "height": 28,
+          "pixels": 586
+        }
+      ],
+      "nail_union_box": [
+        125,
+        233,
+        439,
+        441
+      ],
+      "possible_crop_box": [
+        63,
+        171,
+        501,
+        503
+      ],
+      "possible_crop_area_pct": 55.4718017578125,
+      "possible_crop_mask_pct": 1.7363976453760248,
+      "possible_crop_upscale": 1.1689497716894977
+    },
+    {
+      "pair_id": "0000013_glossy_black",
+      "identity_id": "0000013",
+      "style_id": "glossy_black",
+      "mask_pixels": 2525,
+      "mask_pct": 0.9632110595703125,
+      "changed_pixels": 2525,
+      "changed_pct": 0.9632110595703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 24,
+          "height": 28,
+          "pixels": 437
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 385
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 539
+        },
+        {
+          "width": 24,
+          "height": 27,
+          "pixels": 578
+        },
+        {
+          "width": 23,
+          "height": 28,
+          "pixels": 586
+        }
+      ],
+      "nail_union_box": [
+        125,
+        233,
+        439,
+        441
+      ],
+      "possible_crop_box": [
+        63,
+        171,
+        501,
+        503
+      ],
+      "possible_crop_area_pct": 55.4718017578125,
+      "possible_crop_mask_pct": 1.7363976453760248,
+      "possible_crop_upscale": 1.1689497716894977
+    },
+    {
+      "pair_id": "0000013_french_tip",
+      "identity_id": "0000013",
+      "style_id": "french_tip",
+      "mask_pixels": 2525,
+      "mask_pct": 0.9632110595703125,
+      "changed_pixels": 2519,
+      "changed_pct": 0.9609222412109375,
+      "changed_of_mask_pct": 99.76237623762376,
+      "nail_components": [
+        {
+          "width": 24,
+          "height": 28,
+          "pixels": 437
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 385
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 539
+        },
+        {
+          "width": 24,
+          "height": 27,
+          "pixels": 578
+        },
+        {
+          "width": 23,
+          "height": 28,
+          "pixels": 586
+        }
+      ],
+      "nail_union_box": [
+        125,
+        233,
+        439,
+        441
+      ],
+      "possible_crop_box": [
+        63,
+        171,
+        501,
+        503
+      ],
+      "possible_crop_area_pct": 55.4718017578125,
+      "possible_crop_mask_pct": 1.7363976453760248,
+      "possible_crop_upscale": 1.1689497716894977,
+      "french_tip_core_pixels": 529,
+      "french_tip_core_pct": 0.2017974853515625
+    },
+    {
+      "pair_id": "0000013_pink_ombre",
+      "identity_id": "0000013",
+      "style_id": "pink_ombre",
+      "mask_pixels": 2525,
+      "mask_pct": 0.9632110595703125,
+      "changed_pixels": 2525,
+      "changed_pct": 0.9632110595703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 24,
+          "height": 28,
+          "pixels": 437
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 385
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 539
+        },
+        {
+          "width": 24,
+          "height": 27,
+          "pixels": 578
+        },
+        {
+          "width": 23,
+          "height": 28,
+          "pixels": 586
+        }
+      ],
+      "nail_union_box": [
+        125,
+        233,
+        439,
+        441
+      ],
+      "possible_crop_box": [
+        63,
+        171,
+        501,
+        503
+      ],
+      "possible_crop_area_pct": 55.4718017578125,
+      "possible_crop_mask_pct": 1.7363976453760248,
+      "possible_crop_upscale": 1.1689497716894977
+    },
+    {
+      "pair_id": "0000038_classic_red",
+      "identity_id": "0000038",
+      "style_id": "classic_red",
+      "mask_pixels": 1871,
+      "mask_pct": 0.7137298583984375,
+      "changed_pixels": 1871,
+      "changed_pct": 0.7137298583984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 18,
+          "pixels": 320
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 271
+        },
+        {
+          "width": 24,
+          "height": 24,
+          "pixels": 491
+        },
+        {
+          "width": 21,
+          "height": 20,
+          "pixels": 368
+        },
+        {
+          "width": 25,
+          "height": 19,
+          "pixels": 421
+        }
+      ],
+      "nail_union_box": [
+        104,
+        173,
+        326,
+        394
+      ],
+      "possible_crop_box": [
+        60,
+        129,
+        370,
+        438
+      ],
+      "possible_crop_area_pct": 36.540985107421875,
+      "possible_crop_mask_pct": 1.9532310262031525,
+      "possible_crop_upscale": 1.6516129032258065
+    },
+    {
+      "pair_id": "0000038_nude_pink",
+      "identity_id": "0000038",
+      "style_id": "nude_pink",
+      "mask_pixels": 1871,
+      "mask_pct": 0.7137298583984375,
+      "changed_pixels": 1871,
+      "changed_pct": 0.7137298583984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 18,
+          "pixels": 320
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 271
+        },
+        {
+          "width": 24,
+          "height": 24,
+          "pixels": 491
+        },
+        {
+          "width": 21,
+          "height": 20,
+          "pixels": 368
+        },
+        {
+          "width": 25,
+          "height": 19,
+          "pixels": 421
+        }
+      ],
+      "nail_union_box": [
+        104,
+        173,
+        326,
+        394
+      ],
+      "possible_crop_box": [
+        60,
+        129,
+        370,
+        438
+      ],
+      "possible_crop_area_pct": 36.540985107421875,
+      "possible_crop_mask_pct": 1.9532310262031525,
+      "possible_crop_upscale": 1.6516129032258065
+    },
+    {
+      "pair_id": "0000038_glossy_black",
+      "identity_id": "0000038",
+      "style_id": "glossy_black",
+      "mask_pixels": 1871,
+      "mask_pct": 0.7137298583984375,
+      "changed_pixels": 1871,
+      "changed_pct": 0.7137298583984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 18,
+          "pixels": 320
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 271
+        },
+        {
+          "width": 24,
+          "height": 24,
+          "pixels": 491
+        },
+        {
+          "width": 21,
+          "height": 20,
+          "pixels": 368
+        },
+        {
+          "width": 25,
+          "height": 19,
+          "pixels": 421
+        }
+      ],
+      "nail_union_box": [
+        104,
+        173,
+        326,
+        394
+      ],
+      "possible_crop_box": [
+        60,
+        129,
+        370,
+        438
+      ],
+      "possible_crop_area_pct": 36.540985107421875,
+      "possible_crop_mask_pct": 1.9532310262031525,
+      "possible_crop_upscale": 1.6516129032258065
+    },
+    {
+      "pair_id": "0000038_french_tip",
+      "identity_id": "0000038",
+      "style_id": "french_tip",
+      "mask_pixels": 1871,
+      "mask_pct": 0.7137298583984375,
+      "changed_pixels": 1871,
+      "changed_pct": 0.7137298583984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 18,
+          "pixels": 320
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 271
+        },
+        {
+          "width": 24,
+          "height": 24,
+          "pixels": 491
+        },
+        {
+          "width": 21,
+          "height": 20,
+          "pixels": 368
+        },
+        {
+          "width": 25,
+          "height": 19,
+          "pixels": 421
+        }
+      ],
+      "nail_union_box": [
+        104,
+        173,
+        326,
+        394
+      ],
+      "possible_crop_box": [
+        60,
+        129,
+        370,
+        438
+      ],
+      "possible_crop_area_pct": 36.540985107421875,
+      "possible_crop_mask_pct": 1.9532310262031525,
+      "possible_crop_upscale": 1.6516129032258065,
+      "french_tip_core_pixels": 374,
+      "french_tip_core_pct": 0.142669677734375
+    },
+    {
+      "pair_id": "0000038_pink_ombre",
+      "identity_id": "0000038",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1871,
+      "mask_pct": 0.7137298583984375,
+      "changed_pixels": 1871,
+      "changed_pct": 0.7137298583984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 18,
+          "pixels": 320
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 271
+        },
+        {
+          "width": 24,
+          "height": 24,
+          "pixels": 491
+        },
+        {
+          "width": 21,
+          "height": 20,
+          "pixels": 368
+        },
+        {
+          "width": 25,
+          "height": 19,
+          "pixels": 421
+        }
+      ],
+      "nail_union_box": [
+        104,
+        173,
+        326,
+        394
+      ],
+      "possible_crop_box": [
+        60,
+        129,
+        370,
+        438
+      ],
+      "possible_crop_area_pct": 36.540985107421875,
+      "possible_crop_mask_pct": 1.9532310262031525,
+      "possible_crop_upscale": 1.6516129032258065
+    },
+    {
+      "pair_id": "0000055_classic_red",
+      "identity_id": "0000055",
+      "style_id": "classic_red",
+      "mask_pixels": 3130,
+      "mask_pct": 1.194000244140625,
+      "changed_pixels": 3130,
+      "changed_pct": 1.194000244140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 33,
+          "height": 25,
+          "pixels": 712
+        },
+        {
+          "width": 26,
+          "height": 27,
+          "pixels": 568
+        },
+        {
+          "width": 22,
+          "height": 24,
+          "pixels": 450
+        },
+        {
+          "width": 27,
+          "height": 32,
+          "pixels": 692
+        },
+        {
+          "width": 28,
+          "height": 31,
+          "pixels": 708
+        }
+      ],
+      "nail_union_box": [
+        112,
+        104,
+        374,
+        399
+      ],
+      "possible_crop_box": [
+        53,
+        45,
+        433,
+        458
+      ],
+      "possible_crop_area_pct": 59.86785888671875,
+      "possible_crop_mask_pct": 1.9943927615649293,
+      "possible_crop_upscale": 1.2397094430992737
+    },
+    {
+      "pair_id": "0000055_nude_pink",
+      "identity_id": "0000055",
+      "style_id": "nude_pink",
+      "mask_pixels": 3130,
+      "mask_pct": 1.194000244140625,
+      "changed_pixels": 3130,
+      "changed_pct": 1.194000244140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 33,
+          "height": 25,
+          "pixels": 712
+        },
+        {
+          "width": 26,
+          "height": 27,
+          "pixels": 568
+        },
+        {
+          "width": 22,
+          "height": 24,
+          "pixels": 450
+        },
+        {
+          "width": 27,
+          "height": 32,
+          "pixels": 692
+        },
+        {
+          "width": 28,
+          "height": 31,
+          "pixels": 708
+        }
+      ],
+      "nail_union_box": [
+        112,
+        104,
+        374,
+        399
+      ],
+      "possible_crop_box": [
+        53,
+        45,
+        433,
+        458
+      ],
+      "possible_crop_area_pct": 59.86785888671875,
+      "possible_crop_mask_pct": 1.9943927615649293,
+      "possible_crop_upscale": 1.2397094430992737
+    },
+    {
+      "pair_id": "0000055_glossy_black",
+      "identity_id": "0000055",
+      "style_id": "glossy_black",
+      "mask_pixels": 3130,
+      "mask_pct": 1.194000244140625,
+      "changed_pixels": 3130,
+      "changed_pct": 1.194000244140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 33,
+          "height": 25,
+          "pixels": 712
+        },
+        {
+          "width": 26,
+          "height": 27,
+          "pixels": 568
+        },
+        {
+          "width": 22,
+          "height": 24,
+          "pixels": 450
+        },
+        {
+          "width": 27,
+          "height": 32,
+          "pixels": 692
+        },
+        {
+          "width": 28,
+          "height": 31,
+          "pixels": 708
+        }
+      ],
+      "nail_union_box": [
+        112,
+        104,
+        374,
+        399
+      ],
+      "possible_crop_box": [
+        53,
+        45,
+        433,
+        458
+      ],
+      "possible_crop_area_pct": 59.86785888671875,
+      "possible_crop_mask_pct": 1.9943927615649293,
+      "possible_crop_upscale": 1.2397094430992737
+    },
+    {
+      "pair_id": "0000055_french_tip",
+      "identity_id": "0000055",
+      "style_id": "french_tip",
+      "mask_pixels": 3130,
+      "mask_pct": 1.194000244140625,
+      "changed_pixels": 3130,
+      "changed_pct": 1.194000244140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 33,
+          "height": 25,
+          "pixels": 712
+        },
+        {
+          "width": 26,
+          "height": 27,
+          "pixels": 568
+        },
+        {
+          "width": 22,
+          "height": 24,
+          "pixels": 450
+        },
+        {
+          "width": 27,
+          "height": 32,
+          "pixels": 692
+        },
+        {
+          "width": 28,
+          "height": 31,
+          "pixels": 708
+        }
+      ],
+      "nail_union_box": [
+        112,
+        104,
+        374,
+        399
+      ],
+      "possible_crop_box": [
+        53,
+        45,
+        433,
+        458
+      ],
+      "possible_crop_area_pct": 59.86785888671875,
+      "possible_crop_mask_pct": 1.9943927615649293,
+      "possible_crop_upscale": 1.2397094430992737,
+      "french_tip_core_pixels": 591,
+      "french_tip_core_pct": 0.2254486083984375
+    },
+    {
+      "pair_id": "0000055_pink_ombre",
+      "identity_id": "0000055",
+      "style_id": "pink_ombre",
+      "mask_pixels": 3130,
+      "mask_pct": 1.194000244140625,
+      "changed_pixels": 3130,
+      "changed_pct": 1.194000244140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 33,
+          "height": 25,
+          "pixels": 712
+        },
+        {
+          "width": 26,
+          "height": 27,
+          "pixels": 568
+        },
+        {
+          "width": 22,
+          "height": 24,
+          "pixels": 450
+        },
+        {
+          "width": 27,
+          "height": 32,
+          "pixels": 692
+        },
+        {
+          "width": 28,
+          "height": 31,
+          "pixels": 708
+        }
+      ],
+      "nail_union_box": [
+        112,
+        104,
+        374,
+        399
+      ],
+      "possible_crop_box": [
+        53,
+        45,
+        433,
+        458
+      ],
+      "possible_crop_area_pct": 59.86785888671875,
+      "possible_crop_mask_pct": 1.9943927615649293,
+      "possible_crop_upscale": 1.2397094430992737
+    },
+    {
+      "pair_id": "0000057_classic_red",
+      "identity_id": "0000057",
+      "style_id": "classic_red",
+      "mask_pixels": 1868,
+      "mask_pct": 0.71258544921875,
+      "changed_pixels": 1868,
+      "changed_pct": 0.71258544921875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 18,
+          "pixels": 390
+        },
+        {
+          "width": 16,
+          "height": 20,
+          "pixels": 274
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 374
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 389
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 441
+        }
+      ],
+      "nail_union_box": [
+        147,
+        102,
+        425,
+        353
+      ],
+      "possible_crop_box": [
+        92,
+        47,
+        480,
+        408
+      ],
+      "possible_crop_area_pct": 53.43170166015625,
+      "possible_crop_mask_pct": 1.3336379472827484,
+      "possible_crop_upscale": 1.3195876288659794
+    },
+    {
+      "pair_id": "0000057_nude_pink",
+      "identity_id": "0000057",
+      "style_id": "nude_pink",
+      "mask_pixels": 1868,
+      "mask_pct": 0.71258544921875,
+      "changed_pixels": 1868,
+      "changed_pct": 0.71258544921875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 18,
+          "pixels": 390
+        },
+        {
+          "width": 16,
+          "height": 20,
+          "pixels": 274
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 374
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 389
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 441
+        }
+      ],
+      "nail_union_box": [
+        147,
+        102,
+        425,
+        353
+      ],
+      "possible_crop_box": [
+        92,
+        47,
+        480,
+        408
+      ],
+      "possible_crop_area_pct": 53.43170166015625,
+      "possible_crop_mask_pct": 1.3336379472827484,
+      "possible_crop_upscale": 1.3195876288659794
+    },
+    {
+      "pair_id": "0000057_glossy_black",
+      "identity_id": "0000057",
+      "style_id": "glossy_black",
+      "mask_pixels": 1868,
+      "mask_pct": 0.71258544921875,
+      "changed_pixels": 1868,
+      "changed_pct": 0.71258544921875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 18,
+          "pixels": 390
+        },
+        {
+          "width": 16,
+          "height": 20,
+          "pixels": 274
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 374
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 389
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 441
+        }
+      ],
+      "nail_union_box": [
+        147,
+        102,
+        425,
+        353
+      ],
+      "possible_crop_box": [
+        92,
+        47,
+        480,
+        408
+      ],
+      "possible_crop_area_pct": 53.43170166015625,
+      "possible_crop_mask_pct": 1.3336379472827484,
+      "possible_crop_upscale": 1.3195876288659794
+    },
+    {
+      "pair_id": "0000057_french_tip",
+      "identity_id": "0000057",
+      "style_id": "french_tip",
+      "mask_pixels": 1868,
+      "mask_pct": 0.71258544921875,
+      "changed_pixels": 1867,
+      "changed_pct": 0.7122039794921875,
+      "changed_of_mask_pct": 99.94646680942184,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 18,
+          "pixels": 390
+        },
+        {
+          "width": 16,
+          "height": 20,
+          "pixels": 274
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 374
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 389
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 441
+        }
+      ],
+      "nail_union_box": [
+        147,
+        102,
+        425,
+        353
+      ],
+      "possible_crop_box": [
+        92,
+        47,
+        480,
+        408
+      ],
+      "possible_crop_area_pct": 53.43170166015625,
+      "possible_crop_mask_pct": 1.3336379472827484,
+      "possible_crop_upscale": 1.3195876288659794,
+      "french_tip_core_pixels": 381,
+      "french_tip_core_pct": 0.1453399658203125
+    },
+    {
+      "pair_id": "0000057_pink_ombre",
+      "identity_id": "0000057",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1868,
+      "mask_pct": 0.71258544921875,
+      "changed_pixels": 1868,
+      "changed_pct": 0.71258544921875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 26,
+          "height": 18,
+          "pixels": 390
+        },
+        {
+          "width": 16,
+          "height": 20,
+          "pixels": 274
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 374
+        },
+        {
+          "width": 19,
+          "height": 23,
+          "pixels": 389
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 441
+        }
+      ],
+      "nail_union_box": [
+        147,
+        102,
+        425,
+        353
+      ],
+      "possible_crop_box": [
+        92,
+        47,
+        480,
+        408
+      ],
+      "possible_crop_area_pct": 53.43170166015625,
+      "possible_crop_mask_pct": 1.3336379472827484,
+      "possible_crop_upscale": 1.3195876288659794
+    },
+    {
+      "pair_id": "0000062_classic_red",
+      "identity_id": "0000062",
+      "style_id": "classic_red",
+      "mask_pixels": 2391,
+      "mask_pct": 0.9120941162109375,
+      "changed_pixels": 2391,
+      "changed_pct": 0.9120941162109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 31,
+          "height": 19,
+          "pixels": 420
+        },
+        {
+          "width": 16,
+          "height": 23,
+          "pixels": 338
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 508
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 542
+        },
+        {
+          "width": 22,
+          "height": 30,
+          "pixels": 583
+        }
+      ],
+      "nail_union_box": [
+        69,
+        210,
+        319,
+        425
+      ],
+      "possible_crop_box": [
+        19,
+        160,
+        369,
+        475
+      ],
+      "possible_crop_area_pct": 42.057037353515625,
+      "possible_crop_mask_pct": 2.1687074829931974,
+      "possible_crop_upscale": 1.4628571428571429
+    },
+    {
+      "pair_id": "0000062_nude_pink",
+      "identity_id": "0000062",
+      "style_id": "nude_pink",
+      "mask_pixels": 2391,
+      "mask_pct": 0.9120941162109375,
+      "changed_pixels": 2391,
+      "changed_pct": 0.9120941162109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 31,
+          "height": 19,
+          "pixels": 420
+        },
+        {
+          "width": 16,
+          "height": 23,
+          "pixels": 338
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 508
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 542
+        },
+        {
+          "width": 22,
+          "height": 30,
+          "pixels": 583
+        }
+      ],
+      "nail_union_box": [
+        69,
+        210,
+        319,
+        425
+      ],
+      "possible_crop_box": [
+        19,
+        160,
+        369,
+        475
+      ],
+      "possible_crop_area_pct": 42.057037353515625,
+      "possible_crop_mask_pct": 2.1687074829931974,
+      "possible_crop_upscale": 1.4628571428571429
+    },
+    {
+      "pair_id": "0000062_glossy_black",
+      "identity_id": "0000062",
+      "style_id": "glossy_black",
+      "mask_pixels": 2391,
+      "mask_pct": 0.9120941162109375,
+      "changed_pixels": 2391,
+      "changed_pct": 0.9120941162109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 31,
+          "height": 19,
+          "pixels": 420
+        },
+        {
+          "width": 16,
+          "height": 23,
+          "pixels": 338
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 508
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 542
+        },
+        {
+          "width": 22,
+          "height": 30,
+          "pixels": 583
+        }
+      ],
+      "nail_union_box": [
+        69,
+        210,
+        319,
+        425
+      ],
+      "possible_crop_box": [
+        19,
+        160,
+        369,
+        475
+      ],
+      "possible_crop_area_pct": 42.057037353515625,
+      "possible_crop_mask_pct": 2.1687074829931974,
+      "possible_crop_upscale": 1.4628571428571429
+    },
+    {
+      "pair_id": "0000062_french_tip",
+      "identity_id": "0000062",
+      "style_id": "french_tip",
+      "mask_pixels": 2391,
+      "mask_pct": 0.9120941162109375,
+      "changed_pixels": 2389,
+      "changed_pct": 0.9113311767578125,
+      "changed_of_mask_pct": 99.9163529903806,
+      "nail_components": [
+        {
+          "width": 31,
+          "height": 19,
+          "pixels": 420
+        },
+        {
+          "width": 16,
+          "height": 23,
+          "pixels": 338
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 508
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 542
+        },
+        {
+          "width": 22,
+          "height": 30,
+          "pixels": 583
+        }
+      ],
+      "nail_union_box": [
+        69,
+        210,
+        319,
+        425
+      ],
+      "possible_crop_box": [
+        19,
+        160,
+        369,
+        475
+      ],
+      "possible_crop_area_pct": 42.057037353515625,
+      "possible_crop_mask_pct": 2.1687074829931974,
+      "possible_crop_upscale": 1.4628571428571429,
+      "french_tip_core_pixels": 463,
+      "french_tip_core_pct": 0.1766204833984375
+    },
+    {
+      "pair_id": "0000062_pink_ombre",
+      "identity_id": "0000062",
+      "style_id": "pink_ombre",
+      "mask_pixels": 2391,
+      "mask_pct": 0.9120941162109375,
+      "changed_pixels": 2391,
+      "changed_pct": 0.9120941162109375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 31,
+          "height": 19,
+          "pixels": 420
+        },
+        {
+          "width": 16,
+          "height": 23,
+          "pixels": 338
+        },
+        {
+          "width": 21,
+          "height": 28,
+          "pixels": 508
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 542
+        },
+        {
+          "width": 22,
+          "height": 30,
+          "pixels": 583
+        }
+      ],
+      "nail_union_box": [
+        69,
+        210,
+        319,
+        425
+      ],
+      "possible_crop_box": [
+        19,
+        160,
+        369,
+        475
+      ],
+      "possible_crop_area_pct": 42.057037353515625,
+      "possible_crop_mask_pct": 2.1687074829931974,
+      "possible_crop_upscale": 1.4628571428571429
+    },
+    {
+      "pair_id": "0000086_classic_red",
+      "identity_id": "0000086",
+      "style_id": "classic_red",
+      "mask_pixels": 1891,
+      "mask_pct": 0.7213592529296875,
+      "changed_pixels": 1891,
+      "changed_pct": 0.7213592529296875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 28,
+          "height": 12,
+          "pixels": 283
+        },
+        {
+          "width": 17,
+          "height": 18,
+          "pixels": 270
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 454
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 435
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 449
+        }
+      ],
+      "nail_union_box": [
+        180,
+        118,
+        448,
+        325
+      ],
+      "possible_crop_box": [
+        127,
+        65,
+        501,
+        378
+      ],
+      "possible_crop_area_pct": 44.655609130859375,
+      "possible_crop_mask_pct": 1.615383301156652,
+      "possible_crop_upscale": 1.3689839572192513
+    },
+    {
+      "pair_id": "0000086_nude_pink",
+      "identity_id": "0000086",
+      "style_id": "nude_pink",
+      "mask_pixels": 1891,
+      "mask_pct": 0.7213592529296875,
+      "changed_pixels": 1891,
+      "changed_pct": 0.7213592529296875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 28,
+          "height": 12,
+          "pixels": 283
+        },
+        {
+          "width": 17,
+          "height": 18,
+          "pixels": 270
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 454
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 435
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 449
+        }
+      ],
+      "nail_union_box": [
+        180,
+        118,
+        448,
+        325
+      ],
+      "possible_crop_box": [
+        127,
+        65,
+        501,
+        378
+      ],
+      "possible_crop_area_pct": 44.655609130859375,
+      "possible_crop_mask_pct": 1.615383301156652,
+      "possible_crop_upscale": 1.3689839572192513
+    },
+    {
+      "pair_id": "0000086_glossy_black",
+      "identity_id": "0000086",
+      "style_id": "glossy_black",
+      "mask_pixels": 1891,
+      "mask_pct": 0.7213592529296875,
+      "changed_pixels": 1891,
+      "changed_pct": 0.7213592529296875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 28,
+          "height": 12,
+          "pixels": 283
+        },
+        {
+          "width": 17,
+          "height": 18,
+          "pixels": 270
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 454
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 435
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 449
+        }
+      ],
+      "nail_union_box": [
+        180,
+        118,
+        448,
+        325
+      ],
+      "possible_crop_box": [
+        127,
+        65,
+        501,
+        378
+      ],
+      "possible_crop_area_pct": 44.655609130859375,
+      "possible_crop_mask_pct": 1.615383301156652,
+      "possible_crop_upscale": 1.3689839572192513
+    },
+    {
+      "pair_id": "0000086_french_tip",
+      "identity_id": "0000086",
+      "style_id": "french_tip",
+      "mask_pixels": 1891,
+      "mask_pct": 0.7213592529296875,
+      "changed_pixels": 1891,
+      "changed_pct": 0.7213592529296875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 28,
+          "height": 12,
+          "pixels": 283
+        },
+        {
+          "width": 17,
+          "height": 18,
+          "pixels": 270
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 454
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 435
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 449
+        }
+      ],
+      "nail_union_box": [
+        180,
+        118,
+        448,
+        325
+      ],
+      "possible_crop_box": [
+        127,
+        65,
+        501,
+        378
+      ],
+      "possible_crop_area_pct": 44.655609130859375,
+      "possible_crop_mask_pct": 1.615383301156652,
+      "possible_crop_upscale": 1.3689839572192513,
+      "french_tip_core_pixels": 386,
+      "french_tip_core_pct": 0.147247314453125
+    },
+    {
+      "pair_id": "0000086_pink_ombre",
+      "identity_id": "0000086",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1891,
+      "mask_pct": 0.7213592529296875,
+      "changed_pixels": 1891,
+      "changed_pct": 0.7213592529296875,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 28,
+          "height": 12,
+          "pixels": 283
+        },
+        {
+          "width": 17,
+          "height": 18,
+          "pixels": 270
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 454
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 435
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 449
+        }
+      ],
+      "nail_union_box": [
+        180,
+        118,
+        448,
+        325
+      ],
+      "possible_crop_box": [
+        127,
+        65,
+        501,
+        378
+      ],
+      "possible_crop_area_pct": 44.655609130859375,
+      "possible_crop_mask_pct": 1.615383301156652,
+      "possible_crop_upscale": 1.3689839572192513
+    },
+    {
+      "pair_id": "0000506_classic_red",
+      "identity_id": "0000506",
+      "style_id": "classic_red",
+      "mask_pixels": 1877,
+      "mask_pct": 0.7160186767578125,
+      "changed_pixels": 1877,
+      "changed_pct": 0.7160186767578125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 17,
+          "pixels": 245
+        },
+        {
+          "width": 18,
+          "height": 20,
+          "pixels": 315
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 430
+        },
+        {
+          "width": 22,
+          "height": 21,
+          "pixels": 406
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 481
+        }
+      ],
+      "nail_union_box": [
+        119,
+        234,
+        432,
+        430
+      ],
+      "possible_crop_box": [
+        57,
+        172,
+        494,
+        492
+      ],
+      "possible_crop_area_pct": 53.3447265625,
+      "possible_crop_mask_pct": 1.3422482837528604,
+      "possible_crop_upscale": 1.17162471395881
+    },
+    {
+      "pair_id": "0000506_nude_pink",
+      "identity_id": "0000506",
+      "style_id": "nude_pink",
+      "mask_pixels": 1877,
+      "mask_pct": 0.7160186767578125,
+      "changed_pixels": 1877,
+      "changed_pct": 0.7160186767578125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 17,
+          "pixels": 245
+        },
+        {
+          "width": 18,
+          "height": 20,
+          "pixels": 315
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 430
+        },
+        {
+          "width": 22,
+          "height": 21,
+          "pixels": 406
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 481
+        }
+      ],
+      "nail_union_box": [
+        119,
+        234,
+        432,
+        430
+      ],
+      "possible_crop_box": [
+        57,
+        172,
+        494,
+        492
+      ],
+      "possible_crop_area_pct": 53.3447265625,
+      "possible_crop_mask_pct": 1.3422482837528604,
+      "possible_crop_upscale": 1.17162471395881
+    },
+    {
+      "pair_id": "0000506_glossy_black",
+      "identity_id": "0000506",
+      "style_id": "glossy_black",
+      "mask_pixels": 1877,
+      "mask_pct": 0.7160186767578125,
+      "changed_pixels": 1877,
+      "changed_pct": 0.7160186767578125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 17,
+          "pixels": 245
+        },
+        {
+          "width": 18,
+          "height": 20,
+          "pixels": 315
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 430
+        },
+        {
+          "width": 22,
+          "height": 21,
+          "pixels": 406
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 481
+        }
+      ],
+      "nail_union_box": [
+        119,
+        234,
+        432,
+        430
+      ],
+      "possible_crop_box": [
+        57,
+        172,
+        494,
+        492
+      ],
+      "possible_crop_area_pct": 53.3447265625,
+      "possible_crop_mask_pct": 1.3422482837528604,
+      "possible_crop_upscale": 1.17162471395881
+    },
+    {
+      "pair_id": "0000506_french_tip",
+      "identity_id": "0000506",
+      "style_id": "french_tip",
+      "mask_pixels": 1877,
+      "mask_pct": 0.7160186767578125,
+      "changed_pixels": 1876,
+      "changed_pct": 0.71563720703125,
+      "changed_of_mask_pct": 99.94672349493872,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 17,
+          "pixels": 245
+        },
+        {
+          "width": 18,
+          "height": 20,
+          "pixels": 315
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 430
+        },
+        {
+          "width": 22,
+          "height": 21,
+          "pixels": 406
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 481
+        }
+      ],
+      "nail_union_box": [
+        119,
+        234,
+        432,
+        430
+      ],
+      "possible_crop_box": [
+        57,
+        172,
+        494,
+        492
+      ],
+      "possible_crop_area_pct": 53.3447265625,
+      "possible_crop_mask_pct": 1.3422482837528604,
+      "possible_crop_upscale": 1.17162471395881,
+      "french_tip_core_pixels": 363,
+      "french_tip_core_pct": 0.1384735107421875
+    },
+    {
+      "pair_id": "0000506_pink_ombre",
+      "identity_id": "0000506",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1877,
+      "mask_pct": 0.7160186767578125,
+      "changed_pixels": 1877,
+      "changed_pct": 0.7160186767578125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 23,
+          "height": 17,
+          "pixels": 245
+        },
+        {
+          "width": 18,
+          "height": 20,
+          "pixels": 315
+        },
+        {
+          "width": 21,
+          "height": 23,
+          "pixels": 430
+        },
+        {
+          "width": 22,
+          "height": 21,
+          "pixels": 406
+        },
+        {
+          "width": 25,
+          "height": 23,
+          "pixels": 481
+        }
+      ],
+      "nail_union_box": [
+        119,
+        234,
+        432,
+        430
+      ],
+      "possible_crop_box": [
+        57,
+        172,
+        494,
+        492
+      ],
+      "possible_crop_area_pct": 53.3447265625,
+      "possible_crop_mask_pct": 1.3422482837528604,
+      "possible_crop_upscale": 1.17162471395881
+    },
+    {
+      "pair_id": "0000514_classic_red",
+      "identity_id": "0000514",
+      "style_id": "classic_red",
+      "mask_pixels": 1578,
+      "mask_pct": 0.601959228515625,
+      "changed_pixels": 1578,
+      "changed_pct": 0.601959228515625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 20,
+          "height": 19,
+          "pixels": 290
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 267
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 308
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 339
+        },
+        {
+          "width": 22,
+          "height": 20,
+          "pixels": 374
+        }
+      ],
+      "nail_union_box": [
+        169,
+        161,
+        399,
+        359
+      ],
+      "possible_crop_box": [
+        123,
+        115,
+        445,
+        405
+      ],
+      "possible_crop_area_pct": 35.62164306640625,
+      "possible_crop_mask_pct": 1.6898693510387661,
+      "possible_crop_upscale": 1.5900621118012421
+    },
+    {
+      "pair_id": "0000514_nude_pink",
+      "identity_id": "0000514",
+      "style_id": "nude_pink",
+      "mask_pixels": 1578,
+      "mask_pct": 0.601959228515625,
+      "changed_pixels": 1578,
+      "changed_pct": 0.601959228515625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 20,
+          "height": 19,
+          "pixels": 290
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 267
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 308
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 339
+        },
+        {
+          "width": 22,
+          "height": 20,
+          "pixels": 374
+        }
+      ],
+      "nail_union_box": [
+        169,
+        161,
+        399,
+        359
+      ],
+      "possible_crop_box": [
+        123,
+        115,
+        445,
+        405
+      ],
+      "possible_crop_area_pct": 35.62164306640625,
+      "possible_crop_mask_pct": 1.6898693510387661,
+      "possible_crop_upscale": 1.5900621118012421
+    },
+    {
+      "pair_id": "0000514_glossy_black",
+      "identity_id": "0000514",
+      "style_id": "glossy_black",
+      "mask_pixels": 1578,
+      "mask_pct": 0.601959228515625,
+      "changed_pixels": 1578,
+      "changed_pct": 0.601959228515625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 20,
+          "height": 19,
+          "pixels": 290
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 267
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 308
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 339
+        },
+        {
+          "width": 22,
+          "height": 20,
+          "pixels": 374
+        }
+      ],
+      "nail_union_box": [
+        169,
+        161,
+        399,
+        359
+      ],
+      "possible_crop_box": [
+        123,
+        115,
+        445,
+        405
+      ],
+      "possible_crop_area_pct": 35.62164306640625,
+      "possible_crop_mask_pct": 1.6898693510387661,
+      "possible_crop_upscale": 1.5900621118012421
+    },
+    {
+      "pair_id": "0000514_french_tip",
+      "identity_id": "0000514",
+      "style_id": "french_tip",
+      "mask_pixels": 1578,
+      "mask_pct": 0.601959228515625,
+      "changed_pixels": 1578,
+      "changed_pct": 0.601959228515625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 20,
+          "height": 19,
+          "pixels": 290
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 267
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 308
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 339
+        },
+        {
+          "width": 22,
+          "height": 20,
+          "pixels": 374
+        }
+      ],
+      "nail_union_box": [
+        169,
+        161,
+        399,
+        359
+      ],
+      "possible_crop_box": [
+        123,
+        115,
+        445,
+        405
+      ],
+      "possible_crop_area_pct": 35.62164306640625,
+      "possible_crop_mask_pct": 1.6898693510387661,
+      "possible_crop_upscale": 1.5900621118012421,
+      "french_tip_core_pixels": 301,
+      "french_tip_core_pct": 0.1148223876953125
+    },
+    {
+      "pair_id": "0000514_pink_ombre",
+      "identity_id": "0000514",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1578,
+      "mask_pct": 0.601959228515625,
+      "changed_pixels": 1578,
+      "changed_pct": 0.601959228515625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 20,
+          "height": 19,
+          "pixels": 290
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 267
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 308
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 339
+        },
+        {
+          "width": 22,
+          "height": 20,
+          "pixels": 374
+        }
+      ],
+      "nail_union_box": [
+        169,
+        161,
+        399,
+        359
+      ],
+      "possible_crop_box": [
+        123,
+        115,
+        445,
+        405
+      ],
+      "possible_crop_area_pct": 35.62164306640625,
+      "possible_crop_mask_pct": 1.6898693510387661,
+      "possible_crop_upscale": 1.5900621118012421
+    },
+    {
+      "pair_id": "0000524_classic_red",
+      "identity_id": "0000524",
+      "style_id": "classic_red",
+      "mask_pixels": 1821,
+      "mask_pct": 0.6946563720703125,
+      "changed_pixels": 1821,
+      "changed_pct": 0.6946563720703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 22,
+          "height": 29,
+          "pixels": 400
+        },
+        {
+          "width": 17,
+          "height": 24,
+          "pixels": 326
+        },
+        {
+          "width": 18,
+          "height": 23,
+          "pixels": 381
+        },
+        {
+          "width": 19,
+          "height": 21,
+          "pixels": 354
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 360
+        }
+      ],
+      "nail_union_box": [
+        111,
+        217,
+        403,
+        404
+      ],
+      "possible_crop_box": [
+        53,
+        159,
+        461,
+        462
+      ],
+      "possible_crop_area_pct": 47.1588134765625,
+      "possible_crop_mask_pct": 1.473014948553679,
+      "possible_crop_upscale": 1.2549019607843137
+    },
+    {
+      "pair_id": "0000524_nude_pink",
+      "identity_id": "0000524",
+      "style_id": "nude_pink",
+      "mask_pixels": 1821,
+      "mask_pct": 0.6946563720703125,
+      "changed_pixels": 1821,
+      "changed_pct": 0.6946563720703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 22,
+          "height": 29,
+          "pixels": 400
+        },
+        {
+          "width": 17,
+          "height": 24,
+          "pixels": 326
+        },
+        {
+          "width": 18,
+          "height": 23,
+          "pixels": 381
+        },
+        {
+          "width": 19,
+          "height": 21,
+          "pixels": 354
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 360
+        }
+      ],
+      "nail_union_box": [
+        111,
+        217,
+        403,
+        404
+      ],
+      "possible_crop_box": [
+        53,
+        159,
+        461,
+        462
+      ],
+      "possible_crop_area_pct": 47.1588134765625,
+      "possible_crop_mask_pct": 1.473014948553679,
+      "possible_crop_upscale": 1.2549019607843137
+    },
+    {
+      "pair_id": "0000524_glossy_black",
+      "identity_id": "0000524",
+      "style_id": "glossy_black",
+      "mask_pixels": 1821,
+      "mask_pct": 0.6946563720703125,
+      "changed_pixels": 1821,
+      "changed_pct": 0.6946563720703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 22,
+          "height": 29,
+          "pixels": 400
+        },
+        {
+          "width": 17,
+          "height": 24,
+          "pixels": 326
+        },
+        {
+          "width": 18,
+          "height": 23,
+          "pixels": 381
+        },
+        {
+          "width": 19,
+          "height": 21,
+          "pixels": 354
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 360
+        }
+      ],
+      "nail_union_box": [
+        111,
+        217,
+        403,
+        404
+      ],
+      "possible_crop_box": [
+        53,
+        159,
+        461,
+        462
+      ],
+      "possible_crop_area_pct": 47.1588134765625,
+      "possible_crop_mask_pct": 1.473014948553679,
+      "possible_crop_upscale": 1.2549019607843137
+    },
+    {
+      "pair_id": "0000524_french_tip",
+      "identity_id": "0000524",
+      "style_id": "french_tip",
+      "mask_pixels": 1821,
+      "mask_pct": 0.6946563720703125,
+      "changed_pixels": 1821,
+      "changed_pct": 0.6946563720703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 22,
+          "height": 29,
+          "pixels": 400
+        },
+        {
+          "width": 17,
+          "height": 24,
+          "pixels": 326
+        },
+        {
+          "width": 18,
+          "height": 23,
+          "pixels": 381
+        },
+        {
+          "width": 19,
+          "height": 21,
+          "pixels": 354
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 360
+        }
+      ],
+      "nail_union_box": [
+        111,
+        217,
+        403,
+        404
+      ],
+      "possible_crop_box": [
+        53,
+        159,
+        461,
+        462
+      ],
+      "possible_crop_area_pct": 47.1588134765625,
+      "possible_crop_mask_pct": 1.473014948553679,
+      "possible_crop_upscale": 1.2549019607843137,
+      "french_tip_core_pixels": 359,
+      "french_tip_core_pct": 0.1369476318359375
+    },
+    {
+      "pair_id": "0000524_pink_ombre",
+      "identity_id": "0000524",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1821,
+      "mask_pct": 0.6946563720703125,
+      "changed_pixels": 1821,
+      "changed_pct": 0.6946563720703125,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 22,
+          "height": 29,
+          "pixels": 400
+        },
+        {
+          "width": 17,
+          "height": 24,
+          "pixels": 326
+        },
+        {
+          "width": 18,
+          "height": 23,
+          "pixels": 381
+        },
+        {
+          "width": 19,
+          "height": 21,
+          "pixels": 354
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 360
+        }
+      ],
+      "nail_union_box": [
+        111,
+        217,
+        403,
+        404
+      ],
+      "possible_crop_box": [
+        53,
+        159,
+        461,
+        462
+      ],
+      "possible_crop_area_pct": 47.1588134765625,
+      "possible_crop_mask_pct": 1.473014948553679,
+      "possible_crop_upscale": 1.2549019607843137
+    },
+    {
+      "pair_id": "0001021_classic_red",
+      "identity_id": "0001021",
+      "style_id": "classic_red",
+      "mask_pixels": 1816,
+      "mask_pct": 0.6927490234375,
+      "changed_pixels": 1816,
+      "changed_pct": 0.6927490234375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 15,
+          "height": 26,
+          "pixels": 280
+        },
+        {
+          "width": 18,
+          "height": 19,
+          "pixels": 305
+        },
+        {
+          "width": 20,
+          "height": 23,
+          "pixels": 407
+        },
+        {
+          "width": 21,
+          "height": 22,
+          "pixels": 395
+        },
+        {
+          "width": 22,
+          "height": 23,
+          "pixels": 429
+        }
+      ],
+      "nail_union_box": [
+        152,
+        262,
+        372,
+        400
+      ],
+      "possible_crop_box": [
+        108,
+        218,
+        416,
+        444
+      ],
+      "possible_crop_area_pct": 26.5533447265625,
+      "possible_crop_mask_pct": 2.6088955292495117,
+      "possible_crop_upscale": 1.6623376623376624
+    },
+    {
+      "pair_id": "0001021_nude_pink",
+      "identity_id": "0001021",
+      "style_id": "nude_pink",
+      "mask_pixels": 1816,
+      "mask_pct": 0.6927490234375,
+      "changed_pixels": 1816,
+      "changed_pct": 0.6927490234375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 15,
+          "height": 26,
+          "pixels": 280
+        },
+        {
+          "width": 18,
+          "height": 19,
+          "pixels": 305
+        },
+        {
+          "width": 20,
+          "height": 23,
+          "pixels": 407
+        },
+        {
+          "width": 21,
+          "height": 22,
+          "pixels": 395
+        },
+        {
+          "width": 22,
+          "height": 23,
+          "pixels": 429
+        }
+      ],
+      "nail_union_box": [
+        152,
+        262,
+        372,
+        400
+      ],
+      "possible_crop_box": [
+        108,
+        218,
+        416,
+        444
+      ],
+      "possible_crop_area_pct": 26.5533447265625,
+      "possible_crop_mask_pct": 2.6088955292495117,
+      "possible_crop_upscale": 1.6623376623376624
+    },
+    {
+      "pair_id": "0001021_glossy_black",
+      "identity_id": "0001021",
+      "style_id": "glossy_black",
+      "mask_pixels": 1816,
+      "mask_pct": 0.6927490234375,
+      "changed_pixels": 1816,
+      "changed_pct": 0.6927490234375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 15,
+          "height": 26,
+          "pixels": 280
+        },
+        {
+          "width": 18,
+          "height": 19,
+          "pixels": 305
+        },
+        {
+          "width": 20,
+          "height": 23,
+          "pixels": 407
+        },
+        {
+          "width": 21,
+          "height": 22,
+          "pixels": 395
+        },
+        {
+          "width": 22,
+          "height": 23,
+          "pixels": 429
+        }
+      ],
+      "nail_union_box": [
+        152,
+        262,
+        372,
+        400
+      ],
+      "possible_crop_box": [
+        108,
+        218,
+        416,
+        444
+      ],
+      "possible_crop_area_pct": 26.5533447265625,
+      "possible_crop_mask_pct": 2.6088955292495117,
+      "possible_crop_upscale": 1.6623376623376624
+    },
+    {
+      "pair_id": "0001021_french_tip",
+      "identity_id": "0001021",
+      "style_id": "french_tip",
+      "mask_pixels": 1816,
+      "mask_pct": 0.6927490234375,
+      "changed_pixels": 1816,
+      "changed_pct": 0.6927490234375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 15,
+          "height": 26,
+          "pixels": 280
+        },
+        {
+          "width": 18,
+          "height": 19,
+          "pixels": 305
+        },
+        {
+          "width": 20,
+          "height": 23,
+          "pixels": 407
+        },
+        {
+          "width": 21,
+          "height": 22,
+          "pixels": 395
+        },
+        {
+          "width": 22,
+          "height": 23,
+          "pixels": 429
+        }
+      ],
+      "nail_union_box": [
+        152,
+        262,
+        372,
+        400
+      ],
+      "possible_crop_box": [
+        108,
+        218,
+        416,
+        444
+      ],
+      "possible_crop_area_pct": 26.5533447265625,
+      "possible_crop_mask_pct": 2.6088955292495117,
+      "possible_crop_upscale": 1.6623376623376624,
+      "french_tip_core_pixels": 361,
+      "french_tip_core_pct": 0.1377105712890625
+    },
+    {
+      "pair_id": "0001021_pink_ombre",
+      "identity_id": "0001021",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1816,
+      "mask_pct": 0.6927490234375,
+      "changed_pixels": 1816,
+      "changed_pct": 0.6927490234375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 15,
+          "height": 26,
+          "pixels": 280
+        },
+        {
+          "width": 18,
+          "height": 19,
+          "pixels": 305
+        },
+        {
+          "width": 20,
+          "height": 23,
+          "pixels": 407
+        },
+        {
+          "width": 21,
+          "height": 22,
+          "pixels": 395
+        },
+        {
+          "width": 22,
+          "height": 23,
+          "pixels": 429
+        }
+      ],
+      "nail_union_box": [
+        152,
+        262,
+        372,
+        400
+      ],
+      "possible_crop_box": [
+        108,
+        218,
+        416,
+        444
+      ],
+      "possible_crop_area_pct": 26.5533447265625,
+      "possible_crop_mask_pct": 2.6088955292495117,
+      "possible_crop_upscale": 1.6623376623376624
+    },
+    {
+      "pair_id": "0001039_classic_red",
+      "identity_id": "0001039",
+      "style_id": "classic_red",
+      "mask_pixels": 2127,
+      "mask_pct": 0.8113861083984375,
+      "changed_pixels": 2127,
+      "changed_pct": 0.8113861083984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 28,
+          "pixels": 329
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 330
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 511
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 434
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 523
+        }
+      ],
+      "nail_union_box": [
+        112,
+        190,
+        366,
+        371
+      ],
+      "possible_crop_box": [
+        62,
+        140,
+        416,
+        421
+      ],
+      "possible_crop_area_pct": 37.946319580078125,
+      "possible_crop_mask_pct": 2.138247180167682,
+      "possible_crop_upscale": 1.4463276836158192
+    },
+    {
+      "pair_id": "0001039_nude_pink",
+      "identity_id": "0001039",
+      "style_id": "nude_pink",
+      "mask_pixels": 2127,
+      "mask_pct": 0.8113861083984375,
+      "changed_pixels": 2127,
+      "changed_pct": 0.8113861083984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 28,
+          "pixels": 329
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 330
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 511
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 434
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 523
+        }
+      ],
+      "nail_union_box": [
+        112,
+        190,
+        366,
+        371
+      ],
+      "possible_crop_box": [
+        62,
+        140,
+        416,
+        421
+      ],
+      "possible_crop_area_pct": 37.946319580078125,
+      "possible_crop_mask_pct": 2.138247180167682,
+      "possible_crop_upscale": 1.4463276836158192
+    },
+    {
+      "pair_id": "0001039_glossy_black",
+      "identity_id": "0001039",
+      "style_id": "glossy_black",
+      "mask_pixels": 2127,
+      "mask_pct": 0.8113861083984375,
+      "changed_pixels": 2127,
+      "changed_pct": 0.8113861083984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 28,
+          "pixels": 329
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 330
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 511
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 434
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 523
+        }
+      ],
+      "nail_union_box": [
+        112,
+        190,
+        366,
+        371
+      ],
+      "possible_crop_box": [
+        62,
+        140,
+        416,
+        421
+      ],
+      "possible_crop_area_pct": 37.946319580078125,
+      "possible_crop_mask_pct": 2.138247180167682,
+      "possible_crop_upscale": 1.4463276836158192
+    },
+    {
+      "pair_id": "0001039_french_tip",
+      "identity_id": "0001039",
+      "style_id": "french_tip",
+      "mask_pixels": 2127,
+      "mask_pct": 0.8113861083984375,
+      "changed_pixels": 2127,
+      "changed_pct": 0.8113861083984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 28,
+          "pixels": 329
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 330
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 511
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 434
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 523
+        }
+      ],
+      "nail_union_box": [
+        112,
+        190,
+        366,
+        371
+      ],
+      "possible_crop_box": [
+        62,
+        140,
+        416,
+        421
+      ],
+      "possible_crop_area_pct": 37.946319580078125,
+      "possible_crop_mask_pct": 2.138247180167682,
+      "possible_crop_upscale": 1.4463276836158192,
+      "french_tip_core_pixels": 430,
+      "french_tip_core_pct": 0.164031982421875
+    },
+    {
+      "pair_id": "0001039_pink_ombre",
+      "identity_id": "0001039",
+      "style_id": "pink_ombre",
+      "mask_pixels": 2127,
+      "mask_pct": 0.8113861083984375,
+      "changed_pixels": 2127,
+      "changed_pct": 0.8113861083984375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 28,
+          "pixels": 329
+        },
+        {
+          "width": 19,
+          "height": 20,
+          "pixels": 330
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 511
+        },
+        {
+          "width": 20,
+          "height": 25,
+          "pixels": 434
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 523
+        }
+      ],
+      "nail_union_box": [
+        112,
+        190,
+        366,
+        371
+      ],
+      "possible_crop_box": [
+        62,
+        140,
+        416,
+        421
+      ],
+      "possible_crop_area_pct": 37.946319580078125,
+      "possible_crop_mask_pct": 2.138247180167682,
+      "possible_crop_upscale": 1.4463276836158192
+    },
+    {
+      "pair_id": "0001060_classic_red",
+      "identity_id": "0001060",
+      "style_id": "classic_red",
+      "mask_pixels": 1880,
+      "mask_pct": 0.7171630859375,
+      "changed_pixels": 1880,
+      "changed_pct": 0.7171630859375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 19,
+          "height": 28,
+          "pixels": 350
+        },
+        {
+          "width": 15,
+          "height": 20,
+          "pixels": 254
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 450
+        },
+        {
+          "width": 21,
+          "height": 21,
+          "pixels": 388
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 438
+        }
+      ],
+      "nail_union_box": [
+        136,
+        217,
+        438,
+        425
+      ],
+      "possible_crop_box": [
+        76,
+        157,
+        498,
+        485
+      ],
+      "possible_crop_area_pct": 52.801513671875,
+      "possible_crop_mask_pct": 1.3582244827187608,
+      "possible_crop_upscale": 1.2132701421800949
+    },
+    {
+      "pair_id": "0001060_nude_pink",
+      "identity_id": "0001060",
+      "style_id": "nude_pink",
+      "mask_pixels": 1880,
+      "mask_pct": 0.7171630859375,
+      "changed_pixels": 1880,
+      "changed_pct": 0.7171630859375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 19,
+          "height": 28,
+          "pixels": 350
+        },
+        {
+          "width": 15,
+          "height": 20,
+          "pixels": 254
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 450
+        },
+        {
+          "width": 21,
+          "height": 21,
+          "pixels": 388
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 438
+        }
+      ],
+      "nail_union_box": [
+        136,
+        217,
+        438,
+        425
+      ],
+      "possible_crop_box": [
+        76,
+        157,
+        498,
+        485
+      ],
+      "possible_crop_area_pct": 52.801513671875,
+      "possible_crop_mask_pct": 1.3582244827187608,
+      "possible_crop_upscale": 1.2132701421800949
+    },
+    {
+      "pair_id": "0001060_glossy_black",
+      "identity_id": "0001060",
+      "style_id": "glossy_black",
+      "mask_pixels": 1880,
+      "mask_pct": 0.7171630859375,
+      "changed_pixels": 1880,
+      "changed_pct": 0.7171630859375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 19,
+          "height": 28,
+          "pixels": 350
+        },
+        {
+          "width": 15,
+          "height": 20,
+          "pixels": 254
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 450
+        },
+        {
+          "width": 21,
+          "height": 21,
+          "pixels": 388
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 438
+        }
+      ],
+      "nail_union_box": [
+        136,
+        217,
+        438,
+        425
+      ],
+      "possible_crop_box": [
+        76,
+        157,
+        498,
+        485
+      ],
+      "possible_crop_area_pct": 52.801513671875,
+      "possible_crop_mask_pct": 1.3582244827187608,
+      "possible_crop_upscale": 1.2132701421800949
+    },
+    {
+      "pair_id": "0001060_french_tip",
+      "identity_id": "0001060",
+      "style_id": "french_tip",
+      "mask_pixels": 1880,
+      "mask_pct": 0.7171630859375,
+      "changed_pixels": 1880,
+      "changed_pct": 0.7171630859375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 19,
+          "height": 28,
+          "pixels": 350
+        },
+        {
+          "width": 15,
+          "height": 20,
+          "pixels": 254
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 450
+        },
+        {
+          "width": 21,
+          "height": 21,
+          "pixels": 388
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 438
+        }
+      ],
+      "nail_union_box": [
+        136,
+        217,
+        438,
+        425
+      ],
+      "possible_crop_box": [
+        76,
+        157,
+        498,
+        485
+      ],
+      "possible_crop_area_pct": 52.801513671875,
+      "possible_crop_mask_pct": 1.3582244827187608,
+      "possible_crop_upscale": 1.2132701421800949,
+      "french_tip_core_pixels": 374,
+      "french_tip_core_pct": 0.142669677734375
+    },
+    {
+      "pair_id": "0001060_pink_ombre",
+      "identity_id": "0001060",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1880,
+      "mask_pct": 0.7171630859375,
+      "changed_pixels": 1880,
+      "changed_pct": 0.7171630859375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 19,
+          "height": 28,
+          "pixels": 350
+        },
+        {
+          "width": 15,
+          "height": 20,
+          "pixels": 254
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 450
+        },
+        {
+          "width": 21,
+          "height": 21,
+          "pixels": 388
+        },
+        {
+          "width": 21,
+          "height": 24,
+          "pixels": 438
+        }
+      ],
+      "nail_union_box": [
+        136,
+        217,
+        438,
+        425
+      ],
+      "possible_crop_box": [
+        76,
+        157,
+        498,
+        485
+      ],
+      "possible_crop_area_pct": 52.801513671875,
+      "possible_crop_mask_pct": 1.3582244827187608,
+      "possible_crop_upscale": 1.2132701421800949
+    },
+    {
+      "pair_id": "0001506_classic_red",
+      "identity_id": "0001506",
+      "style_id": "classic_red",
+      "mask_pixels": 2550,
+      "mask_pct": 0.972747802734375,
+      "changed_pixels": 2550,
+      "changed_pct": 0.972747802734375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 35,
+          "height": 27,
+          "pixels": 653
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 368
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 456
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 536
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 537
+        }
+      ],
+      "nail_union_box": [
+        127,
+        162,
+        371,
+        401
+      ],
+      "possible_crop_box": [
+        79,
+        114,
+        419,
+        449
+      ],
+      "possible_crop_area_pct": 43.44940185546875,
+      "possible_crop_mask_pct": 2.2388059701492535,
+      "possible_crop_upscale": 1.5058823529411764
+    },
+    {
+      "pair_id": "0001506_nude_pink",
+      "identity_id": "0001506",
+      "style_id": "nude_pink",
+      "mask_pixels": 2550,
+      "mask_pct": 0.972747802734375,
+      "changed_pixels": 2550,
+      "changed_pct": 0.972747802734375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 35,
+          "height": 27,
+          "pixels": 653
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 368
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 456
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 536
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 537
+        }
+      ],
+      "nail_union_box": [
+        127,
+        162,
+        371,
+        401
+      ],
+      "possible_crop_box": [
+        79,
+        114,
+        419,
+        449
+      ],
+      "possible_crop_area_pct": 43.44940185546875,
+      "possible_crop_mask_pct": 2.2388059701492535,
+      "possible_crop_upscale": 1.5058823529411764
+    },
+    {
+      "pair_id": "0001506_glossy_black",
+      "identity_id": "0001506",
+      "style_id": "glossy_black",
+      "mask_pixels": 2550,
+      "mask_pct": 0.972747802734375,
+      "changed_pixels": 2550,
+      "changed_pct": 0.972747802734375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 35,
+          "height": 27,
+          "pixels": 653
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 368
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 456
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 536
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 537
+        }
+      ],
+      "nail_union_box": [
+        127,
+        162,
+        371,
+        401
+      ],
+      "possible_crop_box": [
+        79,
+        114,
+        419,
+        449
+      ],
+      "possible_crop_area_pct": 43.44940185546875,
+      "possible_crop_mask_pct": 2.2388059701492535,
+      "possible_crop_upscale": 1.5058823529411764
+    },
+    {
+      "pair_id": "0001506_french_tip",
+      "identity_id": "0001506",
+      "style_id": "french_tip",
+      "mask_pixels": 2550,
+      "mask_pct": 0.972747802734375,
+      "changed_pixels": 2548,
+      "changed_pct": 0.97198486328125,
+      "changed_of_mask_pct": 99.92156862745098,
+      "nail_components": [
+        {
+          "width": 35,
+          "height": 27,
+          "pixels": 653
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 368
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 456
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 536
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 537
+        }
+      ],
+      "nail_union_box": [
+        127,
+        162,
+        371,
+        401
+      ],
+      "possible_crop_box": [
+        79,
+        114,
+        419,
+        449
+      ],
+      "possible_crop_area_pct": 43.44940185546875,
+      "possible_crop_mask_pct": 2.2388059701492535,
+      "possible_crop_upscale": 1.5058823529411764,
+      "french_tip_core_pixels": 502,
+      "french_tip_core_pct": 0.191497802734375
+    },
+    {
+      "pair_id": "0001506_pink_ombre",
+      "identity_id": "0001506",
+      "style_id": "pink_ombre",
+      "mask_pixels": 2550,
+      "mask_pct": 0.972747802734375,
+      "changed_pixels": 2550,
+      "changed_pct": 0.972747802734375,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 35,
+          "height": 27,
+          "pixels": 653
+        },
+        {
+          "width": 18,
+          "height": 22,
+          "pixels": 368
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 456
+        },
+        {
+          "width": 22,
+          "height": 28,
+          "pixels": 536
+        },
+        {
+          "width": 22,
+          "height": 27,
+          "pixels": 537
+        }
+      ],
+      "nail_union_box": [
+        127,
+        162,
+        371,
+        401
+      ],
+      "possible_crop_box": [
+        79,
+        114,
+        419,
+        449
+      ],
+      "possible_crop_area_pct": 43.44940185546875,
+      "possible_crop_mask_pct": 2.2388059701492535,
+      "possible_crop_upscale": 1.5058823529411764
+    },
+    {
+      "pair_id": "0001549_classic_red",
+      "identity_id": "0001549",
+      "style_id": "classic_red",
+      "mask_pixels": 1594,
+      "mask_pct": 0.608062744140625,
+      "changed_pixels": 1594,
+      "changed_pct": 0.608062744140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 17,
+          "pixels": 170
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 241
+        },
+        {
+          "width": 19,
+          "height": 24,
+          "pixels": 400
+        },
+        {
+          "width": 18,
+          "height": 21,
+          "pixels": 337
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 446
+        }
+      ],
+      "nail_union_box": [
+        126,
+        218,
+        404,
+        373
+      ],
+      "possible_crop_box": [
+        71,
+        163,
+        459,
+        428
+      ],
+      "possible_crop_area_pct": 39.22271728515625,
+      "possible_crop_mask_pct": 1.5502820462944953,
+      "possible_crop_upscale": 1.3195876288659794
+    },
+    {
+      "pair_id": "0001549_nude_pink",
+      "identity_id": "0001549",
+      "style_id": "nude_pink",
+      "mask_pixels": 1594,
+      "mask_pct": 0.608062744140625,
+      "changed_pixels": 1594,
+      "changed_pct": 0.608062744140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 17,
+          "pixels": 170
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 241
+        },
+        {
+          "width": 19,
+          "height": 24,
+          "pixels": 400
+        },
+        {
+          "width": 18,
+          "height": 21,
+          "pixels": 337
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 446
+        }
+      ],
+      "nail_union_box": [
+        126,
+        218,
+        404,
+        373
+      ],
+      "possible_crop_box": [
+        71,
+        163,
+        459,
+        428
+      ],
+      "possible_crop_area_pct": 39.22271728515625,
+      "possible_crop_mask_pct": 1.5502820462944953,
+      "possible_crop_upscale": 1.3195876288659794
+    },
+    {
+      "pair_id": "0001549_glossy_black",
+      "identity_id": "0001549",
+      "style_id": "glossy_black",
+      "mask_pixels": 1594,
+      "mask_pct": 0.608062744140625,
+      "changed_pixels": 1594,
+      "changed_pct": 0.608062744140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 17,
+          "pixels": 170
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 241
+        },
+        {
+          "width": 19,
+          "height": 24,
+          "pixels": 400
+        },
+        {
+          "width": 18,
+          "height": 21,
+          "pixels": 337
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 446
+        }
+      ],
+      "nail_union_box": [
+        126,
+        218,
+        404,
+        373
+      ],
+      "possible_crop_box": [
+        71,
+        163,
+        459,
+        428
+      ],
+      "possible_crop_area_pct": 39.22271728515625,
+      "possible_crop_mask_pct": 1.5502820462944953,
+      "possible_crop_upscale": 1.3195876288659794
+    },
+    {
+      "pair_id": "0001549_french_tip",
+      "identity_id": "0001549",
+      "style_id": "french_tip",
+      "mask_pixels": 1594,
+      "mask_pct": 0.608062744140625,
+      "changed_pixels": 1594,
+      "changed_pct": 0.608062744140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 17,
+          "pixels": 170
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 241
+        },
+        {
+          "width": 19,
+          "height": 24,
+          "pixels": 400
+        },
+        {
+          "width": 18,
+          "height": 21,
+          "pixels": 337
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 446
+        }
+      ],
+      "nail_union_box": [
+        126,
+        218,
+        404,
+        373
+      ],
+      "possible_crop_box": [
+        71,
+        163,
+        459,
+        428
+      ],
+      "possible_crop_area_pct": 39.22271728515625,
+      "possible_crop_mask_pct": 1.5502820462944953,
+      "possible_crop_upscale": 1.3195876288659794,
+      "french_tip_core_pixels": 316,
+      "french_tip_core_pct": 0.12054443359375
+    },
+    {
+      "pair_id": "0001549_pink_ombre",
+      "identity_id": "0001549",
+      "style_id": "pink_ombre",
+      "mask_pixels": 1594,
+      "mask_pct": 0.608062744140625,
+      "changed_pixels": 1594,
+      "changed_pct": 0.608062744140625,
+      "changed_of_mask_pct": 100.0,
+      "nail_components": [
+        {
+          "width": 18,
+          "height": 17,
+          "pixels": 170
+        },
+        {
+          "width": 16,
+          "height": 19,
+          "pixels": 241
+        },
+        {
+          "width": 19,
+          "height": 24,
+          "pixels": 400
+        },
+        {
+          "width": 18,
+          "height": 21,
+          "pixels": 337
+        },
+        {
+          "width": 21,
+          "height": 25,
+          "pixels": 446
+        }
+      ],
+      "nail_union_box": [
+        126,
+        218,
+        404,
+        373
+      ],
+      "possible_crop_box": [
+        71,
+        163,
+        459,
+        428
+      ],
+      "possible_crop_area_pct": 39.22271728515625,
+      "possible_crop_mask_pct": 1.5502820462944953,
+      "possible_crop_upscale": 1.3195876288659794
+    }
+  ]
+}

@@ -1,0 +1,379 @@
+{
+  "checkpoint": "F:\\HAIR\\data\\nails\\checkpoints\\mnemic\\nails_seg_s_yolov8_v1.pt",
+  "hands": {
+    "0000045": {
+      "source_resolution": [
+        1600,
+        1200
+      ],
+      "roi_seconds": 6.868,
+      "metrics": {
+        "little": {
+          "old": {
+            "iou": 0.707,
+            "precision": 0.7088,
+            "recall": 0.9965,
+            "undercovered_manual_pixels": 7,
+            "overcovered_current_pixels": 811,
+            "undercoverage_pct_of_manual": 0.35,
+            "overcoverage_pct_of_current": 29.12,
+            "symmetric_mean_boundary_px": 3.74,
+            "symmetric_p95_boundary_px": 6.85
+          },
+          "refined": {
+            "iou": 0.7631,
+            "precision": 0.767,
+            "recall": 0.9934,
+            "undercovered_manual_pixels": 13,
+            "overcovered_current_pixels": 598,
+            "undercoverage_pct_of_manual": 0.66,
+            "overcoverage_pct_of_current": 23.3,
+            "symmetric_mean_boundary_px": 2.75,
+            "symmetric_p95_boundary_px": 5.73
+          }
+        },
+        "ring": {
+          "old": {
+            "iou": 0.8291,
+            "precision": 0.834,
+            "recall": 0.993,
+            "undercovered_manual_pixels": 27,
+            "overcovered_current_pixels": 767,
+            "undercoverage_pct_of_manual": 0.7,
+            "overcoverage_pct_of_current": 16.6,
+            "symmetric_mean_boundary_px": 2.69,
+            "symmetric_p95_boundary_px": 8.34
+          },
+          "refined": {
+            "iou": 0.8452,
+            "precision": 0.8673,
+            "recall": 0.9706,
+            "undercovered_manual_pixels": 114,
+            "overcovered_current_pixels": 576,
+            "undercoverage_pct_of_manual": 2.94,
+            "overcoverage_pct_of_current": 13.27,
+            "symmetric_mean_boundary_px": 2.35,
+            "symmetric_p95_boundary_px": 7.39
+          }
+        },
+        "middle": {
+          "old": {
+            "iou": 0.9088,
+            "precision": 0.9412,
+            "recall": 0.9635,
+            "undercovered_manual_pixels": 164,
+            "overcovered_current_pixels": 271,
+            "undercoverage_pct_of_manual": 3.65,
+            "overcoverage_pct_of_current": 5.88,
+            "symmetric_mean_boundary_px": 1.08,
+            "symmetric_p95_boundary_px": 2.87
+          },
+          "refined": {
+            "iou": 0.8963,
+            "precision": 0.9659,
+            "recall": 0.9255,
+            "undercovered_manual_pixels": 335,
+            "overcovered_current_pixels": 147,
+            "undercoverage_pct_of_manual": 7.45,
+            "overcoverage_pct_of_current": 3.41,
+            "symmetric_mean_boundary_px": 1.34,
+            "symmetric_p95_boundary_px": 4.11
+          }
+        },
+        "index": {
+          "old": {
+            "iou": 0.8464,
+            "precision": 0.8499,
+            "recall": 0.9952,
+            "undercovered_manual_pixels": 17,
+            "overcovered_current_pixels": 627,
+            "undercoverage_pct_of_manual": 0.48,
+            "overcoverage_pct_of_current": 15.01,
+            "symmetric_mean_boundary_px": 2.13,
+            "symmetric_p95_boundary_px": 6.43
+          },
+          "refined": {
+            "iou": 0.872,
+            "precision": 0.8924,
+            "recall": 0.9745,
+            "undercovered_manual_pixels": 91,
+            "overcovered_current_pixels": 419,
+            "undercoverage_pct_of_manual": 2.55,
+            "overcoverage_pct_of_current": 10.76,
+            "symmetric_mean_boundary_px": 1.62,
+            "symmetric_p95_boundary_px": 5.06
+          }
+        },
+        "thumb": {
+          "old": {
+            "iou": 0.7072,
+            "precision": 0.756,
+            "recall": 0.9163,
+            "undercovered_manual_pixels": 193,
+            "overcovered_current_pixels": 682,
+            "undercoverage_pct_of_manual": 8.37,
+            "overcoverage_pct_of_current": 24.4,
+            "symmetric_mean_boundary_px": 3.32,
+            "symmetric_p95_boundary_px": 9.01
+          },
+          "refined": {
+            "iou": 0.7427,
+            "precision": 0.8242,
+            "recall": 0.8825,
+            "undercovered_manual_pixels": 271,
+            "overcovered_current_pixels": 434,
+            "undercoverage_pct_of_manual": 11.75,
+            "overcoverage_pct_of_current": 17.58,
+            "symmetric_mean_boundary_px": 2.62,
+            "symmetric_p95_boundary_px": 6.85
+          }
+        }
+      },
+      "styles": {
+        "nude_pink": {
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        },
+        "french_tip": {
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        },
+        "pink_ombre": {
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        },
+        "classic_red": {
+          "scope": "saved step-50 index output only",
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        },
+        "glossy_black": {
+          "scope": "saved step-50 index output only",
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        }
+      },
+      "production_renderer_seconds": {
+        "nude_pink": {
+          "normalization": 0.016,
+          "hand_localization": 0.031,
+          "nail_segmentation": 6.187,
+          "mask_preparation": 0.0,
+          "mask_refinement": 6.891,
+          "style_rendering": 0.0,
+          "compositing": 0.063
+        },
+        "french_tip": {
+          "normalization": 0.016,
+          "hand_localization": 0.015,
+          "nail_segmentation": 5.844,
+          "mask_preparation": 0.0,
+          "mask_refinement": 6.328,
+          "style_rendering": 0.016,
+          "compositing": 0.047
+        },
+        "pink_ombre": {
+          "normalization": 0.016,
+          "hand_localization": 0.015,
+          "nail_segmentation": 5.813,
+          "mask_preparation": 0.015,
+          "mask_refinement": 6.766,
+          "style_rendering": 0.016,
+          "compositing": 0.046
+        }
+      },
+      "production_renderer_wall_seconds": {
+        "nude_pink": 13.264,
+        "french_tip": 12.353,
+        "pink_ombre": 12.775
+      }
+    },
+    "0001593": {
+      "source_resolution": [
+        1600,
+        1200
+      ],
+      "roi_seconds": 6.651,
+      "metrics": {
+        "little": {
+          "old": {
+            "iou": 0.8555,
+            "precision": 0.8596,
+            "recall": 0.9943,
+            "undercovered_manual_pixels": 14,
+            "overcovered_current_pixels": 401,
+            "undercoverage_pct_of_manual": 0.57,
+            "overcoverage_pct_of_current": 14.04,
+            "symmetric_mean_boundary_px": 1.55,
+            "symmetric_p95_boundary_px": 4.65
+          },
+          "refined": {
+            "iou": 0.8565,
+            "precision": 0.8931,
+            "recall": 0.9543,
+            "undercovered_manual_pixels": 113,
+            "overcovered_current_pixels": 282,
+            "undercoverage_pct_of_manual": 4.57,
+            "overcoverage_pct_of_current": 10.69,
+            "symmetric_mean_boundary_px": 1.46,
+            "symmetric_p95_boundary_px": 4.11
+          }
+        },
+        "ring": {
+          "old": {
+            "iou": 0.8431,
+            "precision": 0.8452,
+            "recall": 0.9971,
+            "undercovered_manual_pixels": 10,
+            "overcovered_current_pixels": 636,
+            "undercoverage_pct_of_manual": 0.29,
+            "overcoverage_pct_of_current": 15.48,
+            "symmetric_mean_boundary_px": 2.14,
+            "symmetric_p95_boundary_px": 5.73
+          },
+          "refined": {
+            "iou": 0.8783,
+            "precision": 0.8925,
+            "recall": 0.9822,
+            "undercovered_manual_pixels": 62,
+            "overcovered_current_pixels": 412,
+            "undercoverage_pct_of_manual": 1.78,
+            "overcoverage_pct_of_current": 10.75,
+            "symmetric_mean_boundary_px": 1.53,
+            "symmetric_p95_boundary_px": 4.65
+          }
+        },
+        "middle": {
+          "old": {
+            "iou": 0.8723,
+            "precision": 0.894,
+            "recall": 0.973,
+            "undercovered_manual_pixels": 128,
+            "overcovered_current_pixels": 547,
+            "undercoverage_pct_of_manual": 2.7,
+            "overcoverage_pct_of_current": 10.6,
+            "symmetric_mean_boundary_px": 1.9,
+            "symmetric_p95_boundary_px": 5.6
+          },
+          "refined": {
+            "iou": 0.8837,
+            "precision": 0.9292,
+            "recall": 0.9475,
+            "undercovered_manual_pixels": 249,
+            "overcovered_current_pixels": 342,
+            "undercoverage_pct_of_manual": 5.25,
+            "overcoverage_pct_of_current": 7.08,
+            "symmetric_mean_boundary_px": 1.67,
+            "symmetric_p95_boundary_px": 4.78
+          }
+        },
+        "index": {
+          "old": {
+            "iou": 0.8978,
+            "precision": 0.9042,
+            "recall": 0.9922,
+            "undercovered_manual_pixels": 32,
+            "overcovered_current_pixels": 432,
+            "undercoverage_pct_of_manual": 0.78,
+            "overcoverage_pct_of_current": 9.58,
+            "symmetric_mean_boundary_px": 1.31,
+            "symmetric_p95_boundary_px": 4.23
+          },
+          "refined": {
+            "iou": 0.9212,
+            "precision": 0.9371,
+            "recall": 0.982,
+            "undercovered_manual_pixels": 74,
+            "overcovered_current_pixels": 271,
+            "undercoverage_pct_of_manual": 1.8,
+            "overcoverage_pct_of_current": 6.29,
+            "symmetric_mean_boundary_px": 0.9,
+            "symmetric_p95_boundary_px": 2.87
+          }
+        },
+        "thumb": {
+          "old": {
+            "iou": 0.8108,
+            "precision": 0.845,
+            "recall": 0.9525,
+            "undercovered_manual_pixels": 224,
+            "overcovered_current_pixels": 823,
+            "undercoverage_pct_of_manual": 4.75,
+            "overcoverage_pct_of_current": 15.5,
+            "symmetric_mean_boundary_px": 2.98,
+            "symmetric_p95_boundary_px": 9.55
+          },
+          "refined": {
+            "iou": 0.8509,
+            "precision": 0.9,
+            "recall": 0.9397,
+            "undercovered_manual_pixels": 284,
+            "overcovered_current_pixels": 492,
+            "undercoverage_pct_of_manual": 6.03,
+            "overcoverage_pct_of_current": 10.0,
+            "symmetric_mean_boundary_px": 2.26,
+            "symmetric_p95_boundary_px": 7.8
+          }
+        }
+      },
+      "styles": {
+        "nude_pink": {
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        },
+        "french_tip": {
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        },
+        "pink_ombre": {
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        },
+        "classic_red": {
+          "scope": "saved step-50 index output only",
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        },
+        "glossy_black": {
+          "scope": "saved step-50 index output only",
+          "old_outside_changed": 0,
+          "refined_outside_changed": 0
+        }
+      },
+      "production_renderer_seconds": {
+        "nude_pink": {
+          "normalization": 0.031,
+          "hand_localization": 0.016,
+          "nail_segmentation": 6.015,
+          "mask_preparation": 0.016,
+          "mask_refinement": 6.719,
+          "style_rendering": 0.015,
+          "compositing": 0.047
+        },
+        "french_tip": {
+          "normalization": 0.032,
+          "hand_localization": 0.015,
+          "nail_segmentation": 6.156,
+          "mask_preparation": 0.0,
+          "mask_refinement": 6.891,
+          "style_rendering": 0.016,
+          "compositing": 0.047
+        },
+        "pink_ombre": {
+          "normalization": 0.031,
+          "hand_localization": 0.016,
+          "nail_segmentation": 5.968,
+          "mask_preparation": 0.0,
+          "mask_refinement": 6.485,
+          "style_rendering": 0.015,
+          "compositing": 0.047
+        }
+      },
+      "production_renderer_wall_seconds": {
+        "nude_pink": 12.947,
+        "french_tip": 13.263,
+        "pink_ombre": 12.639
+      }
+    }
+  }
+}

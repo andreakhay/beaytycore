@@ -1,0 +1,43 @@
+{
+  "dataset_archive_sha256": "d37b68bc3e06c6ea1b1b013424dd813aafbef83db222cf9223e229d33ad105bb",
+  "pairs": 100,
+  "train_identities": [
+    "0000000",
+    "0000004",
+    "0000013",
+    "0000038",
+    "0000055",
+    "0000057",
+    "0000062",
+    "0000086",
+    "0000506",
+    "0000514",
+    "0000524",
+    "0001021",
+    "0001039",
+    "0001060",
+    "0001506",
+    "0001549"
+  ],
+  "validation_identities": [
+    "0000045",
+    "0000088",
+    "0001030",
+    "0001593"
+  ],
+  "style_counts": {
+    "train/classic_red": 16,
+    "train/french_tip": 16,
+    "train/glossy_black": 16,
+    "train/nude_pink": 16,
+    "train/pink_ombre": 16,
+    "validation/classic_red": 4,
+    "validation/french_tip": 4,
+    "validation/glossy_black": 4,
+    "validation/nude_pink": 4,
+    "validation/pink_ombre": 4
+  },
+  "manifest_sha256": "174115f44110e7b41e597b998ad2c96373e2fbe44bd467a5ec9224480025ef6e",
+  "qa_sha256": "9e40d226f6bdc5b6e6e2dff97fb60d09b1fcbb77e63dce5dcd1094d94fda861c",
+  "training_config_sha256": "d5232482c4389170ea69edb3664796762b3a44c00a7e7801f2d093309afeab31"
+}

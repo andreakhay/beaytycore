@@ -1,0 +1,12 @@
+# Inference only. Keep the Kaggle CUDA Torch build and use the evaluated Diffusers commit.
+numpy==1.26.4
+git+https://github.com/huggingface/diffusers.git@c943837899b16cbae2f619b8dd4f7bb6f07dd81a
+transformers==5.5.3
+accelerate==1.13.0
+peft==0.18.1
+huggingface_hub==1.23.0
+safetensors>=0.8,<1
+fastapi>=0.111,<1
+uvicorn>=0.30,<1
+python-multipart>=0.0.22,<1
+Pillow>=10.1,<13

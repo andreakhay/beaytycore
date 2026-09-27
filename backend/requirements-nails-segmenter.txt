@@ -1,0 +1,7 @@
+# Separate CPU interpreter for the reviewed nail-mask checkpoint.
+# Do not install this into the Hair/Makeup backend interpreter.
+numpy==2.4.6
+Pillow==10.1.0
+opencv-python==4.13.0.92
+torch==2.10.0
+ultralytics==8.3.244

@@ -1,0 +1,216 @@
+{
+  "status": "ARTIFACTS_VERIFIED_VISUAL_REVIEW_REQUIRED",
+  "evidence_sha256": "cab51d21acfdfed03b095545de2a692693b0e4567b68708f2955baf195ad39b7",
+  "evaluation_sha256": "a0c7ec088bc648cd50dd6f4329b8f80eb76efe42764f0ff89a9cb010aa31566c",
+  "checkpoint_sha256": "5bff16c67e0014c78a6d938813347685f914f8a608d76407b10f5b54b7a0eb1f",
+  "steps": 50,
+  "unique_training_pairs_seen": 50,
+  "training_style_exposure": {
+    "nude_pink": 9,
+    "french_tip": 7,
+    "glossy_black": 11,
+    "classic_red": 7,
+    "pink_ombre": 16
+  },
+  "train_identities": 16,
+  "validation_identities": [
+    "0000045",
+    "0000088",
+    "0001030",
+    "0001593"
+  ],
+  "training_seconds_including_load": 1793.1,
+  "gpu_peak_mib": 13531,
+  "loss_observations": 101,
+  "loss_first": 0.04515,
+  "loss_last": 0.06529,
+  "raw_outside_nail_mae_mean": {
+    "base": 10.218,
+    "adapter": 2.997
+  },
+  "final_outside_nail_changed_pixels": 0,
+  "held_out_pairs": 20,
+  "per_style": {
+    "classic_red": {
+      "base_nail_mae_mean": 48.424,
+      "adapter_nail_mae_mean": 47.377,
+      "adapter_minus_base_mae": -1.047,
+      "adapter_better_hands": 2,
+      "pair_nail_mae": [
+        {
+          "identity_id": "0000045",
+          "base": 47.268,
+          "adapter": 49.618
+        },
+        {
+          "identity_id": "0000088",
+          "base": 49.415,
+          "adapter": 45.012
+        },
+        {
+          "identity_id": "0001030",
+          "base": 48.199,
+          "adapter": 43.501
+        },
+        {
+          "identity_id": "0001593",
+          "base": 48.816,
+          "adapter": 51.379
+        }
+      ]
+    },
+    "nude_pink": {
+      "base_nail_mae_mean": 30.604,
+      "adapter_nail_mae_mean": 48.194,
+      "adapter_minus_base_mae": 17.591,
+      "adapter_better_hands": 0,
+      "pair_nail_mae": [
+        {
+          "identity_id": "0000045",
+          "base": 30.244,
+          "adapter": 49.862
+        },
+        {
+          "identity_id": "0000088",
+          "base": 36.278,
+          "adapter": 60.482
+        },
+        {
+          "identity_id": "0001030",
+          "base": 27.686,
+          "adapter": 43.367
+        },
+        {
+          "identity_id": "0001593",
+          "base": 28.207,
+          "adapter": 39.067
+        }
+      ]
+    },
+    "glossy_black": {
+      "base_nail_mae_mean": 46.806,
+      "adapter_nail_mae_mean": 36.271,
+      "adapter_minus_base_mae": -10.535,
+      "adapter_better_hands": 4,
+      "pair_nail_mae": [
+        {
+          "identity_id": "0000045",
+          "base": 37.442,
+          "adapter": 35.884
+        },
+        {
+          "identity_id": "0000088",
+          "base": 61.085,
+          "adapter": 35.512
+        },
+        {
+          "identity_id": "0001030",
+          "base": 38.184,
+          "adapter": 31.958
+        },
+        {
+          "identity_id": "0001593",
+          "base": 50.513,
+          "adapter": 41.73
+        }
+      ]
+    },
+    "french_tip": {
+      "base_nail_mae_mean": 38.527,
+      "adapter_nail_mae_mean": 58.995,
+      "adapter_minus_base_mae": 20.469,
+      "adapter_better_hands": 0,
+      "pair_nail_mae": [
+        {
+          "identity_id": "0000045",
+          "base": 43.111,
+          "adapter": 88.535
+        },
+        {
+          "identity_id": "0000088",
+          "base": 40.408,
+          "adapter": 40.959
+        },
+        {
+          "identity_id": "0001030",
+          "base": 29.564,
+          "adapter": 44.72
+        },
+        {
+          "identity_id": "0001593",
+          "base": 41.024,
+          "adapter": 61.769
+        }
+      ]
+    },
+    "pink_ombre": {
+      "base_nail_mae_mean": 44.773,
+      "adapter_nail_mae_mean": 35.032,
+      "adapter_minus_base_mae": -9.741,
+      "adapter_better_hands": 4,
+      "pair_nail_mae": [
+        {
+          "identity_id": "0000045",
+          "base": 42.43,
+          "adapter": 37.569
+        },
+        {
+          "identity_id": "0000088",
+          "base": 51.573,
+          "adapter": 29.717
+        },
+        {
+          "identity_id": "0001030",
+          "base": 40.709,
+          "adapter": 32.68
+        },
+        {
+          "identity_id": "0001593",
+          "base": 44.379,
+          "adapter": 40.162
+        }
+      ]
+    }
+  },
+  "runtime": {
+    "toolkit_commit": "a8dfcf7d7e2b38ccc7b2fb68ece9c6358e61e7a7",
+    "reused_verified_setup": true,
+    "constraints": [
+      "torch==2.10.0+cu128",
+      "torchvision==0.25.0+cu128",
+      "torchaudio==2.10.0+cu128"
+    ],
+    "packages": {
+      "torch": "2.10.0+cu128",
+      "diffusers": "0.39.0.dev0",
+      "transformers": "5.5.3",
+      "accelerate": "1.13.0",
+      "peft": "0.18.1",
+      "huggingface-hub": "1.23.0",
+      "bitsandbytes": "0.50.2"
+    },
+    "base_model": "black-forest-labs/FLUX.2-klein-base-4B",
+    "base_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "base_weight_sha256": "9c5fed22b76baea749d88fc2abe3ad53245e7b21a0d353a762665eea00043b92",
+    "base_weight_path": "/tmp/hf-cache/hub/models--black-forest-labs--FLUX.2-klein-base-4B/snapshots/a3b4f4849157f664bdbc776fd7453c2783562f4d/flux-2-klein-base-4b.safetensors",
+    "trace_patch": {
+      "original_trainer_sha256_normalized_lf": "c152ef68477bb941338d0051b5e4190427e9b285485256840e5ee1c777c765d7",
+      "patched_trainer_sha256": "fb6d6eefd6b937b15a49d1bc38d98ab083f52a1ab344b64867c831c884f88a9f",
+      "trace_module_sha256": "364b52148deec46713bd0b6be135f60082595b0dcd8d15706098daec6b04d5d0",
+      "patch": "Verified existing guarded batch trace hook"
+    },
+    "timestamp_utc": "2026-09-27T03:33:21.155060+00:00",
+    "gpu": "Tesla T4",
+    "cuda_runtime": "12.8",
+    "torch_import_version": "2.10.0+cu128",
+    "diffusers_import_version": "0.39.0.dev0",
+    "dataset_sha256": "d7440f1cc1a8987c48235fed36f8ff23581c17719b219fc2a7e600ad867bcf90",
+    "config_sha256": "f0e6116a01ea51e7b319d889050005d59d7fac7824702ed0b3147db2f909d695",
+    "nvidia_smi": "Sun Sep 27 03:33:21 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 580.159.04             Driver Version: 580.159.04     CUDA Version: 13.0     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |\n| N/A   36C    P8              9W /   70W |       3MiB /  15360MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |\n| N/A   37C    P8              9W /   70W |       3MiB /  15360MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+-----------------------------------------------------------------------------------------+\n"
+  },
+  "evaluation_settings": {
+    "seed": 1977,
+    "inference_steps": 20,
+    "guidance": 4.0
+  }
+}

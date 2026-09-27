@@ -39,6 +39,9 @@ model_cache/
 # Generated data, images, weights and checkpoints
 data/generated/
 data/source/
+data/nails/source/
+data/nails/work/
+data/nails/checkpoints/
 data/dataset_v1/
 datasets/generated/
 outputs/

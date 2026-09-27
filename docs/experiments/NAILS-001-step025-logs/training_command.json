@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-c",
+    "import random,runpy,sys,numpy,torch; random.seed(1977); numpy.random.seed(1977); torch.manual_seed(1977); torch.cuda.manual_seed_all(1977); sys.argv=['run.py',sys.argv[1]]; runpy.run_path('run.py',run_name='__main__')",
+    "/kaggle/working/train_config.yaml"
+  ],
+  "cwd": "/kaggle/working/ai-toolkit",
+  "config_sha256": "d5232482c4389170ea69edb3664796762b3a44c00a7e7801f2d093309afeab31",
+  "initial_rng_seed": 1977,
+  "seed_scope": "Python, NumPy and Torch before AI Toolkit entrypoint"
+}

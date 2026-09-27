@@ -1,0 +1,189 @@
+{
+  "status": "ACCEPT_FOR_CONTROLLED_EXPERIMENT",
+  "localized_archive_sha256": "d7440f1cc1a8987c48235fed36f8ff23581c17719b219fc2a7e600ad867bcf90",
+  "reviewed_identity_sheets": 20,
+  "method": "Twenty identity overview sheets checked against exact derived member hashes; one held-out sheet inspected at full resolution; prior full-resolution review of the approved target styles retained. Only for a bounded learning experiment.",
+  "limit": "Fourteen nail components were excluded to keep the target a literal isolated crop of the approved styled image. Enlarging 512x512 source nails exposes blocky mask edges and soft detail; this is not production-quality approval.",
+  "identities": [
+    {
+      "identity_id": "0000000",
+      "sheet_sha256": "e15de7d722ec4cfc2378836de16d35c3073094cd04cbf8091e62eedb7dea7943",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000004",
+      "sheet_sha256": "7cd8155ed01c94a6a3a928fdcd364c64632356780f482684fbd0748866a01d57",
+      "nails_per_style": 2,
+      "excluded_fingers": [
+        "index",
+        "middle",
+        "ring"
+      ],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000013",
+      "sheet_sha256": "97a215e1b76ae79b2a8158eae7a2441d32b4b47085dfeec276cccb05d28fcd07",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000038",
+      "sheet_sha256": "214ff8848109e1b5baa703d57e6fac5ce07213f5c7f0ec78e9ea5ded39eb7030",
+      "nails_per_style": 2,
+      "excluded_fingers": [
+        "index",
+        "middle",
+        "ring"
+      ],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000045",
+      "sheet_sha256": "4cd2090c3718ecdcba1fa739407b733c552bfd2498fdf6cc3b3e42fbd5889753",
+      "nails_per_style": 3,
+      "excluded_fingers": [
+        "middle",
+        "ring"
+      ],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000055",
+      "sheet_sha256": "e1e5ca2db1be5def5ea476b3775edb48e145cd72422bd007d841434b5f14f24a",
+      "nails_per_style": 3,
+      "excluded_fingers": [
+        "middle",
+        "ring"
+      ],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000057",
+      "sheet_sha256": "085f72aa090ec5ab56812c0c73b405ea459b1dcf2937ceae5659ff0ccfac45ab",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000062",
+      "sheet_sha256": "304058cda263f4694bf017fedce1f7e883b1ba65318953a48c3e3cbce279c688",
+      "nails_per_style": 3,
+      "excluded_fingers": [
+        "middle",
+        "ring"
+      ],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000086",
+      "sheet_sha256": "3e0dc8c9ffae52bb90157dc35b51a3d475d4093146aa8354d52e3f8e9951c1a7",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000088",
+      "sheet_sha256": "6247ff74a2a8bb7e4258340fbb7a63d7f823bbd2d7babf120a7a3e9d1a769a62",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000506",
+      "sheet_sha256": "b41c0d74be3cc99ac69b10638ab577ba6885a80a9b8e42449e098fdc41e533c9",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000514",
+      "sheet_sha256": "6cc30fe1c218ee5cf1986ff8f46f5520d7d17243905600be3b58ebc66a9b9f48",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0000524",
+      "sheet_sha256": "987d7eab46dddb92a8007c527706b9165fe0b897194d881ef9a86e4d06b52cf4",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0001021",
+      "sheet_sha256": "7a95e17c76807e4157b9aae9b58dddd06edd5a6318ba148a00c1d12355469def",
+      "nails_per_style": 3,
+      "excluded_fingers": [
+        "middle",
+        "ring"
+      ],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0001030",
+      "sheet_sha256": "f95389c0b83471b5a07cc7d2181b59227c87b23373ad2d7a45e7f51748252b89",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0001039",
+      "sheet_sha256": "789af2227383520f22fed488e6b600b7b1ea114b2631d864458e078d837f67c0",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0001060",
+      "sheet_sha256": "701880626fb78cbb97da8d791daa04673c4ef6696848f65155ba9dbe01b563c0",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0001506",
+      "sheet_sha256": "82603756480149934f58bd3c7af55b643361689c73f4a2f0a8f929e228e7c7e8",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0001549",
+      "sheet_sha256": "5bbc425ecac3b2e6f99953b90bbe4d150ecba6219a62ac0c2a5db8a0687a75c2",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    },
+    {
+      "identity_id": "0001593",
+      "sheet_sha256": "b894819036a357896dee2542be8303de42c068738e942f04e13b2850d6cc32a4",
+      "nails_per_style": 5,
+      "excluded_fingers": [],
+      "status": "ACCEPT_FOR_EXPERIMENT",
+      "notes": "Crop orientation and selected style targets visible; source-resolution and mask-edge limitations remain."
+    }
+  ]
+}

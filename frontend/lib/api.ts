@@ -27,6 +27,32 @@ export async function getStyles(): Promise<Style[]> {
   return (await response.json()) as Style[];
 }
 
+export async function getMakeupStyles(): Promise<Style[]> {
+  const response = await fetch(`${API_BASE_URL}/makeup/styles`, { cache: "no-store" });
+  if (!response.ok) throw await responseError(response);
+  return (await response.json()) as Style[];
+}
+
+export async function getNailStyles(): Promise<Style[]> {
+  const response = await fetch(`${API_BASE_URL}/nails/styles`, { cache: "no-store" });
+  if (!response.ok) throw await responseError(response);
+  return (await response.json()) as Style[];
+}
+
+export async function generateNailsPreview(file: File, styleId: string): Promise<GenerateResponse> {
+  const form = new FormData();
+  form.append("image", file);
+  form.append("style_id", styleId);
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}/nails/generate`, { method: "POST", body: form });
+  } catch {
+    throw new Error("The backend is unavailable. Start the local API, then try again.");
+  }
+  if (!response.ok) throw await responseError(response);
+  return (await response.json()) as GenerateResponse;
+}
+
 export async function getHealth(): Promise<HealthResponse> {
   const response = await fetch(`${API_BASE_URL}/health`, { cache: "no-store" });
   if (!response.ok) throw await responseError(response);
@@ -40,6 +66,20 @@ export async function generatePortrait(file: File, styleId: string): Promise<Gen
   let response: Response;
   try {
     response = await fetch(`${API_BASE_URL}/generate`, { method: "POST", body: form });
+  } catch {
+    throw new Error("The backend is unavailable. Start the local API, then try again.");
+  }
+  if (!response.ok) throw await responseError(response);
+  return (await response.json()) as GenerateResponse;
+}
+
+export async function generateMakeupPortrait(file: File, styleId: string): Promise<GenerateResponse> {
+  const form = new FormData();
+  form.append("image", file);
+  form.append("style_id", styleId);
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}/makeup/generate`, { method: "POST", body: form });
   } catch {
     throw new Error("The backend is unavailable. Start the local API, then try again.");
   }

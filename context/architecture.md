@@ -1,6 +1,6 @@
 # Architecture
 
-Source: Supervisor's CODEX HANDOFF 001, EXP-001, and later critical-path direction. Decision status: CONFIRMED for first demo. Real hairstyle model integration: NOT STARTED.
+Source: Supervisor's CODEX HANDOFF 001, EXP-001, and later critical-path direction. The first-demo model path remains CONFIRMED. Earlier implementation statements below are dated history; current feature status is in [state](state.md).
 
 Approved first-demo path:
 
@@ -17,3 +17,15 @@ Intended free deployment direction: Next.js frontend, likely Vercel Hobby; Gradi
 The local System MVP has a Next.js frontend and FastAPI backend. `POST /generate` accepts a portrait and `style_id`, validates them, and delegates image behavior to `GenerationEngine`. `MockEngine` returns a normalized copy labeled as a development preview. The 2026-09-24 runtime implementation adds `RemoteFluxEngine`: local FastAPI forwards one of the three trained style IDs and the portrait to a temporary Kaggle FastAPI service, which loads FLUX.2 Klein Base plus TRAIN-001 LoRA once and returns image bytes and metadata. The frontend retains the same request/response contract and does not load FLUX. The Kaggle server/tunnel code and local mocked API contract passed static/local checks, but real Kaggle serving and public access remain NEEDS VERIFICATION. See the [demo guide](../docs/guides/kaggle-real-model-demo.md).
 
 Approved superseded approaches are recorded in [decisions](decisions.md). Any replacement of this first-demo architecture needs Supervisor approval supported by evidence.
+
+## Separate Makeup direction
+
+The Supervisor's 2026-09-26 Makeup decision keeps `/makeup` separate from Hairstyle. DATA-M001 uses reviewed existing FFHQ-Makeup bare-to-makeup pairs with identity-disjoint train and validation splits. MAKEUP-001 is one general edit LoRA on FLUX.2 Klein Base. The ten user-facing Makeup styles are fixed inference prompt presets, not classes inferred from `makeup_01` through `makeup_05`. The trained checkpoint and held-out artifacts are verified, and the Project Lead approved practical visual quality for app integration. A separate `RemoteMakeupEngine` now forwards Makeup requests to an independent GPU service which loads only MAKEUP-001 once and verifies the pinned model, adapter and presets. Default mock behavior remains available; remote failures never silently become mock results. No Hair adapter is loaded or switched by this path. Local contract and browser checks pass; real Kaggle serving and the first live Makeup browser result remain NEEDS VERIFICATION. Synthetic generation, preservation and inpainting dataset methods are closed research branches. See [integration evidence](../docs/experiments/MAKEUP-001-integration.md) and [live guide](../docs/guides/makeup001-live-demo.md).
+
+## Nails hybrid try-on direction
+
+The Supervisor's 2026-09-27 decision freezes further NAILS-001 training. Classic Red and Glossy Black route to the verified `NAILS-001-LOCAL-v1` step-50 adapter on the pinned FLUX.2 Klein Base. Nude Pink, French Tip and Pink Ombre route to the deterministic DATA-N001 renderer, with a softer production Ombre palette. MediaPipe localization, the isolated offline nail segmenter, mask validation and the existing final nail-only compositor are shared across the two routes. The local FastAPI API returns one response shape and private path metadata; the frontend offers five ordinary styles without claiming that the three rendered styles came from the LoRA. The adapter is packaged for a separate authenticated Kaggle inference service, but live GPU load and full-hand app requests remain NEEDS VERIFICATION. See [integration record](../docs/experiments/NAILS-001-hybrid-integration.md).
+
+## GPU provider for the next integration milestone
+
+The Supervisor confirms Kaggle as the GPU provider for upcoming central architecture integration. The current application has one FastAPI backend and separate Hair, Makeup, and Nails GPU inference services reached by configured authenticated HTTPS endpoints. This provider choice does not require Kaggle-specific behavior in the frontend or feature pipelines. Preserve the current remote-client boundaries so another GPU host can be substituted later. A shared GPU process and adapter switching across the three features remain PROPOSED, not implemented or verified; do not treat the [proposal](../docs/specs/0001-shared-application-architecture.md) as approval to change the working services.

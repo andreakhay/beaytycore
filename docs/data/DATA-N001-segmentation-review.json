@@ -1,0 +1,28 @@
+{
+  "reviewer": "Codex visual review of Original | Predicted Nail Masks | Overlay sheets, 2026-09-26",
+  "review_scope": "Pilot deterministic target construction on these 20 normalized 11K Hands photos. This is not production-model approval.",
+  "checkpoint_sha256": "99b7d1c6ceb4bde32d80fe7ae8c8eb809c27d99b55cf9db54b6692afe68f4070",
+  "criteria": "Five visible nails; no missed or false nail; no obvious skin leakage; contiguous masks; practical cuticle and tip boundaries at 512 pixels.",
+  "records": [
+    {"identity_id": "0000000", "status": "ACCEPT", "reviewer": "Codex", "note": "Five aligned nail masks; no obvious missed nail or skin leakage."},
+    {"identity_id": "0000004", "status": "ACCEPT", "reviewer": "Codex", "note": "Five aligned contiguous masks; adjacent fingers remain separate."},
+    {"identity_id": "0000013", "status": "ACCEPT", "reviewer": "Codex", "note": "Five aligned masks; visible nail tips and cuticle edges are usable."},
+    {"identity_id": "0000038", "status": "ACCEPT", "reviewer": "Codex", "note": "Five masks including thumb; small pinky mask stays on the visible nail."},
+    {"identity_id": "0000045", "status": "ACCEPT", "reviewer": "Codex", "note": "Five contiguous nail masks with no obvious finger-skin leakage."},
+    {"identity_id": "0000055", "status": "ACCEPT", "reviewer": "Codex", "note": "Five well-localized masks on separated fingers; no false mask."},
+    {"identity_id": "0000057", "status": "ACCEPT", "reviewer": "Codex", "note": "Five aligned masks; dark skin and light nail contrast remain usable."},
+    {"identity_id": "0000062", "status": "ACCEPT", "reviewer": "Codex", "note": "Five aligned masks including a small outer nail; no obvious leakage."},
+    {"identity_id": "0000086", "status": "ACCEPT", "reviewer": "Codex", "note": "Five visible nail regions; edges usable for pilot rendering."},
+    {"identity_id": "0000088", "status": "ACCEPT", "reviewer": "Codex", "note": "Five masks follow visible nails without fragmentation or false regions."},
+    {"identity_id": "0000506", "status": "ACCEPT", "reviewer": "Codex", "note": "Five aligned masks; no obvious spill onto the surrounding skin."},
+    {"identity_id": "0000514", "status": "ACCEPT", "reviewer": "Codex", "note": "Five masks including thumb; tip and cuticle boundaries usable at 512 pixels."},
+    {"identity_id": "0000524", "status": "ACCEPT", "reviewer": "Codex", "note": "Five separated masks; no missed or false nail visible."},
+    {"identity_id": "0001021", "status": "ACCEPT", "reviewer": "Codex", "note": "Five masks follow the visible nails; adjacent fingers remain distinct."},
+    {"identity_id": "0001030", "status": "ACCEPT", "reviewer": "Codex", "note": "Five aligned masks with no apparent nail omission or skin leakage."},
+    {"identity_id": "0001039", "status": "ACCEPT", "reviewer": "Codex", "note": "Five contiguous masks; nail regions are usable for pilot styles."},
+    {"identity_id": "0001060", "status": "ACCEPT", "reviewer": "Codex", "note": "Five visible nails detected; no false region or major edge leakage."},
+    {"identity_id": "0001506", "status": "ACCEPT", "reviewer": "Codex", "note": "Five masks align with visible nails; no fragmentation."},
+    {"identity_id": "0001549", "status": "ACCEPT", "reviewer": "Codex", "note": "Five masks, including smaller side nails, stay within the visible nail beds."},
+    {"identity_id": "0001593", "status": "ACCEPT", "reviewer": "Codex", "note": "Five clear nail masks; no obvious finger-skin leakage."}
+  ]
+}

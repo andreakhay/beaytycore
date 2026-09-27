@@ -1,0 +1,274 @@
+{
+  "status": "STRUCTURAL_QA_PASS_VISUAL_REVIEW_PENDING",
+  "result_zip_sha256": "b8a3e052c8256c6cd4dee9575efc87491a8e9088d7d7b538ac6db50a7535c48f",
+  "data_archive_sha256": "d37b68bc3e06c6ea1b1b013424dd813aafbef83db222cf9223e229d33ad105bb",
+  "checkpoint_sha256": "34bf82238dfcc8e6365cd9fa6b63d36700312780f2e396dc6d91f7cc3f829c91",
+  "pairs": 20,
+  "styles": {
+    "classic_red": 4,
+    "nude_pink": 4,
+    "glossy_black": 4,
+    "french_tip": 4,
+    "pink_ombre": 4
+  },
+  "identities": [
+    "0000000",
+    "0000055",
+    "0000514",
+    "0001021"
+  ],
+  "adapter_closer_count": 12,
+  "mean_nail_mae": {
+    "base": 49.55,
+    "adapter": 46.317
+  },
+  "by_style": {
+    "classic_red": {
+      "adapter_closer": 3,
+      "base_mean_mae": 61.907,
+      "adapter_mean_mae": 56.968
+    },
+    "french_tip": {
+      "adapter_closer": 2,
+      "base_mean_mae": 45.958,
+      "adapter_mean_mae": 48.687
+    },
+    "glossy_black": {
+      "adapter_closer": 3,
+      "base_mean_mae": 67.011,
+      "adapter_mean_mae": 47.38
+    },
+    "nude_pink": {
+      "adapter_closer": 1,
+      "base_mean_mae": 30.977,
+      "adapter_mean_mae": 42.902
+    },
+    "pink_ombre": {
+      "adapter_closer": 3,
+      "base_mean_mae": 41.895,
+      "adapter_mean_mae": 35.649
+    }
+  },
+  "records": [
+    {
+      "pair_id": "0000000_classic_red",
+      "identity_id": "0000000",
+      "style_id": "classic_red",
+      "base_nail_mae": 57.206,
+      "adapter_nail_mae": 56.054,
+      "adapter_minus_base_mae": -1.152,
+      "adapter_closer": true,
+      "mask_pct": 0.8144,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000000_nude_pink",
+      "identity_id": "0000000",
+      "style_id": "nude_pink",
+      "base_nail_mae": 26.638,
+      "adapter_nail_mae": 32.928,
+      "adapter_minus_base_mae": 6.29,
+      "adapter_closer": false,
+      "mask_pct": 0.8144,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000000_glossy_black",
+      "identity_id": "0000000",
+      "style_id": "glossy_black",
+      "base_nail_mae": 45.492,
+      "adapter_nail_mae": 40.102,
+      "adapter_minus_base_mae": -5.39,
+      "adapter_closer": true,
+      "mask_pct": 0.8144,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000000_french_tip",
+      "identity_id": "0000000",
+      "style_id": "french_tip",
+      "base_nail_mae": 43.296,
+      "adapter_nail_mae": 33.534,
+      "adapter_minus_base_mae": -9.762,
+      "adapter_closer": true,
+      "mask_pct": 0.8144,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000000_pink_ombre",
+      "identity_id": "0000000",
+      "style_id": "pink_ombre",
+      "base_nail_mae": 33.164,
+      "adapter_nail_mae": 31.762,
+      "adapter_minus_base_mae": -1.402,
+      "adapter_closer": true,
+      "mask_pct": 0.8144,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000055_classic_red",
+      "identity_id": "0000055",
+      "style_id": "classic_red",
+      "base_nail_mae": 57.047,
+      "adapter_nail_mae": 58.692,
+      "adapter_minus_base_mae": 1.645,
+      "adapter_closer": false,
+      "mask_pct": 1.194,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000055_nude_pink",
+      "identity_id": "0000055",
+      "style_id": "nude_pink",
+      "base_nail_mae": 27.575,
+      "adapter_nail_mae": 27.065,
+      "adapter_minus_base_mae": -0.51,
+      "adapter_closer": true,
+      "mask_pct": 1.194,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000055_glossy_black",
+      "identity_id": "0000055",
+      "style_id": "glossy_black",
+      "base_nail_mae": 47.095,
+      "adapter_nail_mae": 46.206,
+      "adapter_minus_base_mae": -0.889,
+      "adapter_closer": true,
+      "mask_pct": 1.194,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000055_french_tip",
+      "identity_id": "0000055",
+      "style_id": "french_tip",
+      "base_nail_mae": 41.496,
+      "adapter_nail_mae": 51.441,
+      "adapter_minus_base_mae": 9.945,
+      "adapter_closer": false,
+      "mask_pct": 1.194,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000055_pink_ombre",
+      "identity_id": "0000055",
+      "style_id": "pink_ombre",
+      "base_nail_mae": 40.133,
+      "adapter_nail_mae": 29.963,
+      "adapter_minus_base_mae": -10.17,
+      "adapter_closer": true,
+      "mask_pct": 1.194,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000514_classic_red",
+      "identity_id": "0000514",
+      "style_id": "classic_red",
+      "base_nail_mae": 56.68,
+      "adapter_nail_mae": 56.366,
+      "adapter_minus_base_mae": -0.314,
+      "adapter_closer": true,
+      "mask_pct": 0.602,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000514_nude_pink",
+      "identity_id": "0000514",
+      "style_id": "nude_pink",
+      "base_nail_mae": 29.78,
+      "adapter_nail_mae": 46.606,
+      "adapter_minus_base_mae": 16.826,
+      "adapter_closer": false,
+      "mask_pct": 0.602,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000514_glossy_black",
+      "identity_id": "0000514",
+      "style_id": "glossy_black",
+      "base_nail_mae": 45.055,
+      "adapter_nail_mae": 45.67,
+      "adapter_minus_base_mae": 0.615,
+      "adapter_closer": false,
+      "mask_pct": 0.602,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000514_french_tip",
+      "identity_id": "0000514",
+      "style_id": "french_tip",
+      "base_nail_mae": 42.911,
+      "adapter_nail_mae": 59.573,
+      "adapter_minus_base_mae": 16.662,
+      "adapter_closer": false,
+      "mask_pct": 0.602,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0000514_pink_ombre",
+      "identity_id": "0000514",
+      "style_id": "pink_ombre",
+      "base_nail_mae": 38.723,
+      "adapter_nail_mae": 40.503,
+      "adapter_minus_base_mae": 1.78,
+      "adapter_closer": false,
+      "mask_pct": 0.602,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0001021_classic_red",
+      "identity_id": "0001021",
+      "style_id": "classic_red",
+      "base_nail_mae": 76.697,
+      "adapter_nail_mae": 56.76,
+      "adapter_minus_base_mae": -19.937,
+      "adapter_closer": true,
+      "mask_pct": 0.6927,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0001021_nude_pink",
+      "identity_id": "0001021",
+      "style_id": "nude_pink",
+      "base_nail_mae": 39.916,
+      "adapter_nail_mae": 65.01,
+      "adapter_minus_base_mae": 25.094,
+      "adapter_closer": false,
+      "mask_pct": 0.6927,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0001021_glossy_black",
+      "identity_id": "0001021",
+      "style_id": "glossy_black",
+      "base_nail_mae": 130.402,
+      "adapter_nail_mae": 57.543,
+      "adapter_minus_base_mae": -72.859,
+      "adapter_closer": true,
+      "mask_pct": 0.6927,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0001021_french_tip",
+      "identity_id": "0001021",
+      "style_id": "french_tip",
+      "base_nail_mae": 56.128,
+      "adapter_nail_mae": 50.198,
+      "adapter_minus_base_mae": -5.93,
+      "adapter_closer": true,
+      "mask_pct": 0.6927,
+      "outside_mask_changed_pixels": 0
+    },
+    {
+      "pair_id": "0001021_pink_ombre",
+      "identity_id": "0001021",
+      "style_id": "pink_ombre",
+      "base_nail_mae": 55.559,
+      "adapter_nail_mae": 40.367,
+      "adapter_minus_base_mae": -15.192,
+      "adapter_closer": true,
+      "mask_pct": 0.6927,
+      "outside_mask_changed_pixels": 0
+    }
+  ]
+}

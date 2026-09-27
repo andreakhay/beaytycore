@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { API_BASE_URL, generatePortrait, getHealth, getStyles, type GenerateResponse, type Style } from "@/lib/api";
@@ -110,7 +111,7 @@ export default function Home() {
     <header className="border-b border-[#dce1d8] bg-[#faf9f5]">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
         <div className="flex items-center gap-3"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#2f5141] text-sm font-bold text-white">HC</span><div><p className="text-sm font-bold tracking-[0.14em]">HAIR CAPSTONE</p><p className="text-xs text-[#738075]">AI virtual hairstyle</p></div></div>
-        <span className="rounded-full border border-[#d1ddd0] bg-[#eaf1e8] px-3 py-1 text-xs font-semibold text-[#42654b]">{isMock ? "Development preview" : "Experimental model demo"}</span>
+        <div className="flex items-center gap-3"><nav aria-label="Features" className="flex gap-1 rounded-full border border-[#d1ddd0] bg-white p-1 text-xs font-semibold"><span aria-current="page" className="rounded-full bg-[#2f5141] px-3 py-2 text-white">Hairstyle</span><Link href="/makeup" className="rounded-full px-3 py-2 text-[#42654b] hover:bg-[#eaf1e8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f5141]">Makeup</Link><Link href="/nails" className="rounded-full px-3 py-2 text-[#42654b] hover:bg-[#eaf1e8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f5141]">Nails</Link></nav><span className="hidden rounded-full border border-[#d1ddd0] bg-[#eaf1e8] px-3 py-1 text-xs font-semibold text-[#42654b] sm:inline">{isMock ? "Development preview" : "Experimental model demo"}</span></div>
       </div>
     </header>
 

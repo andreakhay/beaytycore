@@ -1,0 +1,71 @@
+{
+  "toolkit_commit": "a8dfcf7d7e2b38ccc7b2fb68ece9c6358e61e7a7",
+  "torch_before": "2.10.0+cu128",
+  "cuda_before": "12.8",
+  "constraints": [
+    "torch==2.10.0+cu128",
+    "torchvision==0.25.0+cu128",
+    "torchaudio==2.10.0+cu128"
+  ],
+  "packages": {
+    "torch": "2.10.0+cu128",
+    "diffusers": "0.39.0.dev0",
+    "transformers": "5.5.3",
+    "accelerate": "1.13.0",
+    "peft": "0.18.1",
+    "huggingface-hub": "1.23.0",
+    "bitsandbytes": "0.50.2"
+  },
+  "base_model": "black-forest-labs/FLUX.2-klein-base-4B",
+  "base_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "base_weight_sha256": "9c5fed22b76baea749d88fc2abe3ad53245e7b21a0d353a762665eea00043b92",
+  "base_weight_path": "/tmp/hf-cache/hub/models--black-forest-labs--FLUX.2-klein-base-4B/snapshots/a3b4f4849157f664bdbc776fd7453c2783562f4d/flux-2-klein-base-4b.safetensors",
+  "timestamp_utc": "2026-09-26T12:14:52.317337+00:00",
+  "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+  "gpu": "Tesla T4",
+  "cuda_runtime": "12.8",
+  "nvidia_smi": "Sat Sep 26 12:14:52 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 580.159.04             Driver Version: 580.159.04     CUDA Version: 13.0     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |\n| N/A   33C    P8             10W /   70W |       3MiB /  15360MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |\n| N/A   41C    P8             11W /   70W |       0MiB /  15360MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+----------------------------------",
+  "dataset": {
+    "dataset_archive_sha256": "d37b68bc3e06c6ea1b1b013424dd813aafbef83db222cf9223e229d33ad105bb",
+    "pairs": 100,
+    "train_identities": [
+      "0000000",
+      "0000004",
+      "0000013",
+      "0000038",
+      "0000055",
+      "0000057",
+      "0000062",
+      "0000086",
+      "0000506",
+      "0000514",
+      "0000524",
+      "0001021",
+      "0001039",
+      "0001060",
+      "0001506",
+      "0001549"
+    ],
+    "validation_identities": [
+      "0000045",
+      "0000088",
+      "0001030",
+      "0001593"
+    ],
+    "style_counts": {
+      "train/classic_red": 16,
+      "train/french_tip": 16,
+      "train/glossy_black": 16,
+      "train/nude_pink": 16,
+      "train/pink_ombre": 16,
+      "validation/classic_red": 4,
+      "validation/french_tip": 4,
+      "validation/glossy_black": 4,
+      "validation/nude_pink": 4,
+      "validation/pink_ombre": 4
+    },
+    "manifest_sha256": "174115f44110e7b41e597b998ad2c96373e2fbe44bd467a5ec9224480025ef6e",
+    "qa_sha256": "9e40d226f6bdc5b6e6e2dff97fb60d09b1fcbb77e63dce5dcd1094d94fda861c",
+    "training_config_sha256": "d5232482c4389170ea69edb3664796762b3a44c00a7e7801f2d093309afeab31"
+  }
+}

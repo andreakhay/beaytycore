@@ -1,0 +1,402 @@
+Collecting git+https://github.com/huggingface/diffusers.git@c943837899b16cbae2f619b8dd4f7bb6f07dd81a (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 3))
+  Cloning https://github.com/huggingface/diffusers.git (to revision c943837899b16cbae2f619b8dd4f7bb6f07dd81a) to /tmp/pip-req-build-sn5uu13i
+  Running command git clone --filter=blob:none --quiet https://github.com/huggingface/diffusers.git /tmp/pip-req-build-sn5uu13i
+  Running command git rev-parse -q --verify 'sha^c943837899b16cbae2f619b8dd4f7bb6f07dd81a'
+  Running command git fetch -q https://github.com/huggingface/diffusers.git c943837899b16cbae2f619b8dd4f7bb6f07dd81a
+  Running command git checkout -q c943837899b16cbae2f619b8dd4f7bb6f07dd81a
+  Resolved https://github.com/huggingface/diffusers.git to commit c943837899b16cbae2f619b8dd4f7bb6f07dd81a
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: torchao==0.10.0 in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 1)) (0.10.0)
+Requirement already satisfied: safetensors in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 2)) (0.7.0)
+Collecting transformers==5.5.3 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 5))
+  Downloading transformers-5.5.3-py3-none-any.whl.metadata (32 kB)
+Collecting lycoris-lora==1.8.3 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 6))
+  Downloading lycoris_lora-1.8.3.tar.gz (96 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 96.5/96.5 kB 2.1 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting flatten_json (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 7))
+  Downloading flatten_json-0.1.14-py3-none-any.whl.metadata (4.2 kB)
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 8)) (6.0.3)
+Collecting oyaml (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 9))
+  Downloading oyaml-1.0-py2.py3-none-any.whl.metadata (1.2 kB)
+Requirement already satisfied: tensorboard in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 10)) (2.20.0)
+Requirement already satisfied: kornia in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 11)) (0.8.3)
+Collecting invisible-watermark (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 12))
+  Downloading invisible_watermark-0.2.0-py3-none-any.whl.metadata (8.2 kB)
+Requirement already satisfied: einops in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 13)) (0.8.2)
+Requirement already satisfied: accelerate in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 14)) (1.13.0)
+Requirement already satisfied: toml in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 15)) (0.10.2)
+Collecting albumentations==1.4.15 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 16))
+  Downloading albumentations-1.4.15-py3-none-any.whl.metadata (38 kB)
+Collecting albucore==0.0.16 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 17))
+  Downloading albucore-0.0.16-py3-none-any.whl.metadata (3.1 kB)
+Requirement already satisfied: pydantic in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 18)) (2.12.3)
+Requirement already satisfied: omegaconf in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 19)) (2.3.0)
+Collecting open_clip_torch (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 20))
+  Downloading open_clip_torch-3.3.0-py3-none-any.whl.metadata (32 kB)
+Collecting timm==1.0.22 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 21))
+  Downloading timm-1.0.22-py3-none-any.whl.metadata (63 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.1/63.1 kB 2.5 MB/s eta 0:00:00
+Collecting prodigyopt (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 22))
+  Downloading prodigyopt-1.1.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting controlnet_aux==0.0.10 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 23))
+  Downloading controlnet_aux-0.0.10-py3-none-any.whl.metadata (7.1 kB)
+Requirement already satisfied: python-dotenv in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 24)) (1.2.2)
+Collecting bitsandbytes (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 25))
+  Downloading bitsandbytes-0.50.2-py3-none-manylinux_2_24_x86_64.whl.metadata (10 kB)
+Collecting hf_transfer (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 26))
+  Downloading hf_transfer-0.1.9-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.7 kB)
+Collecting lpips (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 27))
+  Downloading lpips-0.1.4-py3-none-any.whl.metadata (10 kB)
+Collecting pytorch_fid (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 28))
+  Downloading pytorch_fid-0.3.0-py3-none-any.whl.metadata (5.3 kB)
+Collecting optimum-quanto==0.2.4 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 29))
+  Downloading optimum_quanto-0.2.4-py3-none-any.whl.metadata (13 kB)
+Requirement already satisfied: sentencepiece in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 30)) (0.2.1)
+Collecting huggingface_hub==1.23.0 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 31))
+  Downloading huggingface_hub-1.23.0-py3-none-any.whl.metadata (14 kB)
+Collecting peft==0.18.1 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 32))
+  Downloading peft-0.18.1-py3-none-any.whl.metadata (14 kB)
+Requirement already satisfied: gradio in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (5.50.0)
+Requirement already satisfied: fastapi>=0.115 in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 35)) (0.136.1)
+Requirement already satisfied: uvicorn>=0.30 in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 36)) (0.46.0)
+Requirement already satisfied: python-slugify in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 37)) (8.0.4)
+Requirement already satisfied: opencv-python in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 38)) (4.13.0.92)
+Collecting pytorch-wavelets==1.3.0 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 39))
+  Downloading pytorch_wavelets-1.3.0-py3-none-any.whl.metadata (10.0 kB)
+Collecting matplotlib==3.10.1 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 40))
+  Downloading matplotlib-3.10.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+Requirement already satisfied: setuptools>=77.0.3 in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 41)) (81.0.0)
+Collecting av==16.0.1 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 42))
+  Downloading av-16.0.1-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (4.6 kB)
+Collecting torchcodec==0.9.1 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 43))
+  Downloading torchcodec-0.9.1-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (11 kB)
+Requirement already satisfied: librosa==0.11.0 in /usr/local/lib/python3.12/dist-packages (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (0.11.0)
+Collecting mutagen==1.47.0 (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 45))
+  Downloading mutagen-1.47.0-py3-none-any.whl.metadata (1.7 kB)
+Collecting scipy==1.12.0 (from -r /kaggle/working/ai-toolkit/requirements.txt (line 2))
+  Downloading scipy-1.12.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (60 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.4/60.4 kB 2.9 MB/s eta 0:00:00
+Requirement already satisfied: numpy>=1.17 in /usr/local/lib/python3.12/dist-packages (from transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (2.0.2)
+Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.12/dist-packages (from transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (26.1)
+Requirement already satisfied: regex>=2025.10.22 in /usr/local/lib/python3.12/dist-packages (from transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (2025.11.3)
+Requirement already satisfied: tokenizers<=0.23.0,>=0.22.0 in /usr/local/lib/python3.12/dist-packages (from transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (0.22.2)
+Requirement already satisfied: typer in /usr/local/lib/python3.12/dist-packages (from transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (0.24.2)
+Requirement already satisfied: tqdm>=4.27 in /usr/local/lib/python3.12/dist-packages (from transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (4.67.3)
+Requirement already satisfied: torch in /usr/local/lib/python3.12/dist-packages (from lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (2.10.0+cu128)
+Requirement already satisfied: scikit-image>=0.21.0 in /usr/local/lib/python3.12/dist-packages (from albumentations==1.4.15->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 16)) (0.25.2)
+Collecting eval-type-backport (from albumentations==1.4.15->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 16))
+  Downloading eval_type_backport-0.4.0-py3-none-any.whl.metadata (3.1 kB)
+Requirement already satisfied: opencv-python-headless>=4.9.0.80 in /usr/local/lib/python3.12/dist-packages (from albumentations==1.4.15->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 16)) (4.13.0.92)
+Requirement already satisfied: torchvision in /usr/local/lib/python3.12/dist-packages (from timm==1.0.22->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 21)) (0.25.0+cu128)
+Requirement already satisfied: importlib_metadata in /usr/local/lib/python3.12/dist-packages (from controlnet_aux==0.0.10->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 23)) (8.7.1)
+Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from controlnet_aux==0.0.10->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 23)) (3.29.0)
+Requirement already satisfied: Pillow in /usr/local/lib/python3.12/dist-packages (from controlnet_aux==0.0.10->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 23)) (11.3.0)
+Requirement already satisfied: ninja in /usr/local/lib/python3.12/dist-packages (from optimum-quanto==0.2.4->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 29)) (1.13.0)
+Collecting click<9.0.0,>=8.4.2 (from huggingface_hub==1.23.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 31))
+  Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+Requirement already satisfied: fsspec>=2023.5.0 in /usr/local/lib/python3.12/dist-packages (from huggingface_hub==1.23.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 31)) (2025.3.0)
+Collecting hf-xet<2.0.0,>=1.5.1 (from huggingface_hub==1.23.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 31))
+  Downloading hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+Requirement already satisfied: httpx<1,>=0.23.0 in /usr/local/lib/python3.12/dist-packages (from huggingface_hub==1.23.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 31)) (0.28.1)
+Requirement already satisfied: typing-extensions>=4.1.0 in /usr/local/lib/python3.12/dist-packages (from huggingface_hub==1.23.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 31)) (4.15.0)
+Requirement already satisfied: psutil in /usr/local/lib/python3.12/dist-packages (from peft==0.18.1->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 32)) (5.9.5)
+Requirement already satisfied: six in /usr/local/lib/python3.12/dist-packages (from pytorch-wavelets==1.3.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 39)) (1.17.0)
+Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.12/dist-packages (from matplotlib==3.10.1->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 40)) (1.3.3)
+Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.12/dist-packages (from matplotlib==3.10.1->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 40)) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.12/dist-packages (from matplotlib==3.10.1->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 40)) (4.62.1)
+Requirement already satisfied: kiwisolver>=1.3.1 in /usr/local/lib/python3.12/dist-packages (from matplotlib==3.10.1->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 40)) (1.5.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /usr/local/lib/python3.12/dist-packages (from matplotlib==3.10.1->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 40)) (3.3.2)
+Requirement already satisfied: python-dateutil>=2.7 in /usr/local/lib/python3.12/dist-packages (from matplotlib==3.10.1->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 40)) (2.9.0.post0)
+Requirement already satisfied: audioread>=2.1.9 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (3.1.0)
+Requirement already satisfied: numba>=0.51.0 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (0.60.0)
+Requirement already satisfied: scikit-learn>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (1.6.1)
+Requirement already satisfied: joblib>=1.0 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (1.5.3)
+Requirement already satisfied: decorator>=4.3.0 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (5.3.1)
+Requirement already satisfied: soundfile>=0.12.1 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (0.13.1)
+Requirement already satisfied: pooch>=1.1 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (1.9.0)
+Requirement already satisfied: soxr>=0.3.2 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (1.0.0)
+Requirement already satisfied: lazy_loader>=0.1 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (0.5)
+Requirement already satisfied: msgpack>=1.0 in /usr/local/lib/python3.12/dist-packages (from librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (1.1.2)
+Collecting numpy>=1.17 (from transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5))
+  Downloading numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.0/61.0 kB 3.0 MB/s eta 0:00:00
+Requirement already satisfied: requests in /usr/local/lib/python3.12/dist-packages (from diffusers==0.39.0.dev0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 3)) (2.32.4)
+Collecting safetensors (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 2))
+  Downloading safetensors-0.9.0rc1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
+Requirement already satisfied: absl-py>=0.4 in /usr/local/lib/python3.12/dist-packages (from tensorboard->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 10)) (1.4.0)
+Requirement already satisfied: grpcio>=1.48.2 in /usr/local/lib/python3.12/dist-packages (from tensorboard->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 10)) (1.81.1)
+Requirement already satisfied: markdown>=2.6.8 in /usr/local/lib/python3.12/dist-packages (from tensorboard->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 10)) (3.10.2)
+Requirement already satisfied: protobuf!=4.24.0,>=3.19.6 in /usr/local/lib/python3.12/dist-packages (from tensorboard->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 10)) (5.29.5)
+Requirement already satisfied: tensorboard-data-server<0.8.0,>=0.7.0 in /usr/local/lib/python3.12/dist-packages (from tensorboard->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 10)) (0.7.2)
+Requirement already satisfied: werkzeug>=1.0.1 in /usr/local/lib/python3.12/dist-packages (from tensorboard->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 10)) (3.1.8)
+Requirement already satisfied: kornia-rs>=0.1.9 in /usr/local/lib/python3.12/dist-packages (from kornia->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 11)) (0.1.14)
+Requirement already satisfied: PyWavelets>=1.1.1 in /usr/local/lib/python3.12/dist-packages (from invisible-watermark->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 12)) (1.9.0)
+Requirement already satisfied: annotated-types>=0.6.0 in /usr/local/lib/python3.12/dist-packages (from pydantic->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 18)) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.4 in /usr/local/lib/python3.12/dist-packages (from pydantic->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 18)) (2.41.4)
+Requirement already satisfied: typing-inspection>=0.4.2 in /usr/local/lib/python3.12/dist-packages (from pydantic->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 18)) (0.4.2)
+Requirement already satisfied: antlr4-python3-runtime==4.9.* in /usr/local/lib/python3.12/dist-packages (from omegaconf->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 19)) (4.9.3)
+Collecting ftfy (from open_clip_torch->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 20))
+  Downloading ftfy-6.3.1-py3-none-any.whl.metadata (7.3 kB)
+Requirement already satisfied: aiofiles<25.0,>=22.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (22.1.0)
+Requirement already satisfied: anyio<5.0,>=3.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (4.13.0)
+Requirement already satisfied: brotli>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (1.2.0)
+Requirement already satisfied: ffmpy in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (1.0.0)
+Requirement already satisfied: gradio-client==1.14.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (1.14.0)
+Requirement already satisfied: groovy~=0.1 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (0.1.2)
+Requirement already satisfied: jinja2<4.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (3.1.6)
+Requirement already satisfied: markupsafe<4.0,>=2.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (3.0.3)
+Requirement already satisfied: orjson~=3.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (3.11.8)
+Requirement already satisfied: pandas<3.0,>=1.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (2.3.3)
+Requirement already satisfied: pydub in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (0.25.1)
+Requirement already satisfied: python-multipart>=0.0.18 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (0.0.26)
+Requirement already satisfied: ruff>=0.9.3 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (0.15.11)
+Requirement already satisfied: safehttpx<0.2.0,>=0.1.6 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (0.1.7)
+Requirement already satisfied: semantic-version~=2.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (2.10.0)
+Requirement already satisfied: starlette<1.0,>=0.40.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (0.52.1)
+Requirement already satisfied: tomlkit<0.14.0,>=0.12.0 in /usr/local/lib/python3.12/dist-packages (from gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (0.13.3)
+Requirement already satisfied: websockets<16.0,>=13.0 in /usr/local/lib/python3.12/dist-packages (from gradio-client==1.14.0->gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (15.0.1)
+Requirement already satisfied: annotated-doc>=0.0.2 in /usr/local/lib/python3.12/dist-packages (from fastapi>=0.115->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 35)) (0.0.4)
+Requirement already satisfied: h11>=0.8 in /usr/local/lib/python3.12/dist-packages (from uvicorn>=0.30->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 36)) (0.16.0)
+Requirement already satisfied: text-unidecode>=1.3 in /usr/local/lib/python3.12/dist-packages (from python-slugify->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 37)) (1.3)
+INFO: pip is looking at multiple versions of opencv-python to determine which version is compatible with other requirements. This could take a while.
+Collecting opencv-python (from -r /kaggle/working/ai-toolkit/requirements_base.txt (line 38))
+  Downloading opencv_python-5.0.0.93-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+  Downloading opencv_python-4.14.0.94-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+  Downloading opencv_python-4.13.0.90-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+  Downloading opencv_python-4.12.0.88-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (19 kB)
+  Downloading opencv_python-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+Requirement already satisfied: idna>=2.8 in /usr/local/lib/python3.12/dist-packages (from anyio<5.0,>=3.0->gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (3.13)
+Requirement already satisfied: certifi in /usr/local/lib/python3.12/dist-packages (from httpx<1,>=0.23.0->huggingface_hub==1.23.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 31)) (2026.4.22)
+Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.12/dist-packages (from httpx<1,>=0.23.0->huggingface_hub==1.23.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 31)) (1.0.9)
+Requirement already satisfied: llvmlite<0.44,>=0.43.0dev0 in /usr/local/lib/python3.12/dist-packages (from numba>=0.51.0->librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (0.43.0)
+INFO: pip is looking at multiple versions of opencv-python-headless to determine which version is compatible with other requirements. This could take a while.
+Collecting opencv-python-headless>=4.9.0.80 (from albumentations==1.4.15->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 16))
+  Downloading opencv_python_headless-5.0.0.93-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+  Downloading opencv_python_headless-4.14.0.94-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+  Downloading opencv_python_headless-4.13.0.90-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+  Downloading opencv_python_headless-4.12.0.88-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (19 kB)
+  Downloading opencv_python_headless-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.12/dist-packages (from pandas<3.0,>=1.0->gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (2025.2)
+Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.12/dist-packages (from pandas<3.0,>=1.0->gradio->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 33)) (2026.1)
+Requirement already satisfied: platformdirs>=2.5.0 in /usr/local/lib/python3.12/dist-packages (from pooch>=1.1->librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (4.9.6)
+Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests->diffusers==0.39.0.dev0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 3)) (3.4.7)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.12/dist-packages (from requests->diffusers==0.39.0.dev0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 3)) (2.5.0)
+Requirement already satisfied: networkx>=3.0 in /usr/local/lib/python3.12/dist-packages (from scikit-image>=0.21.0->albumentations==1.4.15->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 16)) (3.6.1)
+Requirement already satisfied: imageio!=2.35.0,>=2.33 in /usr/local/lib/python3.12/dist-packages (from scikit-image>=0.21.0->albumentations==1.4.15->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 16)) (2.37.3)
+Requirement already satisfied: tifffile>=2022.8.12 in /usr/local/lib/python3.12/dist-packages (from scikit-image>=0.21.0->albumentations==1.4.15->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 16)) (2026.4.11)
+Requirement already satisfied: threadpoolctl>=3.1.0 in /usr/local/lib/python3.12/dist-packages (from scikit-learn>=1.1.0->librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (3.6.0)
+Requirement already satisfied: cffi>=1.0 in /usr/local/lib/python3.12/dist-packages (from soundfile>=0.12.1->librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (2.0.0)
+Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (1.14.0)
+Requirement already satisfied: cuda-bindings==12.9.4 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (12.9.4)
+Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.8.93 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (12.8.93)
+Requirement already satisfied: nvidia-cuda-runtime-cu12==12.8.90 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (12.8.90)
+Requirement already satisfied: nvidia-cuda-cupti-cu12==12.8.90 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (12.8.90)
+Requirement already satisfied: nvidia-cudnn-cu12==9.10.2.21 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (9.10.2.21)
+Requirement already satisfied: nvidia-cublas-cu12==12.8.4.1 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (12.8.4.1)
+Requirement already satisfied: nvidia-cufft-cu12==11.3.3.83 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (11.3.3.83)
+Requirement already satisfied: nvidia-curand-cu12==10.3.9.90 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (10.3.9.90)
+Requirement already satisfied: nvidia-cusolver-cu12==11.7.3.90 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (11.7.3.90)
+Requirement already satisfied: nvidia-cusparse-cu12==12.5.8.93 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (12.5.8.93)
+Requirement already satisfied: nvidia-cusparselt-cu12==0.7.1 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (0.7.1)
+Requirement already satisfied: nvidia-nccl-cu12==2.27.5 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (2.27.5)
+Requirement already satisfied: nvidia-nvshmem-cu12==3.4.5 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (3.4.5)
+Requirement already satisfied: nvidia-nvtx-cu12==12.8.90 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (12.8.90)
+Requirement already satisfied: nvidia-nvjitlink-cu12==12.8.93 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (12.8.93)
+Requirement already satisfied: nvidia-cufile-cu12==1.13.1.3 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (1.13.1.3)
+Requirement already satisfied: triton==3.6.0 in /usr/local/lib/python3.12/dist-packages (from torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (3.6.0)
+Requirement already satisfied: cuda-pathfinder~=1.1 in /usr/local/lib/python3.12/dist-packages (from cuda-bindings==12.9.4->torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (1.5.3)
+Requirement already satisfied: shellingham>=1.3.0 in /usr/local/lib/python3.12/dist-packages (from typer->transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (1.5.4)
+Requirement already satisfied: rich>=12.3.0 in /usr/local/lib/python3.12/dist-packages (from typer->transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (13.9.4)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.12/dist-packages (from ftfy->open_clip_torch->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 20)) (0.6.0)
+Requirement already satisfied: zipp>=3.20 in /usr/local/lib/python3.12/dist-packages (from importlib_metadata->controlnet_aux==0.0.10->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 23)) (3.23.1)
+Requirement already satisfied: pycparser in /usr/local/lib/python3.12/dist-packages (from cffi>=1.0->soundfile>=0.12.1->librosa==0.11.0->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 44)) (3.0)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /usr/local/lib/python3.12/dist-packages (from rich>=12.3.0->typer->transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (4.0.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /usr/local/lib/python3.12/dist-packages (from rich>=12.3.0->typer->transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (2.20.0)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy>=1.13.3->torch->lycoris-lora==1.8.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 6)) (1.3.0)
+INFO: pip is looking at multiple versions of tifffile to determine which version is compatible with other requirements. This could take a while.
+Collecting tifffile>=2022.8.12 (from scikit-image>=0.21.0->albumentations==1.4.15->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 16))
+  Downloading tifffile-2026.9.20-py3-none-any.whl.metadata (34 kB)
+  Downloading tifffile-2026.9.15-py3-none-any.whl.metadata (33 kB)
+  Downloading tifffile-2026.9.9-py3-none-any.whl.metadata (33 kB)
+  Downloading tifffile-2026.8.23-py3-none-any.whl.metadata (34 kB)
+  Downloading tifffile-2026.8.16-py3-none-any.whl.metadata (34 kB)
+  Downloading tifffile-2026.7.31-py3-none-any.whl.metadata (33 kB)
+  Downloading tifffile-2026.7.14-py3-none-any.whl.metadata (33 kB)
+INFO: pip is still looking at multiple versions of tifffile to determine which version is compatible with other requirements. This could take a while.
+  Downloading tifffile-2026.6.1-py3-none-any.whl.metadata (33 kB)
+  Downloading tifffile-2026.5.15-py3-none-any.whl.metadata (32 kB)
+  Downloading tifffile-2026.5.2-py3-none-any.whl.metadata (32 kB)
+  Downloading tifffile-2026.3.3-py3-none-any.whl.metadata (31 kB)
+Requirement already satisfied: mdurl~=0.1 in /usr/local/lib/python3.12/dist-packages (from markdown-it-py>=2.2.0->rich>=12.3.0->typer->transformers==5.5.3->-r /kaggle/working/ai-toolkit/requirements_base.txt (line 5)) (0.1.2)
+Downloading transformers-5.5.3-py3-none-any.whl (10.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.2/10.2 MB 71.2 MB/s eta 0:00:00
+Downloading albumentations-1.4.15-py3-none-any.whl (200 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 200.3/200.3 kB 11.5 MB/s eta 0:00:00
+Downloading albucore-0.0.16-py3-none-any.whl (9.5 kB)
+Downloading timm-1.0.22-py3-none-any.whl (2.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.5/2.5 MB 62.0 MB/s eta 0:00:00
+Downloading controlnet_aux-0.0.10-py3-none-any.whl (290 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 290.4/290.4 kB 15.4 MB/s eta 0:00:00
+Downloading optimum_quanto-0.2.4-py3-none-any.whl (109 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 109.7/109.7 kB 6.4 MB/s eta 0:00:00
+Downloading huggingface_hub-1.23.0-py3-none-any.whl (770 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 770.3/770.3 kB 33.6 MB/s eta 0:00:00
+Downloading peft-0.18.1-py3-none-any.whl (556 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 557.0/557.0 kB 23.4 MB/s eta 0:00:00
+Downloading pytorch_wavelets-1.3.0-py3-none-any.whl (54 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 54.9/54.9 kB 2.7 MB/s eta 0:00:00
+Downloading matplotlib-3.10.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (8.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.6/8.6 MB 86.2 MB/s eta 0:00:00
+Downloading av-16.0.1-cp312-cp312-manylinux_2_28_x86_64.whl (40.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.5/40.5 MB 46.8 MB/s eta 0:00:00
+Downloading torchcodec-0.9.1-cp312-cp312-manylinux_2_28_x86_64.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 64.2 MB/s eta 0:00:00
+Downloading mutagen-1.47.0-py3-none-any.whl (194 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 194.4/194.4 kB 11.1 MB/s eta 0:00:00
+Downloading scipy-1.12.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (37.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 37.8/37.8 MB 49.1 MB/s eta 0:00:00
+Downloading safetensors-0.9.0rc1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (594 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 594.1/594.1 kB 21.7 MB/s eta 0:00:00
+Downloading flatten_json-0.1.14-py3-none-any.whl (8.0 kB)
+Downloading oyaml-1.0-py2.py3-none-any.whl (3.0 kB)
+Downloading invisible_watermark-0.2.0-py3-none-any.whl (1.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 19.4 MB/s eta 0:00:00
+Downloading open_clip_torch-3.3.0-py3-none-any.whl (1.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 25.6 MB/s eta 0:00:00
+Downloading prodigyopt-1.1.2-py3-none-any.whl (10 kB)
+Downloading bitsandbytes-0.50.2-py3-none-manylinux_2_24_x86_64.whl (43.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.1/43.1 MB 43.7 MB/s eta 0:00:00
+Downloading hf_transfer-0.1.9-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.6/3.6 MB 77.0 MB/s eta 0:00:00
+Downloading lpips-0.1.4-py3-none-any.whl (53 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 53.8/53.8 kB 2.7 MB/s eta 0:00:00
+Downloading pytorch_fid-0.3.0-py3-none-any.whl (15 kB)
+Downloading opencv_python-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (63.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.0/63.0 MB 30.2 MB/s eta 0:00:00
+Downloading click-8.5.0-py3-none-any.whl (125 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 125.3/125.3 kB 5.6 MB/s eta 0:00:00
+Downloading hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 82.6 MB/s eta 0:00:00
+Downloading numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.0/18.0 MB 76.1 MB/s eta 0:00:00
+Downloading opencv_python_headless-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (50.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.0/50.0 MB 37.6 MB/s eta 0:00:00
+Downloading eval_type_backport-0.4.0-py3-none-any.whl (6.4 kB)
+Downloading ftfy-6.3.1-py3-none-any.whl (44 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.8/44.8 kB 2.2 MB/s eta 0:00:00
+Downloading tifffile-2026.3.3-py3-none-any.whl (243 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 244.0/244.0 kB 14.3 MB/s eta 0:00:00
+Building wheels for collected packages: lycoris-lora, diffusers
+  Building wheel for lycoris-lora (setup.py): started
+  Building wheel for lycoris-lora (setup.py): finished with status 'done'
+  Created wheel for lycoris-lora: filename=lycoris_lora-1.8.3-py3-none-any.whl size=77194 sha256=3c9601551305264b6c3ec62ea0d4188af1f429c3765939f5155e63780bb63af7
+  Stored in directory: /root/.cache/pip/wheels/1e/b0/d0/64f6402f2c21fdaca996d8d7b174b3ed37bec2834075e1ed71
+  Building wheel for diffusers (pyproject.toml): started
+  Building wheel for diffusers (pyproject.toml): finished with status 'done'
+  Created wheel for diffusers: filename=diffusers-0.39.0.dev0-py3-none-any.whl size=5484483 sha256=29c1bdeec216f1ce715b89ff7d66c35db4226c3ee42fde263649b66673c53e92
+  Stored in directory: /root/.cache/pip/wheels/1f/93/4a/dde613149a475a1cc0e5c8b0e93d3296e87b9680a9dfacfa0c
+Successfully built lycoris-lora diffusers
+Installing collected packages: torchcodec, safetensors, prodigyopt, oyaml, numpy, mutagen, hf-xet, hf_transfer, ftfy, flatten_json, eval-type-backport, click, av, tifffile, scipy, opencv-python-headless, opencv-python, matplotlib, huggingface_hub, albucore, pytorch-wavelets, optimum-quanto, invisible-watermark, diffusers, bitsandbytes, albumentations, transformers, timm, pytorch_fid, lpips, peft, open_clip_torch, lycoris-lora, controlnet_aux
+  Attempting uninstall: torchcodec
+    Found existing installation: torchcodec 0.10.0+cu128
+    Uninstalling torchcodec-0.10.0+cu128:
+      Successfully uninstalled torchcodec-0.10.0+cu128
+  Attempting uninstall: safetensors
+    Found existing installation: safetensors 0.7.0
+    Uninstalling safetensors-0.7.0:
+      Successfully uninstalled safetensors-0.7.0
+  Attempting uninstall: numpy
+    Found existing installation: numpy 2.0.2
+    Uninstalling numpy-2.0.2:
+      Successfully uninstalled numpy-2.0.2
+  Attempting uninstall: hf-xet
+    Found existing installation: hf-xet 1.4.3
+    Uninstalling hf-xet-1.4.3:
+      Successfully uninstalled hf-xet-1.4.3
+  Attempting uninstall: click
+    Found existing installation: click 8.3.3
+    Uninstalling click-8.3.3:
+      Successfully uninstalled click-8.3.3
+  Attempting uninstall: tifffile
+    Found existing installation: tifffile 2026.4.11
+    Uninstalling tifffile-2026.4.11:
+      Successfully uninstalled tifffile-2026.4.11
+  Attempting uninstall: scipy
+    Found existing installation: scipy 1.16.3
+    Uninstalling scipy-1.16.3:
+      Successfully uninstalled scipy-1.16.3
+  Attempting uninstall: opencv-python-headless
+    Found existing installation: opencv-python-headless 4.13.0.92
+    Uninstalling opencv-python-headless-4.13.0.92:
+      Successfully uninstalled opencv-python-headless-4.13.0.92
+  Attempting uninstall: opencv-python
+    Found existing installation: opencv-python 4.13.0.92
+    Uninstalling opencv-python-4.13.0.92:
+      Successfully uninstalled opencv-python-4.13.0.92
+  Attempting uninstall: matplotlib
+    Found existing installation: matplotlib 3.10.0
+    Uninstalling matplotlib-3.10.0:
+      Successfully uninstalled matplotlib-3.10.0
+  Attempting uninstall: huggingface_hub
+    Found existing installation: huggingface_hub 1.11.0
+    Uninstalling huggingface_hub-1.11.0:
+      Successfully uninstalled huggingface_hub-1.11.0
+  Attempting uninstall: albucore
+    Found existing installation: albucore 0.0.24
+    Uninstalling albucore-0.0.24:
+      Successfully uninstalled albucore-0.0.24
+  Attempting uninstall: diffusers
+    Found existing installation: diffusers 0.37.1
+    Uninstalling diffusers-0.37.1:
+      Successfully uninstalled diffusers-0.37.1
+  Attempting uninstall: albumentations
+    Found existing installation: albumentations 2.0.8
+    Uninstalling albumentations-2.0.8:
+      Successfully uninstalled albumentations-2.0.8
+  Attempting uninstall: transformers
+    Found existing installation: transformers 5.0.0
+    Uninstalling transformers-5.0.0:
+      Successfully uninstalled transformers-5.0.0
+  Attempting uninstall: timm
+    Found existing installation: timm 1.0.26
+    Uninstalling timm-1.0.26:
+      Successfully uninstalled timm-1.0.26
+  Attempting uninstall: peft
+    Found existing installation: peft 0.19.1
+    Uninstalling peft-0.19.1:
+      Successfully uninstalled peft-0.19.1
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+bigframes 2.39.0 requires google-cloud-bigquery-storage<3.0.0,>=2.30.0, which is not installed.
+google-adk 1.29.0 requires google-cloud-bigquery-storage>=2.0.0, which is not installed.
+kaggle-environments 1.29.3 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.
+ydata-profiling 4.18.4 requires matplotlib<=3.10,>=3.5, but you have matplotlib 3.10.1 which is incompatible.
+mne 1.12.1 requires scipy>=1.13, but you have scipy 1.12.0 which is incompatible.
+cesium 0.12.4 requires numpy<3.0,>=2.0, but you have numpy 1.26.4 which is incompatible.
+google-colab 1.0.0 requires jupyter-server==2.14.0, but you have jupyter-server 2.12.5 which is incompatible.
+google-colab 1.0.0 requires pandas==2.2.2, but you have pandas 2.3.3 which is incompatible.
+dopamine-rl 4.1.2 requires gym<=0.25.2, but you have gym 0.26.2 which is incompatible.
+jaxlib 0.7.2 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.
+jaxlib 0.7.2 requires scipy>=1.13, but you have scipy 1.12.0 which is incompatible.
+cupy-cuda12x 14.0.1 requires numpy<2.6,>=2.0, but you have numpy 1.26.4 which is incompatible.
+moviepy 1.0.3 requires decorator<5.0,>=4.0.2, but you have decorator 5.3.1 which is incompatible.
+tsfresh 0.21.1 requires scipy>=1.14.0; python_version >= "3.10", but you have scipy 1.12.0 which is incompatible.
+tobler 0.14.0 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.
+tobler 0.14.0 requires scipy>=1.13, but you have scipy 1.12.0 which is incompatible.
+cuml-cu12 26.2.0 requires scipy>=1.13.0, but you have scipy 1.12.0 which is incompatible.
+jax 0.7.2 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.
+jax 0.7.2 requires scipy>=1.13, but you have scipy 1.12.0 which is incompatible.
+rasterio 1.5.0 requires numpy>=2, but you have numpy 1.26.4 which is incompatible.
+pytensor 2.38.2 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.
+xarray-einstats 0.10.0 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.
+xarray-einstats 0.10.0 requires scipy>=1.13, but you have scipy 1.12.0 which is incompatible.
+opencv-contrib-python 4.13.0.92 requires numpy>=2; python_version >= "3.9", but you have numpy 1.26.4 which is incompatible.
+shap 0.51.0 requires numpy>=2, but you have numpy 1.26.4 which is incompatible.
+access 1.1.10.post3 requires scipy>=1.14.1, but you have scipy 1.12.0 which is incompatible.
+Successfully installed albucore-0.0.16 albumentations-1.4.15 av-16.0.1 bitsandbytes-0.50.2 click-8.5.0 controlnet_aux-0.0.10 diffusers-0.39.0.dev0 eval-type-backport-0.4.0 flatten_json-0.1.14 ftfy-6.3.1 hf-xet-1.6.0 hf_transfer-0.1.9 huggingface_hub-1.23.0 invisible-watermark-0.2.0 lpips-0.1.4 lycoris-lora-1.8.3 matplotlib-3.10.1 mutagen-1.47.0 numpy-1.26.4 open_clip_torch-3.3.0 opencv-python-4.11.0.86 opencv-python-headless-4.11.0.86 optimum-quanto-0.2.4 oyaml-1.0 peft-0.18.1 prodigyopt-1.1.2 pytorch-wavelets-1.3.0 pytorch_fid-0.3.0 safetensors-0.9.0rc1 scipy-1.12.0 tifffile-2026.3.3 timm-1.0.22 torchcodec-0.9.1 transformers-5.5.3

@@ -1,0 +1,29 @@
+{
+  "dataset_id": "DATA-M001",
+  "prompt_version": "global-v2-bounded-refinement",
+  "source_repository": "cyberagent/FFHQ-Makeup",
+  "source_revision": "25955d8cb70e97b00f3ee9eacffabc9d3fda81a7",
+  "source_archive": "FFHQ-Makeup.zip",
+  "source_archive_sha256": "c15fd40199b4d46050dc864eaed647b0ad41921507c2f99cb1cfec2b46922c6a",
+  "ffhq_metadata_md5": "425ae20f06a4da1d4dc0f46d40ba5fd6",
+  "dataset_license": "CC BY-NC-SA 4.0; also retain each original photo license and credit",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "inference": {"width": 512, "height": 512, "steps": 20, "guidance": 4.0, "seed": 1977, "dtype": "float16", "cpu_offload": true, "adapter_id": null, "lora_active": false},
+  "train_ids": ["003025", "054109", "010126", "026805", "031569", "032501", "039914", "051141", "056266", "059106"],
+  "validation_ids": ["057326", "063802"],
+  "pilot_train_ids": ["003025", "054109"],
+  "preservation_instruction": "Edit the supplied photograph of the same person, not a newly rendered portrait. Keep their recognizable identity, face and jaw shape, eye and nose shape, original lip and mouth outline, teeth, expression, natural skin tone and visible skin texture. Keep hairstyle and hair color, clothing, background, pose, framing, camera position, and lighting unchanged. Place color only in plausible cosmetic areas. Avoid block shaped brows, theatrical eye masks, flat painted cheeks, plastic smoothing, new accessories, and changes to facial features.",
+  "styles": [
+    {"id": "natural_makeup", "name": "Natural Makeup", "instruction": "Apply visible but restrained everyday makeup: a sheer skin tint that leaves pores visible, softly defined upper lashes, a small neutral blush on the cheeks, and a muted natural rose lip. Keep the existing brow shape and avoid heavy foundation or false lashes."},
+    {"id": "no_makeup_makeup", "name": "No-Makeup Makeup", "instruction": "Apply a barely there but visibly intentional no-makeup look: gently even the complexion without hiding pores, add a very light warm cheek flush, a sheer rose-brown lip tint, and faint upper-lash definition. Keep it softer and less colorful than Natural Makeup and leave brows nearly unchanged."},
+    {"id": "soft_glam", "name": "Soft Glam", "instruction": "Apply polished soft glam makeup: blended taupe and warm brown shadow confined to the upper eyelids, thin lash-line definition, gentle cheek blush and sculpting, and a satin nude rose lip. Use natural brow shape and realistic lashes, with no pale white eye pigment or hard cut crease."},
+    {"id": "smoky_glam", "name": "Smoky Glam", "instruction": "Apply recognizable smoky glam makeup: a graded charcoal and deep brown shadow close to the upper and lower lash lines, softly blended outward only over the eyelids, precise thin eyeliner, restrained cheeks, and a nude lip. Keep visible skin around the eyes and avoid solid black rings or a wide eye mask."},
+    {"id": "dewy_peach", "name": "Dewy Peach", "instruction": "Apply fresh dewy peach makeup: a small soft peach blush on the cheek apples, subtle warm peach upper-lid color, a sheer peach lip tint, and limited natural highlight on the cheekbones. Keep real skin pores and avoid whole-face shine, whitening, or plastic smoothing."},
+    {"id": "rosy_pink", "name": "Rosy Pink", "instruction": "Apply coordinated muted rosy pink makeup: softly feathered rose blush on the cheek apples, delicate rose shadow confined to the eyelids, natural lashes, and a soft pink lip. Avoid bright circular pigment around or under the eyes and avoid saturated cheek patches."},
+    {"id": "bronze_golden_glam", "name": "Bronze / Golden Glam", "instruction": "Apply warm bronze and golden glam makeup: blended bronze shadow on the upper eyelids with a small muted gold accent, softly warmed cheeks, defined natural lashes, and a warm nude lip. Keep gold away from the lower eye and cheek skin; avoid a metallic mask or altered skin tone."},
+    {"id": "matte_nude", "name": "Matte Nude", "instruction": "Apply matte nude makeup: a softly semi-matte complexion with original pores and facial detail still visible, subtle neutral brown upper-eye definition, light contour, and a clearly matte nude lip. Avoid a flat mannequin complexion, blur, shimmer, or strong color."},
+    {"id": "classic_red_lip", "name": "Classic Red Lip", "instruction": "Apply classic rich red lipstick only within the person's existing upper and lower lip outline, keeping the mouth opening and teeth unchanged. Let the red lip be the focal point with minimal neutral eye makeup and very restrained cheek color; do not enlarge or redraw the lips."},
+    {"id": "bold_evening_glam", "name": "Bold Evening Glam", "instruction": "Apply bold but photorealistic evening glam: blended deep brown and plum shadow confined to the eyelids, defined lash lines, softly sculpted cheeks, and a rich berry-red statement lip within the existing lip outline. Make it stronger than Soft Glam without black lipstick, blue eye masks, or hard pigment patches."}
+  ]
+}

@@ -1,0 +1,45 @@
+job: extension
+config:
+  name: nails001_25step
+  process:
+  - type: diffusion_trainer
+    training_folder: /kaggle/working/nails001/checkpoints
+    device: cuda:0
+    performance_log_every: 5
+    network:
+      type: lora
+      linear: 16
+      linear_alpha: 16
+      conv: 8
+      conv_alpha: 8
+    save:
+      dtype: float16
+      save_every: 25
+      max_step_saves_to_keep: 3
+    datasets:
+    - folder_path: /kaggle/working/data_n001/train/target
+      control_path: /kaggle/working/data_n001/train/reference
+      caption_ext: txt
+      resolution:
+      - 512
+    train:
+      batch_size: 1
+      steps: 25
+      gradient_accumulation: 1
+      lr: 0.0001
+      optimizer: adamw8bit
+      noise_scheduler: flowmatch
+      gradient_checkpointing: true
+      dtype: bf16
+      train_unet: true
+      train_text_encoder: false
+      timestep_type: weighted
+      content_or_style: balanced
+    model:
+      arch: flux2_klein_4b
+      name_or_path: /tmp/hf-cache/hub/models--black-forest-labs--FLUX.2-klein-base-4B/snapshots/a3b4f4849157f664bdbc776fd7453c2783562f4d
+      quantize: true
+      low_vram: true
+meta:
+  name: nails001_25step
+  version: '1.0'
