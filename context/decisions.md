@@ -44,9 +44,10 @@ Source for all entries: Supervisor's CODEX HANDOFF 001. Decision dates before th
 
 Do not restore a deprecated architecture or silently change the confirmed one. Gather evidence and seek Supervisor approval for a new major decision.
 
-## Pending application integration decision, 2026-09-27
+## Application integration decisions, 2026-09-27
 
 | Decision | Status | Evidence | Rationale and authority |
 | --- | --- | --- | --- |
-| Keep one public Next.js app and the existing FastAPI server as the central API; evaluate one private FLUX GPU worker with a single Base load and serialized adapter switching | PROPOSED | Central API and separate feature routes VERIFIED IN SOURCE; cross-feature GPU sharing NEEDS VERIFICATION | [Architecture proposal](../docs/specs/0001-shared-application-architecture.md). This preserves approved feature pipelines and existing private GPU services while testing whether a shared runtime saves resources without changing output. Supervisor approval is required before replacing isolated GPU services. |
+| Evaluate one private FLUX GPU worker with a single Base load and serialized adapter switching after the application integration | PROPOSED | Cross-feature GPU sharing NEEDS VERIFICATION | [Earlier architecture proposal](../docs/specs/0001-shared-application-architecture.md). The Supervisor explicitly deferred shared GPU loading from phase 1. Separate Kaggle services remain the confirmed current arrangement; further approval and tests are required before changing them. |
 | Retain Kaggle as the remote GPU provider for the upcoming central architecture integration, behind configurable inference clients | CONFIRMED | Separate Kaggle server scripts, bootstrap guides and backend URL/key configuration VERIFIED IN SOURCE; permanent service availability UNKNOWN | Supervisor's 2026-09-27 preservation instruction. Do not migrate providers or redesign the Kaggle runtime in the baseline task. Future GPU provider replacement should not require frontend or feature pipeline redesign. |
+| Add central application feature discovery and dispatch while retaining legacy routes and three separate Kaggle runtimes | CONFIRMED | New `/features` endpoints and registry locally verified; live Kaggle through new routes NEEDS VERIFICATION | Supervisor's 2026-09-27 integration instruction authorizes an additive `hairstyle`/`makeup`/`nails` application contract. Existing feature handlers remain the source of style validation, processing and errors. Shared GPU loading and adapter switching are deferred. |

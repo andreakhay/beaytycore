@@ -29,3 +29,7 @@ The Supervisor's 2026-09-27 decision freezes further NAILS-001 training. Classic
 ## GPU provider for the next integration milestone
 
 The Supervisor confirms Kaggle as the GPU provider for upcoming central architecture integration. The current application has one FastAPI backend and separate Hair, Makeup, and Nails GPU inference services reached by configured authenticated HTTPS endpoints. This provider choice does not require Kaggle-specific behavior in the frontend or feature pipelines. Preserve the current remote-client boundaries so another GPU host can be substituted later. A shared GPU process and adapter switching across the three features remain PROPOSED, not implemented or verified; do not treat the [proposal](../docs/specs/0001-shared-application-architecture.md) as approval to change the working services.
+
+## Central application routing, phase 1
+
+The Supervisor's 2026-09-27 instruction confirms an additive application contract. `backend/app/main.py` registers `hairstyle`, `makeup`, and `nails` with their existing style and generation handlers and exposes `/features` discovery, per-feature styles, and per-feature generation. Legacy routes and the current frontend calls remain compatible. The registry coordinates handlers only; it does not merge model logic. The three independent Kaggle inference services and Nails hybrid CPU stages remain unchanged. This phase is locally verified, with no live Kaggle validation through the new routes.

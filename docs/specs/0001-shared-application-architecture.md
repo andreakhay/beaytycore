@@ -1,7 +1,7 @@
 # 0001. Shared application architecture
 
 **Date**: 2026-09-27  
-**Status**: Proposed, awaiting Supervisor approval for a shared GPU runtime
+**Status**: DEPRECATED as a phase 1 routing plan by the Supervisor's 2026-09-27 integration direction; shared GPU runtime remains PROPOSED for later evaluation
 
 ## Summary
 

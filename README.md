@@ -39,8 +39,13 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000) for Hairstyle, [/makeup](htt
 | `POST /makeup/generate` | Accepts `image` and a Makeup `style_id`; uses the configured mock or remote Makeup engine. |
 | `GET /nails/styles` | Returns five Nails styles. |
 | `POST /nails/generate` | Accepts `image` and a Nails `style_id`; uses the configured mock or hybrid pipeline. |
+| `GET /features` | Lists `hairstyle`, `makeup`, and `nails` with frontend-safe names and descriptions. |
+| `GET /features/{feature_id}/styles` | Returns the selected feature's existing style catalog. |
+| `POST /features/{feature_id}/generate` | Accepts the same multipart `image` and `style_id` fields and delegates to the selected existing feature handler. |
 
 The API accepts JPG and PNG files up to 8 MB. Each image dimension must be 64 to 4096 pixels, with no more than 16,777,216 total pixels. It checks the decoded format, corrects EXIF orientation, and converts to RGB. The generator interface in `backend/app/generation/base.py` accepts the validated image and selected style and returns image bytes. `RemoteFluxEngine` implements that interface without loading FLUX on the local PC.
+
+The `/features` routes are additive. Existing pages still call the legacy routes, and the central dispatcher in `backend/app/main.py` calls those same handlers. Unknown feature IDs return 404; each feature retains its own style validation and remote Kaggle configuration. No shared GPU runtime is part of this integration phase.
 
 ## Verify
 

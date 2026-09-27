@@ -1,6 +1,8 @@
-"""Small local API for the System MVP."""
+"""Application API for Hairstyle, Makeup, and Nails."""
 
 import base64
+from collections.abc import Awaitable, Callable
+from dataclasses import dataclass
 import logging
 import os
 import time
@@ -82,6 +84,19 @@ class GenerateResponse(BaseModel):
     style: StyleResponse
     image: ImageResponse
     metadata: dict = Field(default_factory=dict)
+
+
+class FeatureResponse(BaseModel):
+    id: str
+    name: str
+    description: str
+
+
+@dataclass(frozen=True)
+class FeatureRoute:
+    info: FeatureResponse
+    styles: Callable[[], Awaitable[list[StyleResponse]]]
+    generate: Callable[[UploadFile, str], Awaitable[GenerateResponse]]
 
 
 def style_response(style: Style) -> StyleResponse:
@@ -294,3 +309,47 @@ async def generate(
         ),
         metadata=generated.metadata,
     )
+
+
+# The feature catalog coordinates existing handlers. Each handler retains its own
+# style validation, image processing, inference client, and result semantics.
+FEATURE_ROUTES: dict[str, FeatureRoute] = {
+    "hairstyle": FeatureRoute(
+        FeatureResponse(id="hairstyle", name="Hairstyle", description="Try a hairstyle on a portrait."),
+        styles, generate,
+    ),
+    "makeup": FeatureRoute(
+        FeatureResponse(id="makeup", name="Makeup", description="Try a makeup look on a portrait."),
+        makeup_styles, generate_makeup,
+    ),
+    "nails": FeatureRoute(
+        FeatureResponse(id="nails", name="Nails", description="Try a nail style on a hand photo."),
+        nail_styles, generate_nails,
+    ),
+}
+
+
+def feature_route(feature_id: str) -> FeatureRoute:
+    feature = FEATURE_ROUTES.get(feature_id)
+    if feature is None:
+        raise HTTPException(status_code=404, detail="Unknown feature.")
+    return feature
+
+
+@app.get("/features", response_model=list[FeatureResponse])
+async def features() -> list[FeatureResponse]:
+    return [feature.info for feature in FEATURE_ROUTES.values()]
+
+
+@app.get("/features/{feature_id}/styles", response_model=list[StyleResponse])
+async def feature_styles(feature_id: str) -> list[StyleResponse]:
+    return await feature_route(feature_id).styles()
+
+
+@app.post("/features/{feature_id}/generate", response_model=GenerateResponse)
+async def generate_feature(
+    feature_id: str,
+    image: Annotated[UploadFile, File()],
+    style_id: Annotated[str, Form()],
+) -> GenerateResponse:
+    return await feature_route(feature_id).generate(image, style_id)
