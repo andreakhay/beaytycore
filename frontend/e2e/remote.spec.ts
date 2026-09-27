@@ -6,12 +6,12 @@ const portrait = path.join(__dirname, "fixtures", "portrait.png");
 
 test("remote model mode shows only trained styles and displays the returned image", async ({ page }) => {
   await page.route("**/health", (route) => route.fulfill({ json: { status: "ok", generator: "remote_flux" } }));
-  await page.route("**/styles", (route) => route.fulfill({ json: [
+  await page.route("**/features/hairstyle/styles", (route) => route.fulfill({ json: [
     { id: "crew_cut", name: "Crew Cut", description: "Short", status: "experimental" },
     { id: "bob_hair", name: "Bob Hair", description: "Bob", status: "experimental" },
     { id: "layered_hair", name: "Layered Hair", description: "Layered", status: "experimental" },
   ] }));
-  await page.route("**/generate", (route) => route.fulfill({ json: {
+  await page.route("**/features/hairstyle/generate", (route) => route.fulfill({ json: {
     status: "completed", generator: "remote_flux", style: { id: "crew_cut", name: "Crew Cut", description: "Short", status: "experimental" },
     image: { data_url: `data:image/png;base64,${fs.readFileSync(portrait).toString("base64")}`,
       content_type: "image/png", width: 128, height: 128 }, metadata: { adapter_steps: 250 },

@@ -1,5 +1,7 @@
 export const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
 
+export type FeatureId = "hairstyle" | "makeup" | "nails";
+export type Feature = { id: FeatureId; name: string; description: string };
 export type Style = { id: string; name: string; description: string; status: string };
 export type GenerateResponse = {
   status: string;
@@ -10,79 +12,69 @@ export type GenerateResponse = {
 };
 export type HealthResponse = { status: string; generator: string };
 
-async function responseError(response: Response): Promise<Error> {
+export type ApiErrorCode = "invalid_image" | "invalid_style" | "invalid_feature" | "invalid_request"
+  | "backend_unavailable" | "inference_failed" | "timeout" | "invalid_response" | "http_error";
+
+export class ApiError extends Error {
+  constructor(message: string, public readonly code: ApiErrorCode, public readonly status?: number) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
+async function responseError(response: Response): Promise<ApiError> {
+  let message = "The request could not be completed. Please try again.";
   try {
     const body: { detail?: string | { msg: string }[] } = await response.json();
-    if (typeof body.detail === "string") return new Error(body.detail);
-    if (Array.isArray(body.detail)) return new Error(body.detail.map((item) => item.msg).join(" "));
+    if (typeof body.detail === "string") message = body.detail;
+    else if (Array.isArray(body.detail)) message = body.detail.map((item) => item.msg).join(" ");
   } catch {
-    // The API did not return a usable error body.
+    // Do not expose an HTML proxy error or an internal response body.
   }
-  return new Error("The request could not be completed. Please try again.");
+  let code: ApiErrorCode = "http_error";
+  if (response.status === 404) code = "invalid_feature";
+  else if (response.status === 408 || response.status === 504) {
+    code = "timeout";
+    message = "The request timed out. Please try again.";
+  } else if ([400, 413, 415, 422].includes(response.status)) {
+    code = /style/i.test(message) ? "invalid_style" : /image|portrait|photo/i.test(message) ? "invalid_image" : "invalid_request";
+  } else if (response.status >= 500 || response.status === 429) code = "inference_failed";
+  return new ApiError(message, code, response.status);
 }
 
-export async function getStyles(): Promise<Style[]> {
-  const response = await fetch(`${API_BASE_URL}/styles`, { cache: "no-store" });
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, init);
+  } catch (error) {
+    if (error instanceof Error && ["AbortError", "TimeoutError"].includes(error.name)) {
+      throw new ApiError("The request timed out. Please try again.", "timeout");
+    }
+    throw new ApiError("The backend is unavailable. Start the local API, then try again.", "backend_unavailable");
+  }
   if (!response.ok) throw await responseError(response);
-  return (await response.json()) as Style[];
+  try {
+    return (await response.json()) as T;
+  } catch {
+    throw new ApiError("The backend returned an unreadable response. Please try again.", "invalid_response", response.status);
+  }
 }
 
-export async function getMakeupStyles(): Promise<Style[]> {
-  const response = await fetch(`${API_BASE_URL}/makeup/styles`, { cache: "no-store" });
-  if (!response.ok) throw await responseError(response);
-  return (await response.json()) as Style[];
+export function getFeatures(): Promise<Feature[]> {
+  return request("/features", { cache: "no-store" });
 }
 
-export async function getNailStyles(): Promise<Style[]> {
-  const response = await fetch(`${API_BASE_URL}/nails/styles`, { cache: "no-store" });
-  if (!response.ok) throw await responseError(response);
-  return (await response.json()) as Style[];
+export function getStyles(featureId: FeatureId): Promise<Style[]> {
+  return request(`/features/${featureId}/styles`, { cache: "no-store" });
 }
 
-export async function generateNailsPreview(file: File, styleId: string): Promise<GenerateResponse> {
+export function generate(featureId: FeatureId, file: File, styleId: string): Promise<GenerateResponse> {
   const form = new FormData();
   form.append("image", file);
   form.append("style_id", styleId);
-  let response: Response;
-  try {
-    response = await fetch(`${API_BASE_URL}/nails/generate`, { method: "POST", body: form });
-  } catch {
-    throw new Error("The backend is unavailable. Start the local API, then try again.");
-  }
-  if (!response.ok) throw await responseError(response);
-  return (await response.json()) as GenerateResponse;
+  return request(`/features/${featureId}/generate`, { method: "POST", body: form });
 }
 
-export async function getHealth(): Promise<HealthResponse> {
-  const response = await fetch(`${API_BASE_URL}/health`, { cache: "no-store" });
-  if (!response.ok) throw await responseError(response);
-  return (await response.json()) as HealthResponse;
-}
-
-export async function generatePortrait(file: File, styleId: string): Promise<GenerateResponse> {
-  const form = new FormData();
-  form.append("image", file);
-  form.append("style_id", styleId);
-  let response: Response;
-  try {
-    response = await fetch(`${API_BASE_URL}/generate`, { method: "POST", body: form });
-  } catch {
-    throw new Error("The backend is unavailable. Start the local API, then try again.");
-  }
-  if (!response.ok) throw await responseError(response);
-  return (await response.json()) as GenerateResponse;
-}
-
-export async function generateMakeupPortrait(file: File, styleId: string): Promise<GenerateResponse> {
-  const form = new FormData();
-  form.append("image", file);
-  form.append("style_id", styleId);
-  let response: Response;
-  try {
-    response = await fetch(`${API_BASE_URL}/makeup/generate`, { method: "POST", body: form });
-  } catch {
-    throw new Error("The backend is unavailable. Start the local API, then try again.");
-  }
-  if (!response.ok) throw await responseError(response);
-  return (await response.json()) as GenerateResponse;
+export function getHealth(): Promise<HealthResponse> {
+  return request("/health", { cache: "no-store" });
 }

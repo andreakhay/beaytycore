@@ -45,7 +45,7 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000) for Hairstyle, [/makeup](htt
 
 The API accepts JPG and PNG files up to 8 MB. Each image dimension must be 64 to 4096 pixels, with no more than 16,777,216 total pixels. It checks the decoded format, corrects EXIF orientation, and converts to RGB. The generator interface in `backend/app/generation/base.py` accepts the validated image and selected style and returns image bytes. `RemoteFluxEngine` implements that interface without loading FLUX on the local PC.
 
-The `/features` routes are additive. Existing pages still call the legacy routes, and the central dispatcher in `backend/app/main.py` calls those same handlers. Unknown feature IDs return 404; each feature retains its own style validation and remote Kaggle configuration. No shared GPU runtime is part of this integration phase.
+All three pages use `frontend/lib/api.ts` to discover styles and generate results through `/features/{feature_id}`. The client also exposes `getFeatures()`. Legacy backend routes remain available for compatibility, with no automatic frontend fallback. Hair still calls `/health` for its existing mock/model label. Unknown feature IDs return 404; each feature retains its own style validation and remote Kaggle configuration. No shared GPU runtime is part of this integration phase.
 
 ## Verify
 
@@ -64,4 +64,4 @@ npm run build
 npm run test:e2e
 ```
 
-The browser tests use the locally installed Microsoft Edge and a synthetic portrait in `frontend/e2e/fixtures/`. Run them against `npm run build` followed by `npm run start -- --port 3000`; the current Next.js dev server blocks the test origin `127.0.0.1` from its development resources. Tests cover the Hairstyle mock and mocked remote flows plus the Makeup prototype. They do not run the real FLUX model.
+The browser tests use the locally installed Microsoft Edge and a synthetic portrait in `frontend/e2e/fixtures/`. Run them against `npm run build` followed by `npm run start -- --port 3000`; the current Next.js dev server blocks the test origin `127.0.0.1` from its development resources. Use a backend in mock mode for all three features. Tests cover all three central-route browser workflows, mocked model responses, and shared client request/error handling. They do not run the real FLUX model. For an alternate test frontend port, set `PLAYWRIGHT_BASE_URL`; `NEXT_PUBLIC_API_BASE_URL` must select the matching backend at build time.

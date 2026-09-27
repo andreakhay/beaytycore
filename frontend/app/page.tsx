@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
-import { API_BASE_URL, generatePortrait, getHealth, getStyles, type GenerateResponse, type Style } from "@/lib/api";
+import { API_BASE_URL, generate, getHealth, getStyles, type GenerateResponse, type Style } from "@/lib/api";
 
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
 const ACCEPTED_TYPES = new Set(["image/jpeg", "image/png"]);
@@ -38,7 +38,7 @@ export default function Home() {
     setStylesLoading(true);
     setStylesError("");
     try {
-      const [loaded, health] = await Promise.all([getStyles(), getHealth()]);
+      const [loaded, health] = await Promise.all([getStyles("hairstyle"), getHealth()]);
       setStyles(loaded);
       setGeneratorMode(health.generator);
     } catch {
@@ -50,7 +50,7 @@ export default function Home() {
 
   useEffect(() => {
     let mounted = true;
-    Promise.all([getStyles(), getHealth()])
+    Promise.all([getStyles("hairstyle"), getHealth()])
       .then(([loaded, health]) => { if (mounted) { setStyles(loaded); setGeneratorMode(health.generator); } })
       .catch(() => { if (mounted) setStylesError(`The local API is unavailable at ${API_BASE_URL}. Start the backend and retry.`); })
       .finally(() => { if (mounted) setStylesLoading(false); });
@@ -95,7 +95,7 @@ export default function Home() {
     setGenerateError("");
     setResult(null);
     try {
-      setResult(await generatePortrait(file, selectedId));
+      setResult(await generate("hairstyle", file, selectedId));
     } catch (error) {
       setGenerateError(error instanceof Error ? error.message : "Generation failed. Please try again.");
     } finally {

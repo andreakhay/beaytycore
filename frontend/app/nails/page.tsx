@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { API_BASE_URL, generateNailsPreview, getNailStyles, type GenerateResponse, type Style } from "@/lib/api";
+import { API_BASE_URL, generate as generateFeature, getStyles, type GenerateResponse, type Style } from "@/lib/api";
 
 const MAX_BYTES = 8 * 1024 * 1024;
 const COLORS: Record<string, string> = {
@@ -31,7 +31,7 @@ export default function NailsPage() {
 
   useEffect(() => {
     let active = true;
-    getNailStyles().then((items) => { if (active) setStyles(items); })
+    getStyles("nails").then((items) => { if (active) setStyles(items); })
       .catch(() => { if (active) setStylesError(`The local API is unavailable at ${API_BASE_URL}.`); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; if (previewRef.current) URL.revokeObjectURL(previewRef.current); };
@@ -57,7 +57,7 @@ export default function NailsPage() {
   async function generate() {
     if (!file || !styleId || submitting.current) return;
     submitting.current = true; setWorking(true); setError(""); setResult(null);
-    try { setResult(await generateNailsPreview(file, styleId)); }
+    try { setResult(await generateFeature("nails", file, styleId)); }
     catch (cause) { setError(cause instanceof Error ? cause.message : "Preview failed. Please try again."); }
     finally { submitting.current = false; setWorking(false); }
   }

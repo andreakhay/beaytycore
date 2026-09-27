@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
-import { API_BASE_URL, generateMakeupPortrait, getMakeupStyles, type GenerateResponse, type Style } from "@/lib/api";
+import { API_BASE_URL, generate, getStyles, type GenerateResponse, type Style } from "@/lib/api";
 
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
 const ACCEPTED_TYPES = new Set(["image/jpeg", "image/png"]);
@@ -39,7 +39,7 @@ export default function MakeupPage() {
     setStylesLoading(true);
     setStylesError("");
     try {
-      setStyles(await getMakeupStyles());
+      setStyles(await getStyles("makeup"));
     } catch {
       setStylesError(`The local API is unavailable at ${API_BASE_URL}. Start the backend and retry.`);
     } finally {
@@ -49,7 +49,7 @@ export default function MakeupPage() {
 
   useEffect(() => {
     let mounted = true;
-    getMakeupStyles()
+    getStyles("makeup")
       .then((loaded) => { if (mounted) setStyles(loaded); })
       .catch(() => { if (mounted) setStylesError(`The local API is unavailable at ${API_BASE_URL}. Start the backend and retry.`); })
       .finally(() => { if (mounted) setStylesLoading(false); });
@@ -94,7 +94,7 @@ export default function MakeupPage() {
     setGenerateError("");
     setResult(null);
     try {
-      setResult(await generateMakeupPortrait(file, selectedId));
+      setResult(await generate("makeup", file, selectedId));
     } catch (error) {
       setGenerateError(error instanceof Error ? error.message : "Makeup generation failed. Please try again.");
     } finally {

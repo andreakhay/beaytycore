@@ -24,7 +24,7 @@ test("Makeup request errors are visible and the button recovers", async ({ page 
   await expect(page.locator("button[aria-pressed]")).toHaveCount(10);
   await page.locator("input[type=file]").setInputFiles(portrait);
   await page.locator("button[aria-pressed]").filter({ hasText: "Classic Red Lip" }).click();
-  await page.route("**/makeup/generate", (route) => route.abort());
+  await page.route("**/features/makeup/generate", (route) => route.abort());
   await page.getByRole("button", { name: "Generate preview" }).click();
   await expect(page.getByText("The backend is unavailable", { exact: false })).toBeVisible();
   await expect(page.getByRole("button", { name: "Generate preview" })).toBeEnabled();
@@ -40,12 +40,12 @@ test("Makeup navigation returns to the Hairstyle feature on a narrow screen", as
 });
 
 test("Configured Makeup renders a model result, not a placeholder", async ({ page }) => {
-  await page.route("**/makeup/styles", async (route) => {
+  await page.route("**/features/makeup/styles", async (route) => {
     const response = await route.fetch();
     const styles = (await response.json()).map((style: { status: string }) => ({ ...style, status: "trained_preset" }));
     await route.fulfill({ json: styles });
   });
-  await page.route("**/makeup/generate", async (route) => {
+  await page.route("**/features/makeup/generate", async (route) => {
     await route.fulfill({ json: {
       status: "completed", generator: "flux2_klein_base_makeup001",
       style: { id: "soft_glam", name: "Soft Glam", description: "Blended eyes", status: "trained_preset" },
@@ -68,12 +68,12 @@ test("Configured Makeup renders a model result, not a placeholder", async ({ pag
 });
 
 test("Configured Makeup preserves selection while generating and recovers from GPU errors", async ({ page }) => {
-  await page.route("**/makeup/styles", async (route) => {
+  await page.route("**/features/makeup/styles", async (route) => {
     const response = await route.fetch();
     await route.fulfill({ json: (await response.json()).map((style: { status: string }) => ({ ...style, status: "trained_preset" })) });
   });
   let finishRequest: (() => Promise<void>) | undefined;
-  await page.route("**/makeup/generate", async (route) => {
+  await page.route("**/features/makeup/generate", async (route) => {
     finishRequest = () => route.fulfill({ status: 502, json: { detail: "The Makeup GPU is busy. Wait for the current request to finish." } });
   });
   await page.setViewportSize({ width: 390, height: 844 });

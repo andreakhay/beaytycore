@@ -21,7 +21,7 @@ test("upload, choose, generate, change style, and reset", async ({ page }) => {
 
   await page.locator('button[aria-pressed]').filter({ hasText: "Bob" }).click();
   await expect(generate).toBeEnabled();
-  await page.route("**/generate", async (route) => {
+  await page.route("**/features/hairstyle/generate", async (route) => {
     await new Promise((resolve) => setTimeout(resolve, 350));
     await route.continue();
   });
@@ -46,18 +46,18 @@ test("generation failure is shown as a clear error", async ({ page }) => {
   await expect(page.getByText("Bob", { exact: true })).toBeVisible();
   await page.locator("input[type=file]").setInputFiles(portrait);
   await page.locator('button[aria-pressed]').filter({ hasText: "Bob" }).click();
-  await page.route("**/generate", (route) => route.abort());
+  await page.route("**/features/hairstyle/generate", (route) => route.abort());
   await page.getByRole("button", { name: "Generate preview" }).click();
   await expect(page.getByText("The backend is unavailable", { exact: false })).toBeVisible();
   await expect(page.getByRole("button", { name: "Generate preview" })).toBeEnabled();
 });
 
 test("backend unavailable is explained without a stack trace", async ({ page }) => {
-  await page.route("**/styles", (route) => route.abort());
+  await page.route("**/features/hairstyle/styles", (route) => route.abort());
   await page.goto("/");
   await expect(page.getByText("The local API is unavailable", { exact: false })).toBeVisible();
   await expect(page.getByRole("button", { name: "Generate preview" })).toBeDisabled();
-  await page.unroute("**/styles");
+  await page.unroute("**/features/hairstyle/styles");
   await page.getByRole("button", { name: "Retry connection" }).click();
   await expect(page.getByText("Bob", { exact: true })).toBeVisible();
 });
