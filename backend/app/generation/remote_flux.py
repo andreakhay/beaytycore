@@ -76,4 +76,6 @@ class RemoteFluxEngine:
 
 
 def from_environment() -> RemoteFluxEngine:
-    return RemoteFluxEngine(os.getenv("FLUX_REMOTE_URL", ""), os.getenv("FLUX_REMOTE_API_KEY", ""))
+    from app.generation.remote_destination import destination
+
+    return RemoteFluxEngine(*destination("hairstyle", "FLUX_REMOTE_URL", "FLUX_REMOTE_API_KEY"))

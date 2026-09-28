@@ -76,5 +76,7 @@ def configured_makeup_engine():
     if mode == "mock":
         return MockEngine()
     if mode == "remote_makeup":
-        return RemoteMakeupEngine(os.getenv("MAKEUP_REMOTE_URL", ""), os.getenv("MAKEUP_REMOTE_API_KEY", ""))
+        from app.generation.remote_destination import destination
+
+        return RemoteMakeupEngine(*destination("makeup", "MAKEUP_REMOTE_URL", "MAKEUP_REMOTE_API_KEY"))
     raise RuntimeError(f"Unsupported MAKEUP_GENERATION_ENGINE: {mode}")

@@ -206,7 +206,9 @@ def configured_nails_pipeline() -> HybridNailsPipeline:
     segment_script = root / "scripts/nails_segment_once.py"
     localizer = MediaPipeHandLocalizer(landmark)
     segmenter = IsolatedYoloNailSegmenter(segment_python, segment_checkpoint, segment_script)
-    url, key = os.getenv("NAILS_REMOTE_URL", ""), os.getenv("NAILS_REMOTE_API_KEY", "")
+    from app.generation.remote_destination import destination
+
+    url, key = destination("nails", "NAILS_REMOTE_URL", "NAILS_REMOTE_API_KEY")
     model = RemoteLocalizedNails(url, key) if url or key else None
     return HybridNailsPipeline(localizer, segmenter, model)
 

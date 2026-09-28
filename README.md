@@ -2,6 +2,8 @@
 
 The local application has Hairstyle, Makeup, and Nails pages that call one FastAPI backend. Hairstyle supports `MockEngine` or `RemoteFluxEngine`; Makeup supports mock or `RemoteMakeupEngine`; Nails supports mock or a hybrid pipeline. The model paths use separate, temporary authenticated Kaggle GPU services configured in `backend/.env`. Nails uses its GPU LoRA for Red and Black, and a local renderer for Nude Pink, French Tip, and Pink Ombre. The Supervisor reports all three feature paths working. No user upload is stored permanently by the application server. Current evidence and quality limits are in [state](context/state.md).
 
+Gate 3 adds an opt-in candidate unified Kaggle service behind the same central FastAPI clients. Set the complete `AI_REMOTE_URL`/`AI_REMOTE_API_KEY` pair to route Hair, Makeup and Nails AI crop generation to one temporary server; the original three endpoint settings remain a rollback when the pair is removed. The unified service is locally/mock validated and awaits live notebook/application acceptance. Follow the [Gate 3 handoff](docs/guides/unified-kaggle-gate3.md); do not treat this as a completed live deployment.
+
 The trained model evidence and live handoffs are in [TRAIN-001](docs/experiments/TRAIN-001.md), [MAKEUP-001 integration](docs/experiments/MAKEUP-001-integration.md), and [Nails hybrid live handoff](docs/experiments/NAILS-001-hybrid-live-handoff.md). Kaggle remains the GPU provider for the next integration milestone. The current feature implementations are preserved before any shared-runtime work; see [state](context/state.md).
 
 ## Run locally on Windows
