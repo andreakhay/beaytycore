@@ -78,6 +78,13 @@ def occupied(port):
         return connection.connect_ex(('127.0.0.1', port)) == 0
 
 
+def require_free_ports():
+    ports = [str(port) for port in (8000, 3000) if occupied(port)]
+    if ports:
+        raise StartupError('Local port(s) ' + ', '.join(ports) + ' occupied by a process not managed by this launcher. '
+                           'It may be running in the background. Close the process using that port, then retry the launcher.')
+
+
 def process_env(url):
     # Conventional precedence: process environment, then .env defaults.
     values = {k: v for k, v in dotenv_values(ROOT / 'backend/.env').items() if v is not None}
@@ -185,8 +192,9 @@ def supervise():
     STATE.write_text(json.dumps(state), encoding='utf-8')
     job, logs = None, []
     try:
-        if occupied(8000) or occupied(3000):
-            raise StartupError('Ports occupied by unmanaged processes; close their own terminals first')
+        status['stage'] = 'local_port_check'
+        require_free_ports()
+        status['stage'] = 'backend_start'
         job = WindowsJob()
         backend_log = (directory / 'backend.log').open('w', encoding='utf-8')
         logs.append(backend_log)
@@ -296,8 +304,8 @@ def start(url_override=None):
                     return 0
                 stage = 'owned_session_shutdown'
                 stop_owned()
-            if occupied(8000) or occupied(3000):
-                raise StartupError('Unmanaged backend/frontend already running. Stop those terminals with Ctrl+C first')
+            stage = 'local_port_check'
+            require_free_ports()
             session = str(uuid4())
             created_session = session
             env['CAPSTONE_LAUNCH_SESSION'] = session
@@ -338,7 +346,11 @@ def start(url_override=None):
                 pass
         print('CAPSTONE_STARTUP_FAILED', 'stage=' + stage,
               str(exc) if isinstance(exc, StartupError) else type(exc).__name__)
-        print('Recovery: run START CAPSTONE in Kaggle, then try again. Emergency: START_CAPSTONE.bat --url <current HTTPS URL>')
+        if stage in ('local_port_check', 'owned_session_shutdown'):
+            print('Recovery: resolve the local process conflict, then run START_CAPSTONE.bat again. Keep Kaggle running.')
+        else:
+            print('Recovery: inspect the reported stage and local logs. For discovery/remote readiness, check START CAPSTONE in Kaggle. '
+                  'Emergency: START_CAPSTONE.bat --url <current HTTPS URL>')
         return 1
 
 

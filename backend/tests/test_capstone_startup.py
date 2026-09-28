@@ -193,10 +193,16 @@ def test_launcher_owned_start_and_manual_override(local, monkeypatch, capsys):
     assert (local / 'backend/.env').read_bytes() == before
 
 
-def test_unmanaged_ports_fail_without_killing_or_spawning(local, monkeypatch):
-    monkeypatch.setattr(launch, 'occupied', lambda _: True)
+@pytest.mark.parametrize('ports', [{3000}, {8000}, {8000, 3000}])
+def test_unmanaged_ports_fail_without_killing_or_spawning(local, monkeypatch, capsys, ports):
+    monkeypatch.setattr(launch, 'occupied', lambda port: port in ports)
     monkeypatch.setattr(launch.subprocess, 'Popen', lambda *a, **kw: pytest.fail('Unmanaged port must not spawn'))
     assert launch.start() == 1
+    output = capsys.readouterr().out
+    assert 'stage=local_port_check' in output
+    assert all(str(port) in output for port in ports)
+    assert 'background' in output and 'Keep Kaggle running' in output
+    assert 'stage=remote_readiness' not in output
 
 
 def test_same_owned_session_reused(local, monkeypatch):

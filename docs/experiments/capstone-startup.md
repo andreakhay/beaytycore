@@ -1,5 +1,15 @@
 # Capstone startup preparation
 
+## Local port conflict correction, 2026-09-28
+
+**LOCAL STARTUP VERIFIED; APPLICATION GENERATION REHEARSAL PENDING.** The reported launcher failure was a real port conflict: backend port 8000 was free, but port 3000 had an old hidden Node process (PID 10216). Its inspected command identified this repository's Next `start-server.js`; its one child also identified this frontend. No launcher controller owned them. Only those verified project processes were stopped after identity recheck. Unrelated processes and Kaggle were untouched.
+
+The launcher previously mislabeled the port failure as `remote_readiness`, claimed backend/frontend were both running and suggested repeating Kaggle. The corrected `local_port_check` reports only occupied ports, explains background processes and directs local recovery. Both startup checks retain refusal to kill or adopt unmanaged processes automatically. Focused startup/Deployment-01/Gate 3 tests: **103 passed**, one existing multipart warning, 20.13 s.
+
+Actual corrected launcher successfully discovered the published endpoint, verified the existing GPU worker, launched owned backend/frontend and reached **CAPSTONE READY** at localhost:3000. No image generation, model reload, notebook restart or configuration file rewrite was performed. Owned process logs and safe startup evidence remain under ignored `.tmp/capstone/`. This establishes startup recovery, not the four-request generation rehearsal or CAPSTONE_DEPLOYMENT_READY.
+
+A second actual launch returned `CAPSTONE READY (existing owned session)`, verifying reuse without duplicate backend/frontend processes.
+
 ## Publication correction, 2026-09-28
 
 **LOCAL AND SYNTHETIC MAILBOX VERIFIED; KAGGLE RECOVERY NEEDS VERIFICATION.** The Supervisor's first fresh START CAPSTONE run completed original GPU/bootstrap readiness, then failed at `endpoint_publication` because immediate discovery returned a signed nonready record. Application rehearsal has not run. This is a startup publication failure, not evidence of inference failure.
