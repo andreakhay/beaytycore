@@ -49,3 +49,19 @@ The crop and hybrid implementation was unchanged between the preserved baseline 
 A fresh CPU check using the real configured MediaPipe localizer and isolated YOLO segmenter accepted all five crops for both approved source identities `0000000` and `0000088`. Their respective crop sides were `[70, 62, 60, 60, 56]` and `[58, 58, 60, 60, 56]`. No remote inference was called. The known source path for the previously successful Hand A is `data/nails/work/source-frozen-v4/source/0000000.png`.
 
 Added warning logging on failed crop search only: finger, candidate size range and counts for `image_boundary`, `target_not_contained` and `neighbor_support`. No images, paths, credentials or request contents are logged. Crop thresholds, accepted mappings, model settings, rejection behavior and the notebook bundle are unchanged. Synthetic crowded and border cases still fail before GPU calls; the accepted fixture retains all five exact crop sizes and emits no rejection log. The user's image is required, or the new rejection log after restarting local FastAPI, before deciding on a fix. Gate 3 remains pending Nails and complete live acceptance evidence.
+
+## Exact uploaded hand reproduction
+
+The Supervisor subsequently supplied the original hand image location matching the screenshot and selected Classic Red. The real local MediaPipe detector, isolated YOLO segmenter and current crop code reproduce the rejection deterministically. All five mask components pass mask validation. Candidate isolation fails on index, middle and ring; thumb and little succeed. Ring is the first failed component in the current iteration, but independent per-finger inspection found the other two rejected crops as well.
+
+| Finger | Allowed square side range at normalized 512 px | Result |
+| --- | --- | --- |
+| Thumb | 67 to 89 | Accepted at 89 |
+| Index | 77 to 103 | All 27 candidates include neighboring nail support |
+| Middle | 83 to 110 | All 28 candidates include neighboring nail support |
+| Ring | 76 to 101 | All 26 candidates include neighboring nail support |
+| Little | 65 to 86 | Accepted at 86 |
+
+The rejected searches report zero image boundary or target containment failures. The cause is the evaluated single nail context size and padded neighbor exclusion combined with the existing whole hand rejection policy. This is a documented input support limitation, not a changed dependency, detector crash or unified GPU response. No GPU request occurred during this reproduction. The exact same original image completed the real local hybrid Nude Pink renderer path with five nails and its original 462 by 663 output dimensions. The model and renderer paths therefore differ in accepted crop requirements. Private input, masks and diagnostic output remain ignored under `.tmp/nails-upload-diagnosis/`, outside Git.
+
+No crop acceptance rule or model behavior was changed. Supporting this pose for Red or Black requires a separately evaluated local crop-policy adjustment; blindly removing neighbor checks or silently substituting the renderer is not an established fix. Gate 3 model-backed Nails live acceptance can still use the existing approved passing reference hand. This check establishes the reported upload's cause, not live unified Nails inference or Gate 3 passage.
