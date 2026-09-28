@@ -1,0 +1,82 @@
+{
+  "status": "LIVE_BROWSER_SEQUENCE_COMPLETED_CELL4_REVIEW_PENDING",
+  "date": "2026-09-28",
+  "application_commit": "be1206d",
+  "worker": {
+    "provider": "Kaggle",
+    "foundation_load_count_before": 1,
+    "foundation_load_count_after": 1,
+    "ready_after": true,
+    "nails_supported_steps": [8, 12, 20],
+    "gpu_requests_before_renderer": 10,
+    "gpu_requests_after_renderer": 10,
+    "active_feature_after": "hairstyle"
+  },
+  "cases": [
+    {
+      "feature": "hairstyle",
+      "style_id": "crew_cut",
+      "input_sha256": "3690f83b3f517ea1d2408ee35c1cdb3bdb89ddc3a69d061d6b57fba51f69e537",
+      "central_http_status": 200,
+      "result_visible": true,
+      "elapsed_seconds": 70,
+      "output_png_sha256": "da234556a871228b97543f97b3a9fe650894b24703510fff2836a12eb66c3497",
+      "remote_adapter_id": "train001",
+      "remote_steps": 20
+    },
+    {
+      "feature": "makeup",
+      "style_id": "natural_makeup",
+      "input_sha256": "81e57faca39e3989ed9920ebd6568efad563ae4f012f3fbb130918858d18e8ed",
+      "central_http_status": 200,
+      "result_visible": true,
+      "elapsed_seconds": 66,
+      "output_png_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "remote_adapter_id": "MAKEUP-001",
+      "remote_steps": 20
+    },
+    {
+      "feature": "nails",
+      "style_id": "classic_red",
+      "input_sha256": "be28c948d5566366d5d4d048a31e24d2f54a957c5a9c50f327ce22cceb25a3f8",
+      "first_attempt": {
+        "central_http_status": 502,
+        "elapsed_seconds": 98,
+        "gpu_crop_successes_before_error": 2,
+        "worker_ready_after": true,
+        "message": "The Nails GPU service is unavailable or timed out. Please try again."
+      },
+      "retry": {
+        "central_http_status": 200,
+        "result_visible": true,
+        "elapsed_seconds": 258,
+        "output_png_sha256": "04ce8d77d94662c78ab1430de7c33ee968fdd746a5ca1d53d67f984338ad40d9",
+        "gpu_crop_successes": 5,
+        "remote_adapter_id": "NAILS-001-LOCAL-v1",
+        "remote_steps": 8
+      }
+    },
+    {
+      "feature": "hairstyle",
+      "style_id": "crew_cut",
+      "central_http_status": 200,
+      "result_visible": true,
+      "elapsed_seconds": 70,
+      "output_png_sha256": "da234556a871228b97543f97b3a9fe650894b24703510fff2836a12eb66c3497",
+      "identical_to_first_hair_output": true,
+      "remote_adapter_id": "train001",
+      "remote_steps": 20
+    },
+    {
+      "feature": "nails",
+      "style_id": "nude_pink",
+      "central_http_status": 200,
+      "result_visible": true,
+      "elapsed_seconds": 13,
+      "output_png_sha256": "7cfab5cf52398e29ea557f4cc78b596c399bda3419ffbb75a1c027a406d05328",
+      "gpu_request_delta": 0
+    }
+  ],
+  "legacy_frontend_generation_routes_used": false,
+  "live_kaggle_cell4_reviewed": false
+}

@@ -1,6 +1,6 @@
 # Gate 3 live acceptance handoff
 
-2026-09-28. **READY FOR LIVE ACCEPTANCE after local checks; not yet passed on Kaggle.** This starts one new temporary GPU service. Leave all old Hair, Makeup and Nails notebooks/bundles intact as rollback.
+2026-09-28. **GATE_3_PASSED after live application and returned notebook evidence review.** This guide reproduces the accepted temporary GPU service. Leave all old Hair, Makeup and Nails notebooks/bundles intact as rollback. [Acceptance and limits](../experiments/unified-kaggle-gate3.md).
 
 ## 1. Kaggle setup
 

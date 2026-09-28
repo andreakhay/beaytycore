@@ -1,0 +1,66 @@
+{
+  "schema": "unified-kaggle-gate3-live-review-v1",
+  "date": "2026-09-28",
+  "status": "GATE_3_PASSED",
+  "evidence_zip_sha256": "845909dedb28cd6dbbe72b242a94c3e7c3f27568a9803b9657a1605e61159213",
+  "evidence_zip_bytes": 4144,
+  "archive_crc_unique_safe_paths_verified": true,
+  "api_key_absent_from_archive": true,
+  "trusted_gate3_manifest_matched": true,
+  "exact_gate2_environment_matched": true,
+  "base_revision_and_index_matched": true,
+  "foundation_load_count": 1,
+  "worker_ready_after_live_requests_and_http_probes": true,
+  "supported_features": [
+    "hairstyle",
+    "makeup",
+    "nails"
+  ],
+  "supported_nails_steps": [
+    8,
+    12,
+    20
+  ],
+  "central_browser_sequence_http_statuses": [
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "first_nails_attempt_http_status": 502,
+  "first_nails_attempt_successful_gpu_crops": 2,
+  "same_hand_nails_retry_successful_gpu_crops": 5,
+  "hair_first_return_png_hash_equal": true,
+  "renderer_gpu_request_delta": 0,
+  "remote_request_sequence": [
+    "hairstyle",
+    "makeup",
+    "nails",
+    "nails",
+    "nails",
+    "nails",
+    "nails",
+    "nails",
+    "nails",
+    "hairstyle"
+  ],
+  "remote_successful_request_count": 10,
+  "remote_switch_events": 10,
+  "adapter_provenance_validated_against_current_contracts": true,
+  "http_probes": {
+    "wrong_key": 401,
+    "unknown_feature": 404,
+    "invalid_style": 400,
+    "invalid_image": 400
+  },
+  "startup_total_seconds": 238.094,
+  "startup_base_and_first_adapter_seconds": 40.08,
+  "notes": [
+    "The first full-hand Nails request returned controlled HTTP 502 after two crop calls; the exact transport exception was not captured.",
+    "The worker remained ready and the same hand completed on retry without restarting the worker.",
+    "Headless Edge drove the real local pages; no frontend or backend inference mock was used.",
+    "The Kaggle ZIP contains a temporary tunnel URL and remains outside Git. This review omits it and all private images.",
+    "Live HTTP proxy disconnect, sustained load, every style, and durable deployment were not tested."
+  ]
+}
