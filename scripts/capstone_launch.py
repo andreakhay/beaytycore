@@ -20,9 +20,9 @@ from uuid import uuid4
 from dotenv import dotenv_values
 
 try:
-    from scripts.capstone_discovery import StartupError, discover, endpoint, verify_worker, request
+    from scripts.capstone_discovery import StartupError, discover, endpoint, verify_worker, request, BUNDLE_SHA, BUNDLE_REGISTRIES, TRAIN002_BUNDLE_SHA
 except ModuleNotFoundError:
-    from capstone_discovery import StartupError, discover, endpoint, verify_worker, request
+    from capstone_discovery import StartupError, discover, endpoint, verify_worker, request, BUNDLE_SHA, BUNDLE_REGISTRIES, TRAIN002_BUNDLE_SHA
 
 ROOT = Path(__file__).resolve().parents[1]
 WORK = ROOT / '.tmp/capstone'
@@ -85,7 +85,7 @@ def require_free_ports():
                            'It may be running in the background. Close the process using that port, then retry the launcher.')
 
 
-def process_env(url):
+def process_env(url, bundle_sha=BUNDLE_SHA):
     # Conventional precedence: process environment, then .env defaults.
     values = {k: v for k, v in dotenv_values(ROOT / 'backend/.env').items() if v is not None}
     env = {**values, **os.environ}
@@ -93,12 +93,16 @@ def process_env(url):
     if len(key) < 24:
         raise StartupError('Set the shared API key once in backend/.env; never put it in the launcher')
     env.update(AI_REMOTE_URL=url, GENERATION_ENGINE='remote_flux', MAKEUP_GENERATION_ENGINE='remote_makeup',
-               NAILS_PREVIEW_MODE='hybrid', PYTHONUNBUFFERED='1', NEXT_PUBLIC_API_BASE_URL=BACKEND)
+               NAILS_PREVIEW_MODE='hybrid', PYTHONUNBUFFERED='1', NEXT_PUBLIC_API_BASE_URL=BACKEND,
+               # Match the signed approved bundle, not a stale legacy override.
+               # A local legacy TRAIN-002 override must not advertise unavailable GPU styles.
+               HAIRCAPSTONE_STYLE_REGISTRY_PATH=str(ROOT / 'backend/app' / BUNDLE_REGISTRIES[bundle_sha]))
     return env
 
 
 def identity(env):
-    return sha256((env['AI_REMOTE_URL'] + '\0' + env['AI_REMOTE_API_KEY']).encode()).hexdigest()
+    return sha256((env['AI_REMOTE_URL'] + '\0' + env['AI_REMOTE_API_KEY'] + '\0'
+                   + env.get('HAIRCAPSTONE_STYLE_REGISTRY_PATH', '')).encode()).hexdigest()
 
 
 def control(state, action='status'):
@@ -267,7 +271,7 @@ def stop_owned():
     raise StartupError('Owned shutdown still pending; inspect .tmp/capstone logs')
 
 
-def start(url_override=None):
+def start(url_override=None, train002=False):
     WORK.mkdir(parents=True, exist_ok=True)
     stage = 'local_configuration'
     created_session = None
@@ -276,13 +280,14 @@ def start(url_override=None):
         key = env['AI_REMOTE_API_KEY']
         stage = 'endpoint_discovery'
         if url_override:
-            url, publication = endpoint(url_override), 'manual_override'
+            url, publication, bundle_sha = endpoint(url_override), 'manual_override', TRAIN002_BUNDLE_SHA if train002 else BUNDLE_SHA
         else:
             url, record = discover(key)
             publication = record['publication_id']
+            bundle_sha = record.get('bundle_sha256', BUNDLE_SHA)
         stage = 'remote_readiness'
         verify_worker(url, key)
-        env = process_env(url)
+        env = process_env(url, bundle_sha)
         env['CAPSTONE_PUBLICATION_ID'] = publication
         # Exclusive for one startup only. Kernel automatically releases after launcher death.
         import msvcrt
@@ -357,9 +362,12 @@ def start(url_override=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--url', help='Explicit emergency Quick Tunnel URL, never written to .env')
+    parser.add_argument('--train002', action='store_true', help='Expanded Hair bundle for emergency --url only')
     parser.add_argument('--stop', action='store_true')
     parser.add_argument('--supervise', action='store_true', help=argparse.SUPPRESS)
     args = parser.parse_args()
+    if args.train002 and not args.url:
+        parser.error('--train002 is only for emergency --url; normal startup discovers the bundle automatically')
     if args.supervise:
         supervise()
         return 0
@@ -370,7 +378,7 @@ def main():
         except StartupError as exc:
             print('CAPSTONE_STOP_FAILED', str(exc))
             return 1
-    return start(args.url)
+    return start(args.url, train002=args.train002)
 
 
 if __name__ == '__main__':

@@ -175,6 +175,29 @@ def test_process_environment_overrides_file_without_writing(local, monkeypatch):
     assert (local / 'backend/.env').read_bytes() == before
 
 
+def test_capstone_catalog_matches_bundle_without_changing_legacy_registry(local, monkeypatch):
+    envfile = local / 'backend/.env'
+    with envfile.open('a') as file:
+        file.write('HAIRCAPSTONE_STYLE_REGISTRY_PATH=legacy-train002-registry.json\n')
+    before = envfile.read_bytes()
+    monkeypatch.setenv('HAIRCAPSTONE_STYLE_REGISTRY_PATH', 'another-legacy-registry.json')
+    env = launch.process_env(URL)
+    assert env['HAIRCAPSTONE_STYLE_REGISTRY_PATH'] == str(local / 'backend/app/style_registry.json')
+    assert envfile.read_bytes() == before
+    assert os.environ['HAIRCAPSTONE_STYLE_REGISTRY_PATH'] == 'another-legacy-registry.json'
+    assert launch.identity(env) != launch.identity({**env, 'HAIRCAPSTONE_STYLE_REGISTRY_PATH': 'legacy'})
+
+
+def test_capstone_registry_exactly_matches_attached_worker_catalog():
+    root = Path(__file__).resolve().parents[2]
+    source = root / 'artifacts' / discovery.BUNDLE_NAME
+    if not source.is_file(): pytest.skip('Private bundle not present on this checkout')
+    from zipfile import ZipFile
+    with ZipFile(source) as archive:
+        registry = json.loads(archive.read('backend/app/style_registry.json'))
+    assert json.loads((root / 'backend/app/style_registry.json').read_text()) == registry
+
+
 def test_launcher_owned_start_and_manual_override(local, monkeypatch, capsys):
     calls = []
     monkeypatch.setattr(launch, 'occupied', lambda _: False)

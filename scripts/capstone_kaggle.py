@@ -10,10 +10,10 @@ from uuid import uuid4
 from zipfile import ZipFile, ZIP_DEFLATED
 
 try:
-    from scripts.capstone_discovery import (BUNDLE_NAME, BUNDLE_SHA, StartupError, make_record,
+    from scripts.capstone_discovery import (BUNDLE_NAME, BUNDLE_SHA, TRAIN002_BUNDLE_NAME, TRAIN002_BUNDLE_SHA, StartupError, make_record,
                                            publish, confirm_publication, verify_worker, verify_health, VERSION)
 except ModuleNotFoundError:
-    from capstone_discovery import (BUNDLE_NAME, BUNDLE_SHA, StartupError, make_record,
+    from capstone_discovery import (BUNDLE_NAME, BUNDLE_SHA, TRAIN002_BUNDLE_NAME, TRAIN002_BUNDLE_SHA, StartupError, make_record,
                                    publish, confirm_publication, verify_worker, verify_health, VERSION)
 
 WORK = Path('/kaggle/working/capstone')
@@ -21,8 +21,8 @@ ROOT = WORK / 'runtime'
 OUT = WORK / 'session'
 
 
-def extract(source, target):
-    if sha256(source.read_bytes()).hexdigest() != BUNDLE_SHA:
+def extract(source, target, expected_sha=BUNDLE_SHA):
+    if sha256(source.read_bytes()).hexdigest() != expected_sha:
         raise StartupError('Wrong private Deployment-01 package hash')
     with ZipFile(source) as archive:
         names = archive.namelist()
@@ -50,7 +50,8 @@ def extract(source, target):
 def run_bootstrap(key):
     env = {**os.environ, 'AI_REMOTE_API_KEY': key, 'PYTHONUNBUFFERED': '1'}
     # Original bootstrap retains all exact pins, verifier, Base cache, owner and stages.
-    command = [sys.executable, str(ROOT / 'scripts/unified_gate3_bootstrap.py'), '--output', str(OUT)]
+    bootstrap = 'capstone_train002_bootstrap.py' if (ROOT / 'capstone_train002.json').exists() else 'unified_gate3_bootstrap.py'
+    command = [sys.executable, str(ROOT / 'scripts' / bootstrap), '--output', str(OUT)]
     with (WORK / 'bootstrap.log').open('w', encoding='utf-8') as log:
         process = subprocess.Popen(command, cwd=ROOT, env=env, stdout=subprocess.PIPE,
                                    stderr=subprocess.STDOUT, text=True)
@@ -71,23 +72,25 @@ def run_bootstrap(key):
     return json.loads((OUT / 'endpoint.json').read_text(encoding='utf-8'))['url']
 
 
-def main(input_root=Path('/kaggle/input')):
+def main(input_root=Path('/kaggle/input'), bundle_name=BUNDLE_NAME, bundle_sha=BUNDLE_SHA):
     stage, key = 'secret_preflight', None
     WORK.mkdir(parents=True, exist_ok=True)
     try:
         from kaggle_secrets import UserSecretsClient
         key = UserSecretsClient().get_secret('AI_REMOTE_API_KEY') or ''
-        state = make_record(key, 'starting')
+        if (bundle_name, bundle_sha) not in ((BUNDLE_NAME, BUNDLE_SHA), (TRAIN002_BUNDLE_NAME, TRAIN002_BUNDLE_SHA)):
+            raise StartupError('Unapproved capstone package selection')
+        state = make_record(key, 'starting', bundle_sha=bundle_sha)
         stage = 'publish_starting'
         try:
             publish(state, key)
         except StartupError:
             print('Discovery unavailable at stage=publish_starting; preparing worker for explicit emergency override.', flush=True)
         stage = 'package_verification'
-        found = list(input_root.rglob(BUNDLE_NAME))
+        found = list(input_root.rglob(bundle_name))
         if len(found) != 1:
             raise StartupError('Attach exactly one approved private Deployment-01 dataset')
-        extract(found[0], ROOT)
+        extract(found[0], ROOT, bundle_sha)
         if OUT.exists():
             stage = 'existing_session_verification'
             url = json.loads((OUT / 'endpoint.json').read_text(encoding='utf-8'))['url']
@@ -99,14 +102,14 @@ def main(input_root=Path('/kaggle/input')):
             stage = 'public_readiness'
             health = verify_worker(url, key)
         stage = 'endpoint_publication'
-        record = make_record(key, 'ready', url)
+        record = make_record(key, 'ready', url, bundle_sha=bundle_sha)
         publish(record, key)
         discovered, acknowledged = confirm_publication(record, key)
         if discovered != url or acknowledged['publication_id'] != record['publication_id']:
             raise StartupError('Publication readback did not match this startup')
         (OUT / 'capstone-startup.json').write_text(json.dumps({
             'status': 'CAPSTONE_AI_READY', 'publication_id': record['publication_id'],
-            'worker_version': VERSION, 'bundle_sha256': BUNDLE_SHA,
+            'worker_version': VERSION, 'bundle_sha256': bundle_sha,
             'foundation_load_count': health['foundation_load_count'],
             'supported_features': health['supported_features'], 'publication_success': True}, indent=2), encoding='utf-8')
         print('CAPSTONE_AI_READY', 'version=' + VERSION, 'Base=1',
@@ -118,7 +121,7 @@ def main(input_root=Path('/kaggle/input')):
         # Never print an arbitrary exception body, Secret or private path.
         if key:
             try:
-                publish(make_record(key, 'failed'), key)
+                publish(make_record(key, 'failed', bundle_sha=bundle_sha), key)
             except Exception:
                 pass
         result = {'status': 'CAPSTONE_STARTUP_FAILED', 'stage': stage, 'exception_type': type(exc).__name__}
@@ -171,6 +174,10 @@ def collect_evidence():
             if (OUT / name).is_file():
                 archive.write(OUT / name, name)
         archive.write(ROOT / 'deployment01_sources.json', 'deployment01_sources.json')
+        if (ROOT / 'capstone_train002.json').is_file():
+            archive.write(ROOT / 'capstone_train002.json', 'capstone_train002.json')
+            archive.write(ROOT / 'gate3_bundle.json', 'gate3_bundle.json')
+            archive.write(ROOT / 'scripts/capstone_train002_bootstrap.py', 'startup_sources/capstone_train002_bootstrap.py')
         for name in ('capstone_kaggle.py', 'capstone_discovery.py'):
             archive.write(Path(__file__).with_name(name), 'startup_sources/' + name)
     print('REHEARSAL_EVIDENCE_READY_FOR_REVIEW', 'Download /kaggle/working/capstone/session/live-evidence.zip')

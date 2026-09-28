@@ -1,0 +1,30 @@
+{
+  "name": "capstone_train002_20260928_v1.bin",
+  "bytes": 171360891,
+  "sha256": "f0d1fed52e00b6c5a1da2cade3731237675cdebbfc0b2cde3b2dbda99a4019ac",
+  "schema": "capstone-train002-v1",
+  "source_bundle_sha256": "68f6c9eb2bc0ce12b2c9c6d89e33f22898fb201b33a792887f6c5967ad16ec4e",
+  "adapter_sha256": "59d527217a68139bc2aaa4eedbfcd2d5789ef115f8ecb924410eea24a952939b",
+  "registry": "backend/app/style_registry_train002_smoke.json",
+  "registry_sha256": "7269377d360eb24f7f354614472dabae9e13d5294312ac4d663fbfdcb785f706",
+  "adapter_directories": {
+    "train001": "gate1/adapters/hairstyle",
+    "train002": "gate1/adapters/hairstyle_train002"
+  },
+  "hairstyle_styles": [
+    "crew_cut",
+    "bob_hair",
+    "layered_hair",
+    "bun",
+    "curtain_hair",
+    "perm_curls",
+    "pixie_cut",
+    "pompadour_undercut",
+    "ponytail",
+    "shag_hair",
+    "shoulder_length_hair",
+    "side_part_undercut",
+    "wavy_hair"
+  ],
+  "status": "LOCAL_PREPARED_GPU_NOT_TESTED"
+}

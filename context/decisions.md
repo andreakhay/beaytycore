@@ -1,5 +1,7 @@
 # Decision history
 
+2026-09-28, CONFIRMED: Supervisor selected preparation of TRAIN-002 support after the Bun catalog mismatch. Add the existing verified artifact and approved optional registry to one separate private capstone candidate; preserve original package, worker/ownership and separate runtime fallback. Select local catalog from signed attached bundle identity, never route unsupported styles to TRAIN-001. Local preparation VERIFIED, unified GPU inference NEEDS VERIFICATION. [Evidence](../docs/experiments/capstone-train002.md).
+
 2026-09-28 startup correction, CONFIRMED: wait for exact ready publication cache visibility before reporting CAPSTONE_AI_READY. Bounded metadata polling is permitted; generation retries remain zero. Never use an older ready endpoint. Same kernel entry refreshes startup support only and verifies/reuses the running worker. Evidence: [startup correction](../docs/experiments/capstone-startup.md).
 
 Source for all entries: Supervisor's CODEX HANDOFF 001. Decision dates before this record: UNKNOWN. Recorded 2026-09-21.

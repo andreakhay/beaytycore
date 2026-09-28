@@ -6,6 +6,8 @@ Gate 3 passed reviewed live application integration with one URL and one persist
 
 Preferred capstone startup is now additive automation: [import the START CAPSTONE notebook](notebooks/capstone_start.ipynb) once with the same private dataset/Secrets/settings, then run its one startup cell and double-click [START_CAPSTONE.bat](START_CAPSTONE.bat). Signed temporary discovery removes manual URL copying and `.env` edits; [STOP_CAPSTONE.bat](STOP_CAPSTONE.bat) stops only launcher-owned local processes. [Short operator guide](docs/guides/capstone-start.md). This workflow is locally verified (343 backend tests); fresh-session acceptance is pending. Original notebooks/runtime/configuration remain rollback.
 
+The original capstone package includes three TRAIN-001 Hair styles. For Bun and the other ten TRAIN-002 styles, use the separate [expanded private candidate guide](docs/guides/capstone-train002.md). Its real artifacts and mocked shared runtime checks pass locally; live unified TRAIN-002 inference is still pending. The launcher selects the matching catalog automatically from the signed package publication.
+
 The trained model evidence and earlier separate-runtime handoffs are in [TRAIN-001](docs/experiments/TRAIN-001.md), [MAKEUP-001 integration](docs/experiments/MAKEUP-001-integration.md), and [Nails hybrid live handoff](docs/experiments/NAILS-001-hybrid-live-handoff.md). Kaggle remains the current GPU provider. Feature implementations and original runtimes are preserved; see [state](context/state.md).
 
 ## Run locally on Windows

@@ -4,6 +4,8 @@ Startup automation is locally verified. The fresh session rehearsal is pending. 
 
 ## ONE-TIME SETUP
 
+The original bundle supports Crew Cut, Bob Hair and Layered Hair. Bun and the other TRAIN-002 styles require the separate [expanded bundle setup](capstone-train002.md). The launcher selects the matching registry automatically from the signed publication, without editing the legacy registry configuration.
+
 1. Keep the existing private Kaggle Dataset containing `deployment01_20260928_v2.bin`. No new model bundle or upload is needed if it is already available.
 2. Import `F:\HAIR\notebooks\capstone_start.ipynb` as a new private Kaggle notebook. Attach that same dataset. Select T4 GPU and Internet manually in Kaggle. Enable `AI_REMOTE_API_KEY` and optional existing `HF_TOKEN`. These settings remain notebook platform setup, not automated changes.
 3. Keep the same private API key in the ignored local `backend\.env`, plus the existing Nails asset/interpreter/step settings. Existing Python, Node and frontend dependencies remain installed. No new discovery account, token, topic configuration or `.env` URL editing is needed.

@@ -12,6 +12,10 @@ from uuid import UUID, uuid4
 
 BUNDLE_NAME = 'deployment01_20260928_v2.bin'
 BUNDLE_SHA = '68f6c9eb2bc0ce12b2c9c6d89e33f22898fb201b33a792887f6c5967ad16ec4e'
+TRAIN002_BUNDLE_NAME = 'capstone_train002_20260928_v1.bin'
+TRAIN002_BUNDLE_SHA = 'f0d1fed52e00b6c5a1da2cade3731237675cdebbfc0b2cde3b2dbda99a4019ac'
+BUNDLE_REGISTRIES = {BUNDLE_SHA: 'style_registry.json',
+                     TRAIN002_BUNDLE_SHA: 'style_registry_train002_smoke.json'}
 REVISION = 'a3b4f4849157f664bdbc776fd7453c2783562f4d'
 VERSION = 'deployment-01'
 FEATURES = {'hairstyle', 'makeup', 'nails'}
@@ -72,11 +76,13 @@ def endpoint(url):
     return url.rstrip('/')
 
 
-def make_record(key, status, url=None, now=None):
+def make_record(key, status, url=None, now=None, bundle_sha=BUNDLE_SHA):
+    if bundle_sha not in BUNDLE_REGISTRIES:
+        raise StartupError('Unapproved capstone bundle')
     now = int(time.time() if now is None else now)
     record = {'schema': SCHEMA, 'publication_id': str(uuid4()), 'published_at': now,
               'expires_at': now + TTL, 'status': status, 'worker_version': VERSION,
-              'bundle_sha256': BUNDLE_SHA}
+              'bundle_sha256': bundle_sha}
     if status == 'ready':
         record['endpoint'] = endpoint(url)
     elif status not in ('starting', 'failed'):
@@ -93,7 +99,7 @@ def validate_record(record, key, now=None):
         raise StartupError('Discovery signature failed; no older-record fallback')
     allowed = {'schema', 'publication_id', 'published_at', 'expires_at', 'status',
                'worker_version', 'bundle_sha256', 'endpoint', 'signature'}
-    if set(record) - allowed or record.get('schema') != SCHEMA or record.get('worker_version') != VERSION or record.get('bundle_sha256') != BUNDLE_SHA:
+    if set(record) - allowed or record.get('schema') != SCHEMA or record.get('worker_version') != VERSION or record.get('bundle_sha256') not in BUNDLE_REGISTRIES:
         raise StartupError('Wrong discovery schema/runtime/bundle')
     try:
         UUID(record['publication_id'])

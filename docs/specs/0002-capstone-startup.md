@@ -12,6 +12,8 @@ Failure: the external mailbox can be unavailable, evict cached messages, rate li
 
 ## Implementation boundary
 
+2026-09-28 approved extension: the Supervisor requested TRAIN-002 support after a catalog mismatch. Prepare one separate private candidate with unchanged existing adapter bytes and optional registry. Preserve the original package/notebook as fallback. A wrapper supplies expanded Hair configuration only at the existing worker subprocess boundary, preserving historical Gate checks, one foundation and ownership. The signed exact bundle identity selects the matching local registry without `.env` edits. Expanded unified GPU inference requires a live check before acceptance.
+
 2026-09-28 correction: publication acknowledgement is not a guarantee of immediate cache visibility. Confirm the exact signed ready publication with bounded startup metadata polling and fresh HTTP reads before declaring ready. The laptop still rejects nonready, invalid and stale records immediately. No generation retries or older endpoint fallback are added. Reload only downloaded startup support modules when rerunning the entry cell in the same notebook kernel, so a running worker can be safely reused after a support fix.
 
 Keep `deployment01_20260928_v2.bin` byte-identical. Download only two public support scripts from a pinned Git commit with pinned source hashes in a thin new notebook entry cell. Verify/extract the original package, then run its unchanged exact-environment bootstrap in a subprocess. Worker, models, adapters and Gate 2 owner are untouched. The orchestrator stages setup/publication and supports safe re-entry for its own verified healthy runtime. Notebook settings/dataset/Secrets remain one-time manual platform setup.

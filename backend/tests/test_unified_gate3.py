@@ -260,6 +260,34 @@ def test_missing_enabled_hair_adapter_fails_at_preflight(monkeypatch):
         server.adapter_configuration()
 
 
+def test_expanded_bun_switches_and_restores_on_same_fake_foundation(fake_server, tmp_path, monkeypatch):
+    import json
+    from app.registry import styles_by_id
+    owner, pipe, views, paths = fake_server
+    registry = json.loads((ROOT / 'backend/app/style_registry_train002_smoke.json').read_text())
+    monkeypatch.setattr(server, 'HAIR_STYLES', styles_by_id(registry))
+    path = tmp_path / 'train002/adapter.safetensors'
+    path.parent.mkdir()
+    path.write_bytes(b'fake-train002')
+    paths['hairstyle:train002'] = path
+    owner.hair_adapters['train002'] = (path.parent, {'checkpoint_sha256': gate.digest(path), 'training_steps': 500})
+    owner.specs['hairstyle:train002'] = {'path': path, 'verify': lambda: None,
+                                      'expected': {'adapter_sha256': gate.digest(path)}}
+    foundation = dict(owner.foundation)
+    async def sequence():
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=server.app), base_url='http://test') as client:
+            for feature, style, adapter in [('hairstyle','bun','train002'), ('makeup','natural_makeup','MAKEUP-001'),
+                                           ('nails','classic_red','NAILS-001-LOCAL-v1'), ('hairstyle','crew_cut','train001')]:
+                response = await client.post(f'/{feature}/generate', data={'style_id': style},
+                    files={'image': ('input.png', png(Image.new('RGB',(512,512),'white')), 'image/png')},
+                    headers={'X-API-Key': KEY})
+                assert response.status_code == 200, response.text
+                assert response.json()['metadata']['adapter_id'] == adapter
+    asyncio.run(sequence())
+    assert owner.foundation == foundation and owner.pipe is pipe
+    assert owner.active == 'hairstyle:train001'
+
+
 def test_configuration_uses_one_url_and_explicit_rollback(monkeypatch):
     monkeypatch.setenv('AI_REMOTE_URL','https://one.example/')
     monkeypatch.setenv('AI_REMOTE_API_KEY',KEY)
