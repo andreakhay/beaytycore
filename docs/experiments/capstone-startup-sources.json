@@ -1,8 +1,8 @@
 {
-  "support_commit": "ae397c2688fde37d10eb8aeca81d98da505264af",
+  "support_commit": "fd50258cbd6a50fb76630ab85ed0cb0ffbe040c3",
   "support_sha256": {
-    "capstone_discovery.py": "8c354c720c83d153ffe97e249605880576aa1059f6edc5b3e6fd7a22a40dde6a",
-    "capstone_kaggle.py": "be5329383ae2959b7e7dcf157c6b71d867e884994b045ddf0a057e808ac1c771"
+    "capstone_discovery.py": "619403fe1b071dc3a48a327947e6c94ca34a6312e943138bf1a5d40c447b82af",
+    "capstone_kaggle.py": "95d29ca5d026fed3c14ef1027a7cdd7fbb0a4039a4cd6b8a5485b678bb416ad3"
   },
   "private_bundle_unchanged": "deployment01_20260928_v2.bin"
 }

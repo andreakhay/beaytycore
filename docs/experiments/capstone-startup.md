@@ -8,6 +8,8 @@ Reproduction with six harmless synthetic records on an isolated ntfy topic: publ
 
 Minimal correction: fresh cache reads and up to 30 seconds of metadata polling for the exact ready publication, rejecting forged records and never accepting an older ready record. The local launcher retains immediate validation. Updated entry reloads only public startup modules before safe worker re-entry. `notebooks/START_CAPSTONE_cell.py` gives the complete replacement cell without requiring notebook reconstruction. Private package, GPU worker, ownership, tunnel, application and zero generation retries remain unchanged.
 
+Corrected support commit `fd50258cbd6a50fb76630ab85ed0cb0ffbe040c3` is pushed. Both public downloads returned HTTP 200 and matched the updated source hashes. Replacement code cell and notebook entry are identical, syntax checked and contain no outputs. No replacement private model package.
+
 Regression checks: startup, Deployment-01 and unified Gate 3 suites **101 passed**, one existing multipart warning, 18.56 s. Tests cover empty/starting/failed/older-ready cache lag, exact identity, forgery and timeout refusal, fresh reads and module refresh. Corrected real synthetic signed publish/confirmation succeeded in 4.578 s; subsequent discovery matched the exact publication. No GPU inference was run locally. Next: rerun the corrected entry in the current idle Kaggle session, obtain CAPSTONE_AI_READY, then run the laptop launcher and four-request rehearsal. No deployment acceptance is claimed.
 
 2026-09-28. **IN PROGRESS; LOCAL VERIFIED; FRESH SESSION NOT STARTED.** Follows preserved Deployment-01 `c46884f21dc164dd3d41fa133421deb300d86f57`. No AI architecture, generation, worker, diagnostics, ownership or rollback changes.
