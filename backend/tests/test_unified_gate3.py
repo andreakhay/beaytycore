@@ -63,7 +63,7 @@ class FakeView:
         self.gate_event,self.release=gate_event,release
         self.fail=False
 
-    def generate(self,image,style_id):
+    def generate(self,image,style_id,inference_steps=20):
         assert image.mode=='RGB'
         adapter_key=server.selected_adapter(self.feature,style_id)
         assert self.pipe.loaded==self.expected_by_key[adapter_key]
@@ -81,7 +81,7 @@ class FakeView:
         Image.new('RGB',(512,512),'red').save(stream,'PNG')
         metadata={k:v for k,v in expected.items() if k not in ('generator','prompt')}
         metadata.update(base_model_id=gate.MODEL_ID,base_model_revision=gate.REVISION,
-                        seed=1977,steps=20,guidance=4.0,prompt=expected['prompt'])
+                        seed=1977,steps=inference_steps,guidance=4.0,prompt=expected['prompt'])
         return {'status':'completed','generator':expected['generator'],'metadata':metadata,
                 'image':{'content_type':'image/png','width':512,'height':512,
                          'data_url':'data:image/png;base64,'+base64.b64encode(stream.getvalue()).decode()}}
@@ -119,7 +119,8 @@ def fake_server(tmp_path,monkeypatch):
     old=server.runtime
     server.runtime=SimpleNamespace(ready=True,owner=owner,base_loaded=True,foundation_load_count=1,
         load_seconds=1.0,health=lambda: {'status':'ready','foundation_load_count':1,
-                                         'supported_features':list(server.FEATURES)},
+                                         'supported_features':list(server.FEATURES),
+                                         'nails_inference_steps':[8,12,20]},
         status=lambda:{'status':'ready','requests':owner.audit})
     monkeypatch.setenv('AI_REMOTE_API_KEY',KEY)
     yield owner,pipe,views,paths
@@ -415,7 +416,8 @@ def test_central_application_uses_one_remote_root_and_renderer_stays_local(monke
             assert calls[0][0]=='hairstyle' and calls[1][0]=='makeup'
 
 
-def test_central_application_reaches_actual_unified_http_routes_with_fake_gpu(fake_server,monkeypatch):
+@pytest.mark.parametrize('steps',[20,12,8])
+def test_central_application_reaches_actual_unified_http_routes_with_fake_gpu(fake_server,monkeypatch,steps):
     owner,_,_,_=fake_server
     scenario=CentralRemoteScenario()
     real_async=httpx.AsyncClient
@@ -426,7 +428,7 @@ def test_central_application_reaches_actual_unified_http_routes_with_fake_gpu(fa
         monkeypatch.setenv('AI_REMOTE_API_KEY',KEY)
         monkeypatch.setattr(main,'engine',RemoteFluxEngine(*destination('hairstyle','FLUX_REMOTE_URL','FLUX_REMOTE_API_KEY')))
         monkeypatch.setattr(main,'makeup_engine',RemoteMakeupEngine(*destination('makeup','MAKEUP_REMOTE_URL','MAKEUP_REMOTE_API_KEY')))
-        main._nails_pipeline.model=RemoteLocalizedNails(*destination('nails','NAILS_REMOTE_URL','NAILS_REMOTE_API_KEY'))
+        main._nails_pipeline.model=RemoteLocalizedNails(*destination('nails','NAILS_REMOTE_URL','NAILS_REMOTE_API_KEY'),inference_steps=steps)
         with patch.object(httpx,'AsyncClient',local_unified_client):
             client=TestClient(main.app)
             source=png(scenario.source)
@@ -438,6 +440,8 @@ def test_central_application_reaches_actual_unified_http_routes_with_fake_gpu(fa
                 response=request(feature,style)
                 assert response.status_code==200,(feature,style,response.text)
                 assert response.json()['style']['id']==style
+                if feature=='nails':
+                    assert response.json()['metadata']['inference_steps']==steps
             count=len(owner.audit)
             assert count==8  # one Hair, one Makeup, five Nails crops, restored Hair
             renderer=request('nails','nude_pink')

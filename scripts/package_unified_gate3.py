@@ -13,6 +13,7 @@ from scripts import unified_gate1 as gate
 GATE2_SHA = '0e5ffd854f394f86e5c1ca49d47b9b230b0088aae2da828d893601330d190feb'
 NEW_FILES = ('scripts/unified_gate3_server.py', 'scripts/unified_gate3_bootstrap.py',
              'scripts/unified_gate3_requirements.txt',
+             'scripts/unified_gate3_nails.py', 'backend/app/nails/inference_options.py',
              'docs/experiments/unified-kaggle-gate2-review.json')
 
 
@@ -56,6 +57,6 @@ def build(source, output):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', type=Path, default=ROOT / 'artifacts/unified_gate2_20260928_v5.bin')
-    parser.add_argument('--output', type=Path, default=ROOT / 'artifacts/unified_gate3_20260928_v2.bin')
+    parser.add_argument('--output', type=Path, default=ROOT / 'artifacts/unified_gate3_20260928_v3.bin')
     args = parser.parse_args()
     print(json.dumps(build(args.source, args.output), indent=2))

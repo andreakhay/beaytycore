@@ -209,7 +209,9 @@ def configured_nails_pipeline() -> HybridNailsPipeline:
     from app.generation.remote_destination import destination
 
     url, key = destination("nails", "NAILS_REMOTE_URL", "NAILS_REMOTE_API_KEY")
-    model = RemoteLocalizedNails(url, key) if url or key else None
+    from app.nails.inference_options import configured_steps
+
+    model = RemoteLocalizedNails(url, key, inference_steps=configured_steps()) if url or key else None
     return HybridNailsPipeline(localizer, segmenter, model)
 
 
@@ -260,6 +262,7 @@ async def generate_nails(
         if style.id in MODEL_STYLES:
             from app.nails.contract import ADAPTER_ID, ADAPTER_SHA256
             metadata.update({"adapter_id": ADAPTER_ID, "adapter_sha256": ADAPTER_SHA256})
+            metadata["inference_steps"] = getattr(nails_pipeline().model, "inference_steps", 20)
         metadata["timing_seconds"]["total_request"] = round(time.monotonic() - request_started, 3)
         return GenerateResponse(
             status="completed", generator="nails_hybrid",

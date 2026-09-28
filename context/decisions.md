@@ -4,6 +4,7 @@ Source for all entries: Supervisor's CODEX HANDOFF 001. Decision dates before th
 
 | Decision | Status | Evidence | Rationale and authority |
 | --- | --- | --- | --- |
+| Compare Nails model generation at 12 and 8 steps before selecting a faster setting | CONFIRMED | Bounded worker/client implementation and local tests VERIFIED; faster T4 latency and polish quality NEEDS VERIFICATION | Supervisor explicitly authorizes optimizing the six-minute Nails generation. Keep evaluated 20 as default/rollback until measured comparison; change only Nails steps, not models, prompts, seed, guidance, crop/mask pipeline or Hair/Makeup. One source-only notebook update retains current tunnel/cached Base. [Experiment](../docs/experiments/nails-latency-comparison-20260928.md). |
 | Project-trained conditional hairstyle Edit-LoRA on FLUX.2 Klein Base 4B directly generates the first demo result | CONFIRMED | EXP-001 mechanics VERIFIED; real model NOT STARTED | Supervisor's current critical-path direction requires one LoRA for three approved styles and direct pixel generation through the existing engine boundary. |
 | Plain pretrained Klein refinement after custom generation | PROPOSED | NEEDS VERIFICATION | Earlier direction deferred beyond the first working demo by the Supervisor; it is not a DATA-001, TRAIN-001, or demo gate. |
 | Free Kaggle GPU as training target | CONFIRMED | VERIFIED for EXP-001 smoke test | Supervisor's $0 constraint; one Kaggle T4 completed 20 finite-loss BF16 Edit-LoRA steps. Training-time risk remains. |

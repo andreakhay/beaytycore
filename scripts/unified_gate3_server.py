@@ -22,7 +22,8 @@ from scripts import unified_gate1 as gate
 from scripts.unified_gate2 import SharedExperiment, SwitchFailure, inspect_adapter
 from scripts.kaggle_inference_server import FluxRuntime, read_adapter_metadata, validated_image as portrait_image
 from scripts.makeup_inference_server import MakeupRuntime, validated_portrait
-from scripts.nails001_local_inference_server import NailsRuntime
+from scripts.unified_gate3_nails import NailsRuntime
+from app.nails.inference_options import SUPPORTED_STEPS
 from app.styles import REGISTRY
 from app.registry import styles_by_id
 from app.makeup_contract import (ADAPTER_ID as MAKEUP_ID, ADAPTER_SHA256 as MAKEUP_SHA,
@@ -83,6 +84,14 @@ def selected_adapter(feature, style_id):
     raise ValueError('Unsupported feature style')
 
 
+def validate_result(payload, expected, inference_steps):
+    # Gate 1's unchanged validator pins 20. Check actual steps first, then reuse
+    # its checks for every other field and PNG through a temporary metadata copy.
+    if payload.get('metadata', {}).get('steps') != inference_steps:
+        raise ValueError('Wrong inference step provenance')
+    gate.validate_result({**payload, 'metadata': {**payload['metadata'], 'steps': 20}}, expected)
+
+
 class ServingOwner(SharedExperiment):
     """Gate 2 switch/lock/cancellation behavior with dynamic image and style inputs."""
 
@@ -93,7 +102,7 @@ class ServingOwner(SharedExperiment):
         self.foundation_load_count = 1
         self.audit = []
 
-    def operate(self, adapter_key, label, image, style_id):
+    def operate(self, adapter_key, label, image, style_id, inference_steps=20):
         self.sequence += 1
         self.event('ownership_start', label=label, sequence=self.sequence)
         feature = adapter_key.split(':')[0]
@@ -114,9 +123,12 @@ class ServingOwner(SharedExperiment):
             self.event('inference_start', feature=feature, label=label)
             try:
                 with gate.optional_runtime_telemetry(self.torch, []):
-                    payload = self.views[feature].generate(image, style_id)
+                    if feature == 'nails' and inference_steps != 20:
+                        payload = self.views[feature].generate(image, style_id, inference_steps=inference_steps)
+                    else:
+                        payload = self.views[feature].generate(image, style_id)
                 self.synchronize()
-                gate.validate_result(payload, expected)
+                validate_result(payload, expected, inference_steps)
                 self.assert_active(adapter_key)
             except Exception:
                 self.ready, self.active, self.active_state = False, None, None
@@ -130,6 +142,7 @@ class ServingOwner(SharedExperiment):
             LOGGER.info('Completed %s/%s with %s in %.2f seconds', feature, style_id,
                         expected['adapter_id'], time.monotonic() - started)
             self.audit.append({'feature': feature, 'style_id': style_id,
+                'inference_steps': inference_steps,
                 'adapter_id': expected['adapter_id'], 'adapter_sha256': expected['adapter_sha256'],
                 'base_revision': gate.REVISION, 'inference_seconds': round(time.monotonic() - started, 3),
                 'http_status': 200, 'memory_after': self.measure()})
@@ -200,7 +213,8 @@ class UnifiedRuntime:
                 'base_model_id': gate.MODEL_ID, 'base_model_revision': gate.REVISION,
                 'active_feature': active.split(':')[0] if active else None,
                 'active_adapter': active.split(':')[-1] if active else None,
-                'supported_features': list(FEATURES), 'load_seconds': self.load_seconds}
+                'supported_features': list(FEATURES), 'load_seconds': self.load_seconds,
+                'nails_inference_steps': list(SUPPORTED_STEPS)}
 
     def status(self):
         return {**self.health(), 'requests': list(self.owner.audit) if self.owner else [],
@@ -261,12 +275,15 @@ async def read_image(feature, upload):
 
 @app.post('/{feature}/generate')
 async def generate(feature: str, image: Annotated[UploadFile, File()], style_id: Annotated[str, Form()],
-                   x_api_key: Annotated[str | None, Header()] = None):
+                   x_api_key: Annotated[str | None, Header()] = None,
+                   inference_steps: Annotated[int, Form()] = 20):
     key = os.environ.get('AI_REMOTE_API_KEY', '')
     if len(key) < 24 or not x_api_key or not secrets.compare_digest(key, x_api_key):
         raise HTTPException(401, 'Invalid API key')
     if feature not in FEATURES:
         raise HTTPException(404, 'Unknown feature')
+    if inference_steps not in SUPPORTED_STEPS or (feature != 'nails' and inference_steps != 20):
+        raise HTTPException(400, 'Unsupported inference steps for this feature')
     try:
         adapter_key = selected_adapter(feature, style_id)
     except ValueError:
@@ -279,7 +296,8 @@ async def generate(feature: str, image: Annotated[UploadFile, File()], style_id:
         raise HTTPException(429, 'GPU is busy')
     label = f'{feature}:{style_id}:{time.monotonic_ns()}'
     try:
-        return await owner.generate(adapter_key, label, image=source, style_id=style_id)
+        return await owner.generate(adapter_key, label, image=source, style_id=style_id,
+                                    inference_steps=inference_steps)
     except asyncio.CancelledError:
         raise
     except SwitchFailure:
