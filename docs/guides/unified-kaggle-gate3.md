@@ -25,6 +25,8 @@ AI_REMOTE_API_KEY=<the exact value in your Kaggle AI_REMOTE_API_KEY Secret>
 
 The three existing feature-specific URL/key pairs can stay in `.env`, but the complete `AI_REMOTE_*` pair takes precedence. Do not put the API key in frontend environment variables. Restart the local backend after editing `.env`; the Nails pipeline caches its client at process startup. Start the existing backend and frontend using the [README commands](../../README.md). The frontend continues using `NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000`; no page or UI changes are required.
 
+Optional faster Nails: on the running worker updated with [this one cell](../../notebooks/nails_latency_update_cell.py), health advertises `nails_inference_steps: [8, 12, 20]`. Set `NAILS_INFERENCE_STEPS=8` in backend `.env` and restart FastAPI. One measured Classic Red full hand took 221.000 seconds versus 365.375 at 20, with zero edits outside the final nail mask and comparable visual polish on that photo. The original v2 setup alone does not support faster counts; run the update cell in the same idle notebook first, or keep 20. Unset defaults to 20; 12/20 remain alternatives and original separate runtimes require 20. Hair/Makeup and renderer-only Nails are unchanged. [Evidence and limits](../experiments/nails-latency-comparison-20260928.md).
+
 The unified server URLs are:
 
 | Route | Responsibility |

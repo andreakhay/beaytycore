@@ -1,0 +1,35 @@
+{
+  "status": "UPDATED_WORKER_READY_LIVE_VERIFIED",
+  "source_commit": "8463ace",
+  "source_hashes": {
+    "backend/app/nails/inference_options.py": "db57371532b6b6cf7c38218c613f3aa3f0c7283157e5d3555a804499b5ee8211",
+    "scripts/unified_gate3_nails.py": "a28d00a0c3c3f62ca3fd110a00cb2e565b95d1b6960b70383465a86195e8996f",
+    "scripts/unified_gate3_server.py": "fb54e6d5dcae9dacd80e7b7a1b84114823a1f2a6b07c4cb904c09f4739e5503e"
+  },
+  "startup_seconds": 51.015421293000145,
+  "health": {
+    "status": "ready",
+    "process_alive": true,
+    "gpu_runtime_ready": true,
+    "base_model_loaded": true,
+    "foundation_load_count": 1,
+    "base_model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+    "base_model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "active_feature": "hairstyle",
+    "active_adapter": "train001",
+    "supported_features": [
+      "hairstyle",
+      "makeup",
+      "nails"
+    ],
+    "load_seconds": 35.354,
+    "nails_inference_steps": [
+      8,
+      12,
+      20
+    ]
+  },
+  "update_report_sha256": "b1aff00e17a006454388c502c481173b6e27237378f9c5e7a66bc4fe0d5e77a7",
+  "server_log_sha256": "c9b48dafaa116ac11d31bd8874fffa517a9f6a2993558bc9e8d9de80f8b39179",
+  "faster_generation_results": "LIVE_VERIFIED_ON_REPORTED_CLASSIC_RED_HAND"
+}

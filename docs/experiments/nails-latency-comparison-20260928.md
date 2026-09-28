@@ -1,6 +1,6 @@
 # Nails latency comparison
 
-2026-09-28. **Preparation DONE; LOCAL/MOCKED VERIFIED; faster GPU results NEEDS VERIFICATION.** Supervisor authorized comparing 12 and 8 inference steps against the current 20-step result before selecting a faster setting. This is a bounded inference experiment, not retraining or a Gate 3 pass.
+2026-09-28. **DONE; LIVE FIXED-CASE VERIFIED.** Supervisor authorized comparing 12 and 8 inference steps against the current 20-step result before selecting a faster setting. The corrected worker starts, both full-hand comparisons succeed, and the local application now uses 8 steps. This is a bounded inference experiment, not retraining or a Gate 3 pass.
 
 ## Measured starting point
 
@@ -26,7 +26,7 @@ Frontend API client regression: **11 passed**. No frontend source changes; lint/
 3. Return the final status, expected **`READY_FOR_NAILS_LATENCY_COMPARE`**, and advertised choices `[8, 12, 20]`. A fallback status **`ORIGINAL_20_STEP_WORKER_RESTORED`** means no faster worker is available; return the named update log/evidence rather than changing models.
 4. After readiness, Codex will benchmark the same hand/style at 12 and 8 through the central application handler. Preserve output PNGs, step/provenance metadata and timing; compare with the saved 20-step output and check zero out-of-mask edits. Inspect polish/material differences; no invented numerical acceptance tolerance. Choose the faster acceptable setting based on observed results and restart the backend with that value.
 
-**Current setting remains 20.** No faster result, speedup or quality approval is claimed. Renderer-only styles need no GPU and remain unchanged. Original three services and 20-step inference are rollback. Full same-session Gate 3 acceptance remains separate work.
+**At preparation time the setting remained 20.** The later live comparison and current local setting follow below. Renderer-only styles need no GPU and remain unchanged. Original three services and 20-step inference are rollback. Full same-session Gate 3 acceptance remains separate work.
 
 ## Returned update failure and correction
 
@@ -34,4 +34,22 @@ Supervisor returned the 09:00:41 Kaggle update report and worker log. The candid
 
 The controller now copies only the existing approved preset JSON alongside the small source tree. Before stopping anything, it imports the actual assembled server in a fresh process and confirms zero Base loads plus advertised 8/12/20 choices. Failed preflight preserves the current worker and writes `PREFLIGHT_FAILED_ORIGINAL_WORKER_UNCHANGED` with its diagnostic log. Existing startup rollback remains. Real import regression reproduces the missing-file failure and passes with the preset included; a separate test proves failed preflight cannot stop the current worker. Final focused tests: **43 passed**; one existing multipart warning. No application, models or generation settings changed in this correction.
 
-Retry: reopen the regenerated `F:\HAIR\notebooks\nails_latency_update_cell.py`, replace the previous update cell contents with the entire current file, and run that cell once while no generation is active. Keep the running notebook, existing input/Secret and URL; do not rerun setup. Expected `WORKER_IMPORT_PREFLIGHT_PASSED` is captured in the preflight log; final status remains `READY_FOR_NAILS_LATENCY_COMPARE`. Actual corrected Kaggle startup and 12/8 generation remain **NEEDS VERIFICATION**.
+The Supervisor retried the regenerated cell in the same notebook. Returned report/log confirm corrected startup, with source hashes matching the committed candidate, one loaded Base and supported 8/12/20 choices. Startup was 51.015 seconds, including 35.354 seconds Base/first adapter loading; no dependency setup/download or tunnel change. [Reviewed worker evidence](nails-latency-worker-review-20260928.json).
+
+## Actual central API and GPU comparison
+
+Both candidates used the same original hand and `classic_red`, real HTTP `POST /features/nails/generate` on the running local FastAPI, the existing hybrid localization/segmentation/refinement/crops/compositor, and the same running updated Kaggle server. Backend was restarted for each configured step count; no notebook restart or Base rebuild between candidates. The previous 20-step full-hand result was retained as reference, not generated again. These are single observations, not statistical timings; local pipeline initialization and network/CPU costs are included in wall time, but worker startup is separate.
+
+| Steps | Full-hand wall seconds | Model generation seconds | Saving against 20 |
+| --- | --- | --- | --- |
+| 20, saved reference | 365.375 | 322.810 | baseline |
+| 12 | 264.062 | 226.060 | 27.728% |
+| 8, selected | 221.000 | 185.100 | 39.514% |
+
+Both candidates returned HTTP 200, five edited nails, the approved adapter/Base hashes and correct actual step metadata. Five crop records per candidate verify provenance. The worker stayed ready with foundation load count one throughout. Independent comparison with the saved final refined mask finds **zero changed pixels outside nails** for both results. Compared with 20, 12 differs on 6,778 pixels (mean absolute channel difference inside nails 0.966, maximum 12); 8 differs on 7,247 pixels (mean 2.206, maximum 21). Exact equality is not claimed and no numerical acceptance tolerance was invented. Visual inspection at original resolution finds recognizable glossy red material and highlights on all five nails, with small color/highlight differences and no evident material regression on this photo. Private outputs remain ignored in `.tmp/nails-upload-diagnosis/`.
+
+Current ignored local `backend/.env` contains `NAILS_INFERENCE_STEPS=8`; the running backend's successful 8-step response confirms it is active. **Code default stays 20** to preserve approved references and separate-runtime compatibility. Set 12 or 20 and restart FastAPI for alternatives. A fresh original v2 notebook needs the update cell before 8 is accepted; otherwise use 20. Hair/Makeup settings, models/adapters, seed, guidance, crop dimensions, renderer paths and UI are unchanged. All private assets, URLs and keys remain outside Git.
+
+[Numeric, provenance and memory evidence](nails-latency-live-review-20260928.json) records all ten actual crop completions. Whole-device readings there are post-inference samples, not claimed peak VRAM. No OOM occurred. One actual `nude_pink` central request after the selection also completed through the local renderer with **zero added remote requests**; its evidence is included in that review. Prior 43 focused and 11 frontend client tests cover the implementation; no additional code change or unrelated suite rerun was required for live configuration/evidence.
+
+Limits: one hand and Classic Red, one run per candidate. Glossy Black quality at reduced steps and other poses remain unreviewed; no universal quality/latency promise or full Gate 3/browser acceptance claim. Next: use the 8-step current app, review more user-selected examples when needed, and finish the separate remaining Gate 3 browser/cross-feature acceptance. Further latency work should target measured repeated crop overhead without changing the proven image boundary or model behavior.

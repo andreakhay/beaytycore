@@ -1,0 +1,437 @@
+{
+  "status": "LIVE_FIXED_CASE_COMPARISON_COMPLETED",
+  "application_commit": "8463ace",
+  "worker": {
+    "status": "UPDATED_WORKER_READY_LIVE_VERIFIED",
+    "source_commit": "8463ace",
+    "source_hashes": {
+      "backend/app/nails/inference_options.py": "db57371532b6b6cf7c38218c613f3aa3f0c7283157e5d3555a804499b5ee8211",
+      "scripts/unified_gate3_nails.py": "a28d00a0c3c3f62ca3fd110a00cb2e565b95d1b6960b70383465a86195e8996f",
+      "scripts/unified_gate3_server.py": "fb54e6d5dcae9dacd80e7b7a1b84114823a1f2a6b07c4cb904c09f4739e5503e"
+    },
+    "startup_seconds": 51.015421293000145,
+    "health": {
+      "status": "ready",
+      "process_alive": true,
+      "gpu_runtime_ready": true,
+      "base_model_loaded": true,
+      "foundation_load_count": 1,
+      "base_model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+      "base_model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+      "active_feature": "hairstyle",
+      "active_adapter": "train001",
+      "supported_features": [
+        "hairstyle",
+        "makeup",
+        "nails"
+      ],
+      "load_seconds": 35.354,
+      "nails_inference_steps": [
+        8,
+        12,
+        20
+      ]
+    },
+    "update_report_sha256": "b1aff00e17a006454388c502c481173b6e27237378f9c5e7a66bc4fe0d5e77a7",
+    "server_log_sha256": "c9b48dafaa116ac11d31bd8874fffa517a9f6a2993558bc9e8d9de80f8b39179",
+    "faster_generation_results": "LIVE_VERIFIED_ON_REPORTED_CLASSIC_RED_HAND"
+  },
+  "feature": "nails",
+  "style": "classic_red",
+  "input": "same reported close-pose hand as the preserved 20-step result; private input not committed",
+  "base_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "adapter_id": "NAILS-001-LOCAL-v1",
+  "adapter_sha256": "5bff16c67e0014c78a6d938813347685f914f8a608d76407b10f5b54b7a0eb1f",
+  "shared_settings": {
+    "seed": 1977,
+    "guidance": 4.0,
+    "crop_dimensions": [
+      512,
+      512
+    ],
+    "precision": "FP16",
+    "cpu_offload": true
+  },
+  "results": [
+    {
+      "steps": 20,
+      "wall_seconds": 365.375,
+      "generation_seconds": 322.81,
+      "output_sha256": "91b86c47c4e7e54c0a80adc4d04cc07d62735a9f0f9e6e4f88a53b21170cd590",
+      "outside_mask_changed_pixels": 0,
+      "reference_kind": "prior live 20-step result on the exact same input; not rerun"
+    },
+    {
+      "steps": 12,
+      "wall_seconds": 264.062,
+      "generation_seconds": 226.06,
+      "saving_percent_vs20": 27.728,
+      "output_sha256": "179815977754687d5e29cb12025eae96008d49ab8a6c680e27d0e349e4e23382",
+      "output_dimensions": [
+        462,
+        663
+      ],
+      "outside_mask_changed_pixels": 0,
+      "inside_mask_changed_pixels": 7428,
+      "versus20": {
+        "rgb_equality": false,
+        "changed_pixels": 6778,
+        "inside_mask_mean_channel_difference": 0.9663435648896069,
+        "max_channel_difference": 12
+      },
+      "http_status": 200,
+      "nails_edited": 5,
+      "provenance_verified": true,
+      "crop_seconds": [
+        46.6,
+        43.269,
+        44.592,
+        46.512,
+        47.592
+      ],
+      "memory_after": [
+        {
+          "process_rss_bytes": 19238854656,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 13156380672
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8705465856,
+            "peak_reserved": 8965324800
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "process_rss_bytes": 18494210048,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 14081728512
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 58720256,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 193,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "process_rss_bytes": 18431815680,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 14312751104
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "process_rss_bytes": 18508365824,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 14263033856
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "process_rss_bytes": 18444398592,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 14306308096
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "steps": 8,
+      "wall_seconds": 221.0,
+      "generation_seconds": 185.1,
+      "saving_percent_vs20": 39.514,
+      "output_sha256": "04ce8d77d94662c78ab1430de7c33ee968fdd746a5ca1d53d67f984338ad40d9",
+      "output_dimensions": [
+        462,
+        663
+      ],
+      "outside_mask_changed_pixels": 0,
+      "inside_mask_changed_pixels": 7428,
+      "versus20": {
+        "rgb_equality": false,
+        "changed_pixels": 7247,
+        "inside_mask_mean_channel_difference": 2.2057530066415367,
+        "max_channel_difference": 21
+      },
+      "http_status": 200,
+      "nails_edited": 5,
+      "provenance_verified": true,
+      "crop_seconds": [
+        37.417,
+        38.102,
+        37.057,
+        37.58,
+        37.355
+      ],
+      "memory_after": [
+        {
+          "process_rss_bytes": 18479001600,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 14272282624
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "process_rss_bytes": 18619523072,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 14151180288
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "process_rss_bytes": 18540871680,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 13958909952
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "process_rss_bytes": 18655174656,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 14102421504
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "process_rss_bytes": 18517278720,
+          "process_peak_rss_bytes": 20415266816,
+          "system_ram_bytes": {
+            "MemTotal": 33659383808,
+            "MemAvailable": 14133891072
+          },
+          "torch_gpu_bytes": {
+            "allocated": 9569280,
+            "reserved": 56623104,
+            "peak_allocated": 8707695104,
+            "peak_reserved": 8971616256
+          },
+          "device_memory_mib": [
+            {
+              "index": 0,
+              "used": 191,
+              "total": 15360
+            },
+            {
+              "index": 1,
+              "used": 0,
+              "total": 15360
+            }
+          ],
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "selected_local_configuration": {
+    "NAILS_INFERENCE_STEPS": 8
+  },
+  "code_default_steps": 20,
+  "visual_review": "All five nails retain recognizable glossy red material and highlights at 8 and 12. Small color/highlight differences from 20 are visible on close inspection; no evident material regression on this one photo. This is not exact RGB equivalence or a universal quality approval.",
+  "limits": [
+    "one uploaded hand and Classic Red only",
+    "Glossy Black not live benchmarked at reduced steps",
+    "one run per candidate; not a statistical benchmark",
+    "no browser interaction in this comparison",
+    "no full Gate 3 pass from this experiment"
+  ],
+  "renderer_check": {
+    "http_status": 200,
+    "seconds": 12.531,
+    "metadata": {
+      "feature": "nails",
+      "inference_path": "renderer",
+      "nails_edited": 5,
+      "model_seconds": null,
+      "renderer_seconds": 0.03099999999994907,
+      "compositing": "original_nail_mask",
+      "timing_seconds": {
+        "image_validation": 0.0,
+        "normalization": 0.0,
+        "hand_localization": 0.031,
+        "nail_segmentation": 5.75,
+        "mask_preparation": 0.016,
+        "mask_refinement": 6.625,
+        "style_rendering": 0.015,
+        "compositing": 0.016,
+        "total_request": 12.531
+      }
+    },
+    "remote_requests_before": 10,
+    "remote_requests_after": 10,
+    "gpu_calls_added": 0,
+    "runtime_ready": true,
+    "foundation_load_count": 1
+  }
+}
