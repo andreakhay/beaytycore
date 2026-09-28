@@ -1,0 +1,1463 @@
+{
+  "schema": "unified-kaggle-gate2-evidence-review-v1",
+  "review_date": "2026-09-28",
+  "status": "GATE_2_PASSED",
+  "scope": "One persistent foundation, approved fixed cases and bounded recovery/ownership/memory experiment only; no production server or application cutover.",
+  "evidence_sha256": "a7636f14074806bc7cee3d21804be234e67b316c20821fa68d8b5c890cb673fe",
+  "evidence_bytes": 21628444,
+  "archive_members": 95,
+  "archive_crc_and_safe_paths_verified": true,
+  "trusted_bundle_sha256": "0e5ffd854f394f86e5c1ca49d47b9b230b0088aae2da828d893601330d190feb",
+  "bundle_manifest_sha256": "bcdc5b092287945bf50549df00b871ea652661b1a105f0fff62663569cee8ebb",
+  "source_checkpoint": "de4547403eee7bdd8f6b70c97ebf812e86445d1e",
+  "gate1_evidence_sha256": "7b427c1421480ef874b1ca3d1fc2e5c29edff0c8419d624973f46ef80b619303",
+  "independent_checks": [
+    "Archive CRC/unique safe paths",
+    "Trusted bundle inventory/SHA/current runtime and harness source equality",
+    "Returned inputs/references/Gate 1 outputs/review match trusted bundle",
+    "Exact observed Gate 1 environment and pinned Base/index",
+    "Response contract/provenance/PNG decode and candidate bytes",
+    "All 17 PNG/RGB equality, repeated outputs, pixel/channel differences independently recomputed",
+    "Adapter identity/tensor verification consistency and unchanged foundation fingerprints in trusted harness evidence",
+    "22 exclusive ownership intervals, 17 completed inference intervals and five blocked failures reconstructed",
+    "Cancellation/concurrency ordering and recovery verified from event trace",
+    "Resource maxima and timing totals independently aggregated"
+  ],
+  "environment": {
+    "python": "3.12.13",
+    "packages": {
+      "diffusers": "0.39.0.dev0",
+      "transformers": "5.5.3",
+      "accelerate": "1.13.0",
+      "peft": "0.18.1",
+      "huggingface_hub": "1.23.0",
+      "numpy": "1.26.4",
+      "torch": "2.10.0+cu128",
+      "safetensors": "0.9.0rc1",
+      "Pillow": "11.3.0",
+      "fastapi": "0.136.1",
+      "uvicorn": "0.46.0",
+      "python-multipart": "0.0.26"
+    },
+    "diffusers_commit": "c943837899b16cbae2f619b8dd4f7bb6f07dd81a",
+    "torch": "2.10.0+cu128",
+    "cuda": "12.8",
+    "cuda_available": true,
+    "gpu": "Tesla T4",
+    "gpu_total_bytes": 15636037632
+  },
+  "base_model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "base_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "base_model_index_sha256": "de1fef01845f0af3e1e2f2581cd5e86f2dfa4a4776f7f0b26b4c77feac4ee70f",
+  "foundation_load_count": 1,
+  "foundation_fingerprints_unchanged": true,
+  "successful_inferences": 17,
+  "all_png_and_rgb_exactly_equal": true,
+  "changed_pixels": 0,
+  "max_channel_difference": 0,
+  "isolated_repeats_required": false,
+  "results": [
+    {
+      "label": "01_hairstyle",
+      "requested_feature": "hairstyle",
+      "requested_style": "crew_cut",
+      "active_adapter_id": "train001",
+      "adapter_sha256": "7e3991f8a4e502573d3e82e9ac34c89fdf3f0b66fb337abb026a5b4c9ad080ff",
+      "output_sha256": "da234556a871228b97543f97b3a9fe650894b24703510fff2836a12eb66c3497",
+      "ownership_sequence": 1,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "7990ac320ec134af77957ec985e8b137d13ec23ba0a2fe9cab64cc53f3f1e362",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19298418688,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13214322688
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8705465856,
+          "peak_reserved": 8965324800
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": null,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "02_makeup",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 2,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 18466500608,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 14028148736
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 58720256,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 193,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": null,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "03_nails",
+      "requested_feature": "nails",
+      "requested_style": "classic_red",
+      "active_adapter_id": "NAILS-001-LOCAL-v1",
+      "adapter_sha256": "5bff16c67e0014c78a6d938813347685f914f8a608d76407b10f5b54b7a0eb1f",
+      "output_sha256": "c9101d97bed8d48990988cba2bc63aa4bd733eff101a7ff9c7813a37fe2d037b",
+      "ownership_sequence": 3,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "25e3dd87d41ea90eefa6b948f200de9f3262be449a2dfdc55bdb494733de34f5",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 18517897216,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 14056095744
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": null,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "04_hairstyle",
+      "requested_feature": "hairstyle",
+      "requested_style": "crew_cut",
+      "active_adapter_id": "train001",
+      "adapter_sha256": "7e3991f8a4e502573d3e82e9ac34c89fdf3f0b66fb337abb026a5b4c9ad080ff",
+      "output_sha256": "da234556a871228b97543f97b3a9fe650894b24703510fff2836a12eb66c3497",
+      "ownership_sequence": 4,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "7990ac320ec134af77957ec985e8b137d13ec23ba0a2fe9cab64cc53f3f1e362",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 18600722432,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13943414784
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "05_makeup",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 5,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 18616438784,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 14136479744
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "06_nails",
+      "requested_feature": "nails",
+      "requested_style": "classic_red",
+      "active_adapter_id": "NAILS-001-LOCAL-v1",
+      "adapter_sha256": "5bff16c67e0014c78a6d938813347685f914f8a608d76407b10f5b54b7a0eb1f",
+      "output_sha256": "c9101d97bed8d48990988cba2bc63aa4bd733eff101a7ff9c7813a37fe2d037b",
+      "ownership_sequence": 6,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "25e3dd87d41ea90eefa6b948f200de9f3262be449a2dfdc55bdb494733de34f5",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19014934528,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13741588480
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "07_hairstyle",
+      "requested_feature": "hairstyle",
+      "requested_style": "crew_cut",
+      "active_adapter_id": "train001",
+      "adapter_sha256": "7e3991f8a4e502573d3e82e9ac34c89fdf3f0b66fb337abb026a5b4c9ad080ff",
+      "output_sha256": "da234556a871228b97543f97b3a9fe650894b24703510fff2836a12eb66c3497",
+      "ownership_sequence": 7,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "7990ac320ec134af77957ec985e8b137d13ec23ba0a2fe9cab64cc53f3f1e362",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19035906048,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13645877248
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "08_makeup",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 8,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19035910144,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13734281216
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "recovery_missing",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 10,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19039580160,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13720793088
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "recovery_invalid",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 12,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19049021440,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13719019520
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "recovery_after_unload",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 14,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19072094208,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13716652032
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "recovery_after_load",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 16,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19130834944,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13644804096
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "recovery_oom",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 18,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19017736192,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13755887616
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "concurrency_first",
+      "requested_feature": "hairstyle",
+      "requested_style": "crew_cut",
+      "active_adapter_id": "train001",
+      "adapter_sha256": "7e3991f8a4e502573d3e82e9ac34c89fdf3f0b66fb337abb026a5b4c9ad080ff",
+      "output_sha256": "da234556a871228b97543f97b3a9fe650894b24703510fff2836a12eb66c3497",
+      "ownership_sequence": 19,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "7990ac320ec134af77957ec985e8b137d13ec23ba0a2fe9cab64cc53f3f1e362",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19124334592,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13595262976
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "concurrency_second",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 20,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19063672832,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13734641664
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "cancellation_first",
+      "requested_feature": "hairstyle",
+      "requested_style": "crew_cut",
+      "active_adapter_id": "train001",
+      "adapter_sha256": "7e3991f8a4e502573d3e82e9ac34c89fdf3f0b66fb337abb026a5b4c9ad080ff",
+      "output_sha256": "da234556a871228b97543f97b3a9fe650894b24703510fff2836a12eb66c3497",
+      "ownership_sequence": 21,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "7990ac320ec134af77957ec985e8b137d13ec23ba0a2fe9cab64cc53f3f1e362",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19097935872,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13614297088
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    },
+    {
+      "label": "cancellation_second",
+      "requested_feature": "makeup",
+      "requested_style": "natural_makeup",
+      "active_adapter_id": "MAKEUP-001",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "ownership_sequence": 22,
+      "adapter_state": {
+        "library_adapter_name": "default_0",
+        "tensor_count": 200,
+        "verified_layer_count": 100,
+        "converted_tensor_sha256": "936d195122a1eabe3e5ea65a34a00b9d244c060e5fbd08fa77d53eb556b1ac67",
+        "tensor_equality_verified": true
+      },
+      "memory_after": {
+        "process_rss_bytes": 19173060608,
+        "process_peak_rss_bytes": 24574775296,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 13614628864
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8707695104,
+          "peak_reserved": 8971616256
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "file_hash_equal": true,
+      "rgb_pixels_equal": true,
+      "changed_pixels": 0,
+      "mean_absolute_channel_difference": 0.0,
+      "max_channel_difference": 0,
+      "restored_rgb_equal": true,
+      "dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      }
+    }
+  ],
+  "ownership": {
+    "exclusive_operations": 22,
+    "successful_inferences": 17,
+    "blocked_switch_failures": 5,
+    "nonoverlapping": true,
+    "cancelled_inference_drained_before_next_owner": true
+  },
+  "recovery": [
+    {
+      "probe": "missing",
+      "inference_blocked": true,
+      "previous": "makeup",
+      "restored_feature": "makeup",
+      "ready": true
+    },
+    {
+      "probe": "invalid",
+      "inference_blocked": true,
+      "previous": "makeup",
+      "restored_feature": "makeup",
+      "ready": true
+    },
+    {
+      "probe": "after_unload",
+      "inference_blocked": true,
+      "previous": "makeup",
+      "restored_feature": "makeup",
+      "ready": true
+    },
+    {
+      "probe": "after_load",
+      "inference_blocked": true,
+      "previous": "makeup",
+      "restored_feature": "makeup",
+      "ready": true
+    },
+    {
+      "probe": "oom",
+      "inference_blocked": true,
+      "previous": "makeup",
+      "restored_feature": "makeup",
+      "ready": true
+    },
+    {
+      "probe": "concurrency",
+      "serialized": true,
+      "cancelled_caller": false,
+      "boundary": "Actual original inference runs inside shielded ownership; completion latch also covers fast fakes."
+    },
+    {
+      "probe": "cancellation",
+      "serialized": true,
+      "cancelled_caller": true,
+      "boundary": "Actual original inference runs inside shielded ownership; completion latch also covers fast fakes."
+    }
+  ],
+  "resources": {
+    "sample_count": 1315,
+    "sample_interval_policy_seconds": 1,
+    "process_peak_rss_bytes": 24574775296,
+    "minimum_available_system_ram_bytes": 13214322688,
+    "torch_peak_allocated_bytes": 8707695104,
+    "torch_peak_reserved_bytes": 8971616256,
+    "whole_device_sampled_peak_mib": {
+      "0": 8693,
+      "1": 0
+    },
+    "after_Base_load": {
+      "process_rss_bytes": 17295654912,
+      "process_peak_rss_bytes": 24574775296,
+      "system_ram_bytes": {
+        "MemTotal": 33659383808,
+        "MemAvailable": 15304814592
+      },
+      "torch_gpu_bytes": {
+        "allocated": 0,
+        "reserved": 0,
+        "peak_allocated": 0,
+        "peak_reserved": 0
+      },
+      "device_memory_mib": [
+        {
+          "index": 0,
+          "used": 3,
+          "total": 15360
+        },
+        {
+          "index": 1,
+          "used": 0,
+          "total": 15360
+        }
+      ],
+      "warnings": []
+    },
+    "after_experiment": {
+      "process_rss_bytes": 19172962304,
+      "process_peak_rss_bytes": 24574775296,
+      "system_ram_bytes": {
+        "MemTotal": 33659383808,
+        "MemAvailable": 13613383680
+      },
+      "torch_gpu_bytes": {
+        "allocated": 9569280,
+        "reserved": 56623104,
+        "peak_allocated": 8707695104,
+        "peak_reserved": 8971616256
+      },
+      "device_memory_mib": [
+        {
+          "index": 0,
+          "used": 191,
+          "total": 15360
+        },
+        {
+          "index": 1,
+          "used": 0,
+          "total": 15360
+        }
+      ],
+      "warnings": []
+    },
+    "post_inference_rss_first_bytes": 19298418688,
+    "post_inference_rss_last_bytes": 19173060608,
+    "post_inference_allocated_values_bytes": [
+      9569280
+    ],
+    "post_inference_reserved_values_bytes": [
+      56623104,
+      58720256
+    ],
+    "post_inference_device0_values_mib": [
+      191,
+      193
+    ]
+  },
+  "resource_conclusion": "No obvious progressive GPU/host memory leak or blocker in this bounded run. Post-inference allocated memory is constant; reserved/device memory settles after initial caching. RSS fluctuates and ends below the first post-inference measurement; high water is set at Base load. No long-run leak guarantee.",
+  "timing_seconds": {
+    "setup": {
+      "dependency_setup": 48.32007048299994,
+      "setup_before_persistent_process": 172.20601196599995,
+      "total_bootstrap_and_experiment": 1564.06391292
+    },
+    "persistent_process": {
+      "Base_load": 57.803133602,
+      "persistent_process_total": 1385.7303157810002
+    },
+    "inference_total": 1260.9339383649997,
+    "inference_min": 66.42828491399996,
+    "inference_max": 75.3345280210001,
+    "switch_total_including_failures": 31.371764254000368,
+    "per_inference": {
+      "01_hairstyle": 66.42828491399996,
+      "02_makeup": 69.40010873299991,
+      "03_nails": 74.800997575,
+      "04_hairstyle": 75.11002641300001,
+      "05_makeup": 75.21094080699982,
+      "06_nails": 75.2270156049999,
+      "07_hairstyle": 75.17780038199999,
+      "08_makeup": 75.3345280210001,
+      "recovery_missing": 74.81693347100008,
+      "recovery_invalid": 75.08440637700005,
+      "recovery_after_unload": 75.00676238699998,
+      "recovery_after_load": 74.87879353000017,
+      "recovery_oom": 74.99508600699983,
+      "concurrency_first": 74.92365652900003,
+      "concurrency_second": 74.95047250799985,
+      "cancellation_first": 74.8737882590001,
+      "cancellation_second": 74.71433684699991
+    },
+    "transitions": [
+      {
+        "label": "01_hairstyle",
+        "feature": "hairstyle",
+        "seconds": 1.986535463999985
+      },
+      {
+        "label": "02_makeup",
+        "feature": "makeup",
+        "seconds": 1.6015384109999786
+      },
+      {
+        "label": "03_nails",
+        "feature": "nails",
+        "seconds": 1.5298615990000144
+      },
+      {
+        "label": "04_hairstyle",
+        "feature": "hairstyle",
+        "seconds": 1.6132876860000351
+      },
+      {
+        "label": "05_makeup",
+        "feature": "makeup",
+        "seconds": 1.5082983320000949
+      },
+      {
+        "label": "06_nails",
+        "feature": "nails",
+        "seconds": 1.5621650939999654
+      },
+      {
+        "label": "07_hairstyle",
+        "feature": "hairstyle",
+        "seconds": 1.6132353840000633
+      },
+      {
+        "label": "08_makeup",
+        "feature": "makeup",
+        "seconds": 1.574275961000012
+      },
+      {
+        "label": "failure_missing",
+        "feature": "nails",
+        "seconds": 1.2420191710000381
+      },
+      {
+        "label": "recovery_missing",
+        "feature": "makeup",
+        "seconds": 0.7842668920000051
+      },
+      {
+        "label": "failure_invalid",
+        "feature": "nails",
+        "seconds": 1.2929682019998836
+      },
+      {
+        "label": "recovery_invalid",
+        "feature": "makeup",
+        "seconds": 0.7852063889999954
+      },
+      {
+        "label": "failure_after_unload",
+        "feature": "nails",
+        "seconds": 1.5728549950001707
+      },
+      {
+        "label": "recovery_after_unload",
+        "feature": "makeup",
+        "seconds": 0.7754873480000697
+      },
+      {
+        "label": "failure_after_load",
+        "feature": "nails",
+        "seconds": 2.578383290000147
+      },
+      {
+        "label": "recovery_after_load",
+        "feature": "makeup",
+        "seconds": 0.773504383000045
+      },
+      {
+        "label": "failure_oom",
+        "feature": "nails",
+        "seconds": 1.5043633949999276
+      },
+      {
+        "label": "recovery_oom",
+        "feature": "makeup",
+        "seconds": 0.779186148000008
+      },
+      {
+        "label": "concurrency_first",
+        "feature": "hairstyle",
+        "seconds": 1.617340122999849
+      },
+      {
+        "label": "concurrency_second",
+        "feature": "makeup",
+        "seconds": 1.5219352609999532
+      },
+      {
+        "label": "cancellation_first",
+        "feature": "hairstyle",
+        "seconds": 1.6325900690001163
+      },
+      {
+        "label": "cancellation_second",
+        "feature": "makeup",
+        "seconds": 1.5224606570000105
+      }
+    ]
+  },
+  "storage": {
+    "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+    "revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "model_index_sha256": "de1fef01845f0af3e1e2f2581cd5e86f2dfa4a4776f7f0b26b4c77feac4ee70f",
+    "download_or_cache_reuse_seconds": 73.63439208700004,
+    "snapshot_unique_backing_bytes": 15980131711,
+    "cache_bytes": 15980136544,
+    "scratch_before": {
+      "free_bytes": 1201351999488,
+      "total_bytes": 8758385086464
+    },
+    "scratch_after": {
+      "free_bytes": 1185371127808,
+      "total_bytes": 8758385086464
+    }
+  },
+  "unused_preinstalled_dependency_conflicts": [
+    "kaggle-environments 1.29.3 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "cesium 0.12.4 requires numpy<3.0,>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "google-colab 1.0.0 requires jupyter-server==2.14.0, but you have jupyter-server 2.12.5 which is incompatible.",
+    "google-colab 1.0.0 requires pandas==2.2.2, but you have pandas 2.3.3 which is incompatible.",
+    "dopamine-rl 4.1.2 requires gym<=0.25.2, but you have gym 0.26.2 which is incompatible.",
+    "jaxlib 0.7.2 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "cupy-cuda12x 14.0.1 requires numpy<2.6,>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "moviepy 1.0.3 requires decorator<5.0,>=4.0.2, but you have decorator 5.3.1 which is incompatible.",
+    "opencv-python 4.13.0.92 requires numpy>=2; python_version >= \"3.9\", but you have numpy 1.26.4 which is incompatible.",
+    "tobler 0.14.0 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "jax 0.7.2 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "opencv-python-headless 4.13.0.92 requires numpy>=2; python_version >= \"3.9\", but you have numpy 1.26.4 which is incompatible.",
+    "rasterio 1.5.0 requires numpy>=2, but you have numpy 1.26.4 which is incompatible.",
+    "pytensor 2.38.2 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "xarray-einstats 0.10.0 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "tifffile 2026.4.11 requires numpy>=2.0, but you have numpy 1.26.4 which is incompatible.",
+    "opencv-contrib-python 4.13.0.92 requires numpy>=2; python_version >= \"3.9\", but you have numpy 1.26.4 which is incompatible.",
+    "shap 0.51.0 requires numpy>=2, but you have numpy 1.26.4 which is incompatible."
+  ],
+  "telemetry_warnings": [],
+  "visual_review": "First Hair, Makeup and Nails comparison sheets inspected locally. Candidates reproduce Gate 1 references exactly; no new switching drift. Existing Hair reconstruction and Makeup skin/identity/texture changes remain; no new generation-quality approval.",
+  "pass_criteria": {
+    "1_one_foundation_persists": "VERIFIED: load count one, unchanged pipeline and component fingerprints throughout",
+    "2_hair_loads_and_generates": "VERIFIED: crew_cut exact PNG/RGB match",
+    "3_makeup_replaces_hair": "VERIFIED: natural_makeup exact PNG/RGB match",
+    "4_nails_replaces_makeup": "VERIFIED: classic_red crop exact PNG/RGB match",
+    "5_hair_restored": "VERIFIED: all later Hair outputs equal Gate 1 and first shared result",
+    "6_makeup_restored": "VERIFIED: all later Makeup outputs equal Gate 1 and first shared result",
+    "7_equivalence": "VERIFIED: all 17 exact PNG/RGB equality, zero changed pixels/channel differences",
+    "8_provenance": "VERIFIED: requested/active feature, style, adapter/hash, converted active tensor state and Base revision consistent",
+    "9_serialization": "VERIFIED: exclusive event trace and competing feature probe",
+    "10_uncertain_state_blocks_inference": "VERIFIED: all five injected failures have no inference event",
+    "11_recovery_or_fail_closed": "VERIFIED: all five GPU probes restore verified Makeup and complete subsequent inference; failed restoration fail-closed path LOCAL VERIFIED only",
+    "12_memory": "VERIFIED for bounded run: no obvious progressive leak/blocker; no long-duration guarantee"
+  },
+  "limits": [
+    "Only three approved styles/inputs and 17 successful requests; not all styles or long-duration serving.",
+    "Artifact/full-bundle integrity independently checked locally; live loaded-tensor/foundation observations are trusted matching harness records, not a second GPU run.",
+    "Base revision/index checked; full downloaded Base weight files are not in returned evidence.",
+    "OOM was an injected switch exception, not a real CUDA allocation failure.",
+    "Cancellation is async harness cancellation, not an actual HTTP disconnect; no HTTP server exists.",
+    "Failure-restoration success GPU-tested; failed restoration/unready and failed CUDA synchronization paths only tested locally with fakes.",
+    "Sampled whole-device GPU maxima are not continuous peaks; PyTorch metrics are distinct.",
+    "Global unused Kaggle package conflicts remain; local Nails vision/render/compositing boundary is unchanged.",
+    "Exact image preservation is not a new model-quality/identity-preservation approval.",
+    "No final unified API server, tunnel, application migration, centralized live end-to-end acceptance or Gate 3."
+  ],
+  "gate3_started": false,
+  "production_runtime_changes": false
+}

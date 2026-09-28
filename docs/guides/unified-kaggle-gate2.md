@@ -1,6 +1,6 @@
 # Unified Kaggle Gate 2 handoff
 
-2026-09-28. **Preparation DONE; LOCAL VERIFIED; GPU NOT STARTED.** Gate 2 is not passed. Gate 1 results remain unchanged. See [experiment design and local checks](../experiments/unified-kaggle-gate2.md).
+2026-09-28. **Gate 2 DONE; GATE_2_PASSED** after independent review of the returned GPU evidence. No rerun is required for acceptance. The notebook/cells below remain the exact reproduction handoff; their completion status still requires review and never auto-passes a gate. Gate 1 results remain unchanged; Gate 3 has not started. See [reviewed results and limits](../experiments/unified-kaggle-gate2.md).
 
 ## Files and notebook settings
 

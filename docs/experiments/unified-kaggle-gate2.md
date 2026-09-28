@@ -1,6 +1,6 @@
 # Unified Kaggle Gate 2, persistent foundation and adapter switching
 
-2026-09-28. **Preparation DONE; LOCAL VERIFIED; GPU experiment NOT STARTED, NEEDS VERIFICATION. Gate 2 has not passed.** Supervisor authorized this isolated experiment only. Gate 1 remains passed for its reviewed fixed cases. No final inference API server, application migration or Gate 3 is implemented.
+2026-09-28. **DONE; LIVE FIXED-CASE SWITCHING VERIFIED; GATE_2_PASSED** after independent review of returned Kaggle evidence. Acceptance covers this bounded experiment only. Supervisor authorized this isolated experiment; no final inference API server, application migration or Gate 3 is implemented. Gate 1 evidence remains unchanged. Preparation details below describe the harness that was run; reviewed results follow at the end.
 
 ## Authoritative inputs
 
@@ -30,7 +30,7 @@ One `asyncio.Lock` covers the complete switch and generation operation. GPU work
 
 The pinned library's `get_list_adapters()` and `get_active_adapters()` must identify exactly one transformer adapter. Every LoRA layer must independently have that sole active adapter, with no disabled or merged layer. Its actual named LoRA tensors must match the requested artifact after the pinned library's own `lora_state_dict` conversion, with exact tensor equality. Converted tensor hash/count, verified layer count and the library adapter name are recorded. Verification runs before inference and after completion. Wrong or unknown state marks the runtime unready and blocks generation. Pipeline/transformer/text encoder/VAE/scheduler/tokenizer object identities must remain unchanged. Inference metadata is validated against requested feature/style, adapter ID/hash, Base revision and settings; the wrapper additionally records requested and active feature identities.
 
-API behavior was checked against the [pinned Diffusers loader source](https://github.com/huggingface/diffusers/blob/c943837899b16cbae2f619b8dd4f7bb6f07dd81a/src/diffusers/loaders/lora_base.py) and [Flux2 loader conversion](https://github.com/huggingface/diffusers/blob/c943837899b16cbae2f619b8dd4f7bb6f07dd81a/src/diffusers/loaders/lora_pipeline.py). This source inspection supports harness design, not a claim that real cross feature switching has succeeded.
+API behavior was checked against the [pinned Diffusers loader source](https://github.com/huggingface/diffusers/blob/c943837899b16cbae2f619b8dd4f7bb6f07dd81a/src/diffusers/loaders/lora_base.py) and [Flux2 loader conversion](https://github.com/huggingface/diffusers/blob/c943837899b16cbae2f619b8dd4f7bb6f07dd81a/src/diffusers/loaders/lora_pipeline.py). Source inspection supported harness design; actual switching evidence is recorded in the review below.
 
 ## Sequence, equivalence and measurements
 
@@ -60,8 +60,43 @@ Preparation checks on system Python 3.11, not the candidate GPU environment:
 
 Final private handoff: `artifacts/unified_gate2_20260928_v5.bin`, **128,940,681 bytes**, SHA-256 `0e5ffd854f394f86e5c1ca49d47b9b230b0088aae2da828d893601330d190feb`, 39 members. Adapters occur once each in the new bundle. It is ignored by Git. Earlier local bundles are drafts; only `_v5.bin` is the handoff. New notebook paths `/kaggle/working/gate2_bundle`, `/kaggle/working/unified_gate2` and `/tmp/gate2-hf-cache` are separate from Gate 1/production roots and refuse overwrite. Rebuild to a new filename only, then independently update/verify handoff hashes before use.
 
-## Kaggle evidence required
+## Original Kaggle evidence handoff
 
-Use the [exact handoff](../guides/unified-kaggle-gate2.md). Return `evidence.zip`, all Cell 3 output and the actual accelerator setting, including failed runs. Successful completion is **SWITCHING_COMPLETED_REVIEW_REQUIRED**, never automatic Gate 2 acceptance. A differing shared result reports **SWITCHING_COMPLETED_ISOLATED_REPEATS_REQUIRED** and includes conditional diagnostic evidence. Review one persistent foundation, adapter identity, all equivalence/restoration outcomes, serialization/cancellation, timing and memory stability before considering the twelve Supervisor pass criteria. Real switching, hook behavior and long lived RAM/VRAM are **NEEDS VERIFICATION**.
+The [exact handoff](../guides/unified-kaggle-gate2.md) requested `evidence.zip` and Cell 3 output, including failed runs. Successful completion reports **SWITCHING_COMPLETED_REVIEW_REQUIRED**, never automatic Gate 2 acceptance. A differing shared result reports **SWITCHING_COMPLETED_ISOLATED_REPEATS_REQUIRED** and includes conditional diagnostic evidence. Acceptance requires independent review of the twelve Supervisor criteria; the returned archive has now received that review.
 
-Current preparation status: **GATE_2_READY_FOR_KAGGLE**. The next milestone is the manual Gate 2 run and independent returned evidence review. Gate 3, final shared server and centralized live application validation remain unperformed.
+## Returned GPU evidence review, 2026-09-28
+
+**GATE_2_PASSED.** Preparation checkpoint `de4547403eee7bdd8f6b70c97ebf812e86445d1e`; returned archive **21,628,444 bytes**, 95 unique safe members, SHA-256 `a7636f14074806bc7cee3d21804be234e67b316c20821fa68d8b5c890cb673fe`. CRC, trusted final bundle inventory/hashes and source bytes, returned inputs/references/Gate 1 outputs, exact observed environment and pinned Base/index all pass independent local checks. Raw evidence and comparison images are retained under ignored `.tmp/gate2-review-20260928/`; no private images, weights, credentials or temporary URLs enter Git. Durable numeric/provenance evidence and all twelve acceptance criteria: [review JSON](unified-kaggle-gate2-review.json).
+
+| Check | Reviewed outcome |
+| --- | --- |
+| Foundation | Exactly one load. Pipeline, transformer, text encoder, VAE, scheduler and tokenizer object identities remain unchanged across all recorded results. |
+| Sequence/restoration | Hair → Makeup → Nails → Hair → Makeup plus Nails → Hair → Makeup completed. Later Hair, Makeup and Nails outputs match their first shared result and Gate 1 exactly. |
+| Equivalence | All **17** response PNGs independently decoded and compared: exact PNG bytes/RGB arrays, zero changed pixels, zero mean/max channel differences. 512×512, 20 steps, guidance 4.0, seed 1977, FP16 CPU offload unchanged. No tolerance needed; no differing feature required isolated diagnostic repeats. |
+| Adapter provenance | Correct requested/active feature, style, approved adapter ID/hash and Base revision for every result. Trusted matching harness records exact active converted tensor verification: 200 tensors / 100 LoRA layers, one `default_0` adapter. Tensor fingerprints are stable per feature. |
+| Failure recovery | Missing/invalid artifact, exception after unload/load and injected OOM each block inference and restore verified Makeup. Each subsequent recovery inference matches Gate 1. Real CUDA OOM was not induced. |
+| Ownership | 165 events independently reconstructed into **22** nonoverlapping exclusive operations: 17 completed inferences and five blocked failures. Competing requests serialize. Repeated cancellation holds ownership until actual inference ends; the next feature cannot switch early. This is async harness cancellation, not an HTTP disconnect test. |
+| Environment | Exactly matches the observed Gate 1 environment, including Safetensors **0.9.0rc1** and Diffusers commit `c943837899b16cbae2f619b8dd4f7bb6f07dd81a`. Unused preinstalled package conflicts remain; no exercised compatibility failure. |
+
+Representative Hair/Makeup/Nails comparison sheets were visually inspected. Candidates reproduce Gate 1, including its existing Hair reconstruction and Makeup skin/identity/texture drift. This gate validates switching equivalence, not new model-quality approval. Nails is the approved GPU crop only; all local vision, renderer and compositing stages remain local and unchanged.
+
+### Resource and timing observations
+
+| Measurement | Observed |
+| --- | --- |
+| GPUs | T4 GPU 0 used; GPU 1 sampled usage remains zero. No OOM/worker/telemetry failure. |
+| Whole-device sampled peak | **8,693 MiB** on GPU 0 across 1,315 memory samples and boundary measurements; not a continuous peak guarantee. |
+| PyTorch peaks | **8,707,695,104 allocated / 8,971,616,256 reserved bytes**, separate from whole-device usage. |
+| Between-request GPU memory | Allocated remains **9,569,280 bytes** after all 17 results. Reserved is 54 MiB except the first Makeup result at 56 MiB; whole-device use is 191 MiB except that result at 193 MiB. |
+| Host memory | Process high-water **22.887 GiB**, set during Base loading and unchanged. First completed inference RSS **17.973 GiB**; last **17.856 GiB**. Later RSS fluctuates rather than increasing monotonically. Minimum measured available system RAM **12.307 GiB**. |
+| Setup and Base | Dependency setup **48.320 s**; pre-worker setup **172.206 s**, including Base download **73.634 s**. One foundation load **57.803 s**. |
+| Inference | **66.428–75.335 s** per recorded inference interval; **1,260.934 s / 21.016 min** for 17 intervals. Includes completion verification; not a production latency benchmark. |
+| Switching | Ordinary feature changes about **1.51–1.99 s** in this run; all 22 switch intervals, including same-feature checks and injected failure restoration, total **31.372 s**. |
+| Total | Persistent process **1,385.730 s / 23.096 min**; complete bootstrap/experiment **1,564.064 s / 26.068 min**. This explains the long heartbeat sequence; it was running 17 inferences, not one generation. |
+| Storage | Base snapshot unique backing **15,980,131,711 bytes**; cache **15,980,136,544 bytes**. Filesystem free-space readings describe the mounted filesystem, not an asserted Kaggle storage quota. |
+
+**No obvious progressive memory leak or resource blocker is evidenced in this bounded run.** GPU post-inference allocation is constant, reserved/device memory settles after initial caching, final RSS is below the first completed result, and load-time high-water does not rise. This is not a long-duration leak guarantee. Optional telemetry produced no warnings. Failed restoration/unready and failed synchronization paths have local fake tests, not real GPU fault evidence.
+
+No application suite rerun or second GPU inference was needed for this evidence/documentation review. Independent archive, contract, pixel, event and telemetry checks passed; the earlier 79 preparation tests remain their dated local evidence. Live loaded-tensor/foundation observations are records from the verified matching harness, not a separate local GPU measurement. Full downloaded Base weights are not contained in the archive; revision/index provenance was checked.
+
+**Next recommended milestone, NOT STARTED:** separately authorize the minimal candidate unified inference server and Gate 3 service/application acceptance plan, retaining all three existing services as fallback. One shared foundation is now evidenced for these fixed cases; one server, authentication/tunnel lifecycle, real HTTP cancellation/errors, broader style coverage and centralized live end-to-end application behavior still require implementation/validation. No production cutover or automatic Gate 3 work occurs in this review.
