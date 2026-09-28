@@ -119,6 +119,9 @@ def test_update_cell_sources_are_verified_and_assets_remain_in_original(tmp_path
     for name in ('scripts','backend/app/nails','docs','gate1/adapters'):
         (original/name).mkdir(parents=True)
     (original/'gate1/adapters/read_only.safetensors').write_bytes(b'fake asset')
+    from scripts.nails_latency_update import MAKEUP_PRESETS
+    (original/MAKEUP_PRESETS).parent.mkdir(parents=True)
+    (original/MAKEUP_PRESETS).write_bytes(b'approved configuration')
     target=tmp_path/'new'
     # Windows CI need not grant symlink creation privileges; assert the intended
     # target and create a marker instead. Linux Kaggle uses the real symlink.
@@ -130,6 +133,7 @@ def test_update_cell_sources_are_verified_and_assets_remain_in_original(tmp_path
         prepare_worker(original,target,payload)
     assert links==[(target/'gate1',original/'gate1')]
     assert (original/'gate1/adapters/read_only.safetensors').read_bytes()==b'fake asset'
+    assert (target/MAKEUP_PRESETS).read_bytes()==b'approved configuration'
     assert not (target/'gate1/adapters/read_only.safetensors').exists()
     assert sha256((target/FILES[0]).read_text(encoding='utf-8').encode()).hexdigest()==hashes[FILES[0]]
     with pytest.raises(ValueError,match='already exists'):
@@ -170,6 +174,7 @@ def test_notebook_update_reuses_cache_and_restores_original_on_failure(tmp_path,
     monkeypatch.setattr(boot,'health',lambda url:{'status':'ready'})
     monkeypatch.setattr(boot,'ready',lambda value:True)
     monkeypatch.setattr(update,'prepare_worker',lambda *args:None)
+    monkeypatch.setattr(update,'preflight_worker',lambda *args:None)
     monkeypatch.setattr(update,'running_worker',lambda pid:True)
     stopped=[]
     monkeypatch.setattr(update,'stop_worker',lambda pid:stopped.append(pid))
@@ -192,3 +197,57 @@ def test_notebook_update_reuses_cache_and_restores_original_on_failure(tmp_path,
         assert report['status']=='READY_FOR_NAILS_LATENCY_COMPARE'
     assert json.loads((previous/'server_process.json').read_text())['pid']==200+len(attempts)
     assert KEY not in json.dumps(report)
+
+
+def test_assembled_worker_imports_reviewed_presets_without_loading_models(tmp_path,monkeypatch):
+    import os
+    import shutil
+    from scripts.nails_latency_update import MAKEUP_PRESETS, preflight_worker
+    root=Path(__file__).resolve().parents[2]
+    original,target,output=tmp_path/'original',tmp_path/'worker',tmp_path/'logs'
+    shutil.copytree(root/'scripts',original/'scripts',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+    shutil.copytree(root/'backend/app',original/'backend/app',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+    (original/'docs').mkdir()
+    (original/'gate1').mkdir()
+    (original/MAKEUP_PRESETS).parent.mkdir(parents=True)
+    shutil.copyfile(root/MAKEUP_PRESETS,original/MAKEUP_PRESETS)
+    _,hashes=build()
+    payload={'files':{name:(root/name).read_text(encoding='utf-8') for name in FILES},'hashes':hashes}
+    # No privileged directory symlink required for this import-only boundary.
+    monkeypatch.setattr(Path,'symlink_to',lambda path,*args,**kwargs:path.mkdir())
+    prepare_worker(original,target,payload)
+    output.mkdir()
+    env=os.environ.copy()
+    env.pop('HAIRCAPSTONE_STYLE_REGISTRY_PATH',None)
+    preflight_worker(target,output,env)
+    assert 'WORKER_IMPORT_PREFLIGHT_PASSED; Base loads: 0' in (output/'import_preflight.log').read_text()
+    # Reproduce the exact returned Kaggle error with no Base/model operation.
+    (target/MAKEUP_PRESETS).unlink()
+    with pytest.raises(RuntimeError,match='original GPU worker was not stopped'):
+        preflight_worker(target,output,env)
+    assert 'FileNotFoundError' in (output/'import_preflight.log').read_text()
+    assert 'inference_presets.json' in (output/'import_preflight.log').read_text()
+
+
+def test_failed_import_preflight_never_stops_the_running_worker(tmp_path,monkeypatch):
+    from scripts import nails_latency_update as update, unified_gate3_bootstrap as boot
+    import json
+    root=Path(__file__).resolve().parents[2]
+    _,hashes=build()
+    payload={'files':{name:(root/name).read_text(encoding='utf-8') for name in FILES},'hashes':hashes}
+    original,previous,model=tmp_path/'original',tmp_path/'running',tmp_path/'cached_base'
+    for path in (original,previous,model):path.mkdir()
+    (previous/'model.json').write_text(json.dumps({'snapshot':str(model)}))
+    (previous/'server_process.json').write_text(json.dumps({'pid':123}))
+    monkeypatch.setenv('AI_REMOTE_API_KEY',KEY)
+    monkeypatch.setattr(boot,'verify_bundle',lambda path:None)
+    monkeypatch.setattr(boot,'health',lambda url:{'status':'ready'})
+    monkeypatch.setattr(boot,'ready',lambda health:True)
+    monkeypatch.setattr(update,'prepare_worker',lambda *args:None)
+    monkeypatch.setattr(update,'preflight_worker',lambda *args:(_ for _ in ()).throw(RuntimeError('Controlled import failure')))
+    stops=[]
+    monkeypatch.setattr(update,'stop_worker',lambda pid:stops.append(pid))
+    with pytest.raises(RuntimeError,match='Controlled import failure'):
+        update.update(payload,original,previous)
+    assert stops==[]
+    assert json.loads(next(tmp_path.glob('nails_latency_update_*/update.json')).read_text())['status']=='PREFLIGHT_FAILED_ORIGINAL_WORKER_UNCHANGED'

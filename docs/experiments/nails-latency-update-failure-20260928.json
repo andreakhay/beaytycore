@@ -1,0 +1,36 @@
+{
+  "status": "VERIFIED_PACKAGING_FAILURE_CORRECTED_LOCALLY",
+  "reported_status": "ORIGINAL_20_STEP_WORKER_RESTORED",
+  "source_hashes": {
+    "backend/app/nails/inference_options.py": "db57371532b6b6cf7c38218c613f3aa3f0c7283157e5d3555a804499b5ee8211",
+    "scripts/unified_gate3_nails.py": "a28d00a0c3c3f62ca3fd110a00cb2e565b95d1b6960b70383465a86195e8996f",
+    "scripts/unified_gate3_server.py": "fb54e6d5dcae9dacd80e7b7a1b84114823a1f2a6b07c4cb904c09f4739e5503e"
+  },
+  "restored_health": {
+    "status": "ready",
+    "process_alive": true,
+    "gpu_runtime_ready": true,
+    "base_model_loaded": true,
+    "foundation_load_count": 1,
+    "base_model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+    "base_model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "active_feature": "hairstyle",
+    "active_adapter": "train001",
+    "supported_features": [
+      "hairstyle",
+      "makeup",
+      "nails"
+    ],
+    "load_seconds": 58.489
+  },
+  "update_report_sha256": "3e0cdea64f3bcdaa491b5117329af64f1ce1064c0d6f1d0ad62860befa999dd2",
+  "server_log_sha256": "6d59d37d5ab892d9c9e46c49ceaa4985f42f4ccd47c7e8547c94bdbb97908da3",
+  "failure": {
+    "phase": "service import before Base load",
+    "type": "FileNotFoundError",
+    "missing_relative_file": "data/makeup/DATA-M001-paired/inference_presets.json",
+    "cause": "isolated source tree omitted the approved Makeup preset file"
+  },
+  "fix": "copy the approved preset JSON and import the assembled service before stopping the running worker",
+  "faster_inference_live_tested": false
+}

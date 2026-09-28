@@ -6,11 +6,13 @@ import os
 from pathlib import Path
 import shutil
 import signal
+import subprocess
 import sys
 import time
 
 FILES = ('scripts/unified_gate3_server.py', 'scripts/unified_gate3_nails.py',
          'backend/app/nails/inference_options.py')
+MAKEUP_PRESETS = 'data/makeup/DATA-M001-paired/inference_presets.json'
 
 
 def verify_payload(payload):
@@ -34,9 +36,30 @@ def prepare_worker(original, target, payload):
         shutil.copytree(original / name, target / name,
                         ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
     (target / 'gate1').symlink_to(original / 'gate1', target_is_directory=True)
+    # Makeup resolves this reviewed JSON relative to the worker root at import.
+    # Copy only its configuration, never the data tree or private images.
+    presets = target / MAKEUP_PRESETS
+    presets.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(original / MAKEUP_PRESETS, presets)
     for name, value in payload['files'].items():
         (target / name).write_text(value, encoding='utf-8')
     (target / 'latency_sources.json').write_text(json.dumps(payload['hashes'], indent=2))
+
+
+def preflight_worker(target, output, env):
+    """Import the actual assembled service in a fresh process without loading Base."""
+    command = (
+        'from pathlib import Path; import scripts.unified_gate3_server as s; '
+        'assert s.ROOT.resolve() == Path.cwd().resolve(); '
+        'assert s.runtime.foundation_load_count == 0; '
+        'assert s.runtime.health()["nails_inference_steps"] == [8,12,20]; '
+        'print("WORKER_IMPORT_PREFLIGHT_PASSED; Base loads: 0")'
+    )
+    with (output / 'import_preflight.log').open('w', encoding='utf-8') as log:
+        result = subprocess.run([sys.executable, '-c', command], cwd=target, env=env,
+                                stdout=log, stderr=subprocess.STDOUT, timeout=90)
+    if result.returncode:
+        raise RuntimeError('Worker import preflight failed; original GPU worker was not stopped. Inspect import_preflight.log.')
 
 
 def running_worker(pid):
@@ -92,6 +115,15 @@ def update(payload, original=Path('/kaggle/working/gate3_bundle'),
     env.update(AI_REMOTE_API_KEY=key, AI_MODEL_DIR=model['snapshot'], CUDA_VISIBLE_DEVICES='0',
                PYTHONUNBUFFERED='1', HF_HOME='/tmp/gate3-hf-cache')
     report = {'status': 'FAILED', 'source_hashes': payload['hashes'], 'startup_seconds': None}
+    print('Checking all worker imports before touching the running GPU worker.', flush=True)
+    try:
+        preflight_worker(target, output, env)
+    except Exception as exc:
+        report.update(status='PREFLIGHT_FAILED_ORIGINAL_WORKER_UNCHANGED',
+                      failure_type=type(exc).__name__, failure_phase='import preflight')
+        (output / 'update.json').write_text(json.dumps(report, indent=2))
+        print(report['status'], 'Evidence:', output / 'update.json', flush=True)
+        raise
     print('Stopping only the GPU worker gracefully. The existing tunnel stays running.', flush=True)
     stop_worker(pid)
     boot.ROOT = target
@@ -104,7 +136,8 @@ def update(payload, original=Path('/kaggle/working/gate3_bundle'),
                       startup_seconds=result['server_start_seconds'])
         # Keep the notebook's existing evidence/acceptance cells targeting the live PID.
         shutil.copyfile(output / 'server_process.json', previous / 'server_process.json')
-    except Exception:
+    except Exception as exc:
+        report.update(failure_type=type(exc).__name__, failure_phase='worker startup')
         # Drain a partially started worker before loading the original fallback.
         process_file = output / 'server_process.json'
         if process_file.exists():
