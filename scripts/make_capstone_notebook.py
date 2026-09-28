@@ -21,6 +21,7 @@ from pathlib import Path
 from hashlib import sha256
 from urllib.request import urlopen
 import sys
+import importlib
 COMMIT = "COMMIT_VALUE"
 HASHES = HASH_VALUE
 SUPPORT = Path("/kaggle/working/capstone-entry")
@@ -34,7 +35,10 @@ try:
             raise RuntimeError("Pinned startup support hash mismatch")
         (SUPPORT / name).write_bytes(raw)
     sys.path.insert(0, str(SUPPORT))
+    import capstone_discovery
+    importlib.reload(capstone_discovery)
     import capstone_kaggle
+    importlib.reload(capstone_kaggle)
     capstone_kaggle.main()
 except Exception as error:
     print("CAPSTONE_STARTUP_FAILED stage=startup_support", type(error).__name__)
@@ -54,6 +58,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     result, hashes = notebook(args.commit)
     (ROOT / 'notebooks/capstone_start.ipynb').write_text(json.dumps(result, indent=1) + '\n', encoding='utf-8')
+    (ROOT / 'notebooks/START_CAPSTONE_cell.py').write_text(''.join(result['cells'][0]['source']), encoding='utf-8')
     (ROOT / 'docs/experiments/capstone-startup-sources.json').write_text(json.dumps({
         'support_commit': args.commit, 'support_sha256': hashes,
         'private_bundle_unchanged': 'deployment01_20260928_v2.bin'}, indent=2) + '\n', encoding='utf-8')

@@ -11,10 +11,10 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 try:
     from scripts.capstone_discovery import (BUNDLE_NAME, BUNDLE_SHA, StartupError, make_record,
-                                           publish, discover, verify_worker, verify_health, VERSION)
+                                           publish, confirm_publication, verify_worker, verify_health, VERSION)
 except ModuleNotFoundError:
     from capstone_discovery import (BUNDLE_NAME, BUNDLE_SHA, StartupError, make_record,
-                                   publish, discover, verify_worker, verify_health, VERSION)
+                                   publish, confirm_publication, verify_worker, verify_health, VERSION)
 
 WORK = Path('/kaggle/working/capstone')
 ROOT = WORK / 'runtime'
@@ -101,7 +101,7 @@ def main(input_root=Path('/kaggle/input')):
         stage = 'endpoint_publication'
         record = make_record(key, 'ready', url)
         publish(record, key)
-        discovered, acknowledged = discover(key)
+        discovered, acknowledged = confirm_publication(record, key)
         if discovered != url or acknowledged['publication_id'] != record['publication_id']:
             raise StartupError('Publication readback did not match this startup')
         (OUT / 'capstone-startup.json').write_text(json.dumps({

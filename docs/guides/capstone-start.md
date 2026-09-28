@@ -35,6 +35,8 @@ Double-click `F:\HAIR\STOP_CAPSTONE.bat`. It closes only launcher-owned local ba
 
 The notebook/launcher prints `CAPSTONE_STARTUP_FAILED stage=...`. Logs remain in Kaggle `/kaggle/working/capstone/` and local `F:\HAIR\.tmp\capstone\`. An invalid, expired or unreachable discovery record never falls back to an older URL. Discovery records expire after four hours; re-run START CAPSTONE on the same idle healthy notebook to republish without loading Base again.
 
+If the earlier notebook reported `stage=endpoint_publication` after worker readiness, keep that session open. Replace its START CAPSTONE cell with the complete contents of `F:\HAIR\notebooks\START_CAPSTONE_cell.py` and run once. This refreshes only the two startup support modules, verifies the existing worker, and waits up to 30 seconds for the exact signed publication to appear in the mailbox cache. No model or tunnel restart, installation or Base download is needed. Wait for `CAPSTONE_AI_READY` before starting the laptop launcher. The updated notebook contains the same cell for future sessions.
+
 If the temporary mailbox is unavailable, the notebook still prepares the worker but reports failed publication. To recover explicitly, read the current worker URL in a separate emergency Kaggle cell:
 
 ```python

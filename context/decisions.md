@@ -1,5 +1,7 @@
 # Decision history
 
+2026-09-28 startup correction, CONFIRMED: wait for exact ready publication cache visibility before reporting CAPSTONE_AI_READY. Bounded metadata polling is permitted; generation retries remain zero. Never use an older ready endpoint. Same kernel entry refreshes startup support only and verifies/reuses the running worker. Evidence: [startup correction](../docs/experiments/capstone-startup.md).
+
 Source for all entries: Supervisor's CODEX HANDOFF 001. Decision dates before this record: UNKNOWN. Recorded 2026-09-21.
 
 | Decision | Status | Evidence | Rationale and authority |

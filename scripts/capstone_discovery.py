@@ -115,16 +115,46 @@ def publish(record, key):
         raise StartupError('Publication was not acknowledged')
 
 
-def discover(key):
+def latest_record(key):
+    """A publish acknowledgement can precede visibility in the service cache."""
     try:
-        raw = request(SERVICE + '/' + topic(key) + '/json?poll=1&since=latest')
+        raw = request(SERVICE + '/' + topic(key) + '/json?poll=1&since=latest&nonce=' + uuid4().hex,
+                      headers={'Cache-Control': 'no-cache'})
         messages = [v for line in raw.splitlines() if (v := json.loads(line)).get('event') == 'message']
         if not messages:
-            raise StartupError('No endpoint published; run START CAPSTONE in Kaggle')
+            return None
         record = json.loads(messages[-1]['message'])
-        return validate_record(record, key), record
+        if not isinstance(record, dict):
+            raise ValueError()
+        return record
     except (ValueError, KeyError, TypeError, AttributeError):
         raise StartupError('Discovery returned an invalid record; no older-record fallback') from None
+
+
+def discover(key):
+    record = latest_record(key)
+    if record is None:
+        raise StartupError('No endpoint published; run START CAPSTONE in Kaggle')
+    return validate_record(record, key), record
+
+
+def confirm_publication(record, key, timeout=30):
+    """Poll only startup metadata. Never accept an older ready publication."""
+    deadline = time.monotonic() + timeout
+    while True:
+        observed = latest_record(key)
+        if observed == record:
+            return validate_record(observed, key), observed
+        if observed is not None:
+            # Do not tolerate a forged record while waiting for cache visibility.
+            signature = observed.get('signature')
+            unsigned = {k: v for k, v in observed.items() if k != 'signature'}
+            if not isinstance(signature, str) or not hmac.compare_digest(signature, sign(unsigned, key)):
+                raise StartupError('Discovery signature failed; no older-record fallback')
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise StartupError('Publication acknowledged but not visible within 30 seconds; worker remains running')
+        time.sleep(min(2, remaining))
 
 
 def verify_health(value):

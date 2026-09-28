@@ -44,6 +44,42 @@ def test_publish_discover_format_and_secret_exclusion(monkeypatch):
     assert discovery.topic(KEY) != discovery.topic(KEY + 'different')
 
 
+@pytest.mark.parametrize('previous_state', ['empty', 'starting', 'failed', 'ready'])
+def test_acknowledged_publication_waits_for_exact_cache_visibility(monkeypatch, previous_state):
+    expected = discovery.make_record(KEY, 'ready', URL)
+    previous = None if previous_state == 'empty' else discovery.make_record(
+        KEY, previous_state, URL if previous_state == 'ready' else None)
+    rows = iter([previous, previous, expected])
+    monkeypatch.setattr(discovery, 'latest_record', lambda key: next(rows))
+    waits = []
+    monkeypatch.setattr(discovery.time, 'sleep', waits.append)
+    assert discovery.confirm_publication(expected, KEY) == (URL, expected)
+    assert waits == [2, 2]
+
+
+def test_publication_never_accepts_old_ready_record_or_forgery(monkeypatch):
+    expected = discovery.make_record(KEY, 'ready', URL)
+    previous = discovery.make_record(KEY, 'ready', URL)
+    monkeypatch.setattr(discovery, 'latest_record', lambda key: previous)
+    with pytest.raises(discovery.StartupError, match='not visible'):
+        discovery.confirm_publication(expected, KEY, timeout=0)
+    monkeypatch.setattr(discovery, 'latest_record', lambda key: {**expected, 'signature': 'wrong'})
+    with pytest.raises(discovery.StartupError, match='signature'):
+        discovery.confirm_publication(expected, KEY)
+
+
+def test_discovery_uses_fresh_cache_read_each_time(monkeypatch):
+    record = discovery.make_record(KEY, 'ready', URL)
+    calls = []
+    def request(url, **kwargs):
+        calls.append((url, kwargs))
+        return json.dumps({'event': 'message', 'message': json.dumps(record)}).encode()
+    monkeypatch.setattr(discovery, 'request', request)
+    assert discovery.discover(KEY) == discovery.discover(KEY)
+    assert calls[0][0] != calls[1][0]
+    assert all(row[1]['headers']['Cache-Control'] == 'no-cache' for row in calls)
+
+
 @pytest.mark.parametrize('change', ['expired', 'future', 'signature', 'runtime', 'bundle', 'unknown_field', 'starting', 'failed', 'identity'])
 def test_invalid_or_stale_record_fails(change):
     record = discovery.make_record(KEY, 'ready', URL, now=1000)
@@ -73,14 +109,14 @@ def test_latest_invalid_never_falls_back_to_older(monkeypatch):
     good = discovery.make_record(KEY, 'ready', URL)
     bad = {**good, 'signature': 'wrong'}
     raw = '\n'.join(json.dumps({'event': 'message', 'message': json.dumps(v)}) for v in (good, bad)).encode()
-    monkeypatch.setattr(discovery, 'request', lambda _: raw)
+    monkeypatch.setattr(discovery, 'request', lambda _, **kwargs: raw)
     with pytest.raises(discovery.StartupError, match='signature'):
         discovery.discover(KEY)
 
 
 @pytest.mark.parametrize('raw', [b'', b'garbage', b'{"event":"message","message":"garbage"}'])
 def test_empty_or_malformed_discovery(monkeypatch, raw):
-    monkeypatch.setattr(discovery, 'request', lambda _: raw)
+    monkeypatch.setattr(discovery, 'request', lambda _, **kwargs: raw)
     with pytest.raises(discovery.StartupError): discovery.discover(KEY)
 
 
@@ -274,7 +310,7 @@ def test_kaggle_reentry_publishes_without_second_bootstrap(tmp_path, monkeypatch
     monkeypatch.setitem(sys.modules, 'kaggle_secrets', type('Module', (), {'UserSecretsClient': secrets_client}))
     published, loads = [], []
     monkeypatch.setattr(kaggle, 'publish', lambda record, key: published.append(record))
-    monkeypatch.setattr(kaggle, 'discover', lambda key: (URL, published[-1]))
+    monkeypatch.setattr(kaggle, 'confirm_publication', lambda record, key: (URL, published[-1]))
     monkeypatch.setattr(kaggle, 'extract', lambda *args: None)
     monkeypatch.setattr(kaggle, 'verify_worker', lambda *args: health())
     def bootstrap(key):
@@ -313,6 +349,8 @@ def test_thin_notebook_pins_only_public_support():
     assert 'sha256(raw).hexdigest() != expected' in start
     assert set(hashes) == {'capstone_kaggle.py', 'capstone_discovery.py'}
     assert 'get_secret' not in start and KEY not in json.dumps(result)
+    assert 'importlib.reload(capstone_discovery)' in start
+    assert 'importlib.reload(capstone_kaggle)' in start
 
 
 def test_publication_failure_leaves_worker_for_explicit_override(tmp_path, monkeypatch, capsys):
