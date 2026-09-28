@@ -4,6 +4,8 @@ The local application has Hairstyle, Makeup, and Nails pages that call one FastA
 
 Gate 3 passed reviewed live application integration with one URL and one persistent Base. Set the complete `AI_REMOTE_URL`/`AI_REMOTE_API_KEY` pair to route Hair, Makeup and Nails AI crop generation to that service; original endpoint settings remain rollback when both are removed. Deployment 01 adds startup/readiness/transport diagnostics and is locally validated; its fresh-session rehearsal is pending. Follow the [exact capstone launch runbook](docs/guides/capstone-deployment01.md) and import [the four-cell notebook](notebooks/deployment01_kaggle.ipynb). This is temporary capstone hosting, not persistent public deployment.
 
+Preferred capstone startup is now additive automation: [import the START CAPSTONE notebook](notebooks/capstone_start.ipynb) once with the same private dataset/Secrets/settings, then run its one startup cell and double-click [START_CAPSTONE.bat](START_CAPSTONE.bat). Signed temporary discovery removes manual URL copying and `.env` edits; [STOP_CAPSTONE.bat](STOP_CAPSTONE.bat) stops only launcher-owned local processes. [Short operator guide](docs/guides/capstone-start.md). This workflow is locally verified (343 backend tests); fresh-session acceptance is pending. Original notebooks/runtime/configuration remain rollback.
+
 The trained model evidence and earlier separate-runtime handoffs are in [TRAIN-001](docs/experiments/TRAIN-001.md), [MAKEUP-001 integration](docs/experiments/MAKEUP-001-integration.md), and [Nails hybrid live handoff](docs/experiments/NAILS-001-hybrid-live-handoff.md). Kaggle remains the current GPU provider. Feature implementations and original runtimes are preserved; see [state](context/state.md).
 
 ## Run locally on Windows

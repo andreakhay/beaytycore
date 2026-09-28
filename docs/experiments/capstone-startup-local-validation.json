@@ -1,0 +1,37 @@
+{
+  "status": "LOCAL_VERIFIED_FRESH_SESSION_PENDING",
+  "date": "2026-09-28",
+  "deployment01_checkpoint": "c46884f21dc164dd3d41fa133421deb300d86f57",
+  "support_commit": "ae397c2688fde37d10eb8aeca81d98da505264af",
+  "full_backend": {
+    "directory": "backend",
+    "command": "python -m pytest tests -q",
+    "passed": 343,
+    "warnings": 1,
+    "seconds": 52.16
+  },
+  "prior_focused": {
+    "command": "python -m pytest tests/test_capstone_startup.py tests/test_deployment01.py tests/test_unified_gate3.py -q",
+    "passed": 94,
+    "warnings": 1,
+    "seconds": 12.16,
+    "final_full_run_also_includes_frontend_failure_cleanup": true
+  },
+  "native_windows_owned_parent_child_shutdown": "VERIFIED",
+  "unrelated_process_survival": "VERIFIED",
+  "batch_entry_help_exit": 0,
+  "public_support_http_and_pinned_hashes": "VERIFIED",
+  "read_only_mailbox_connectivity_http": 200,
+  "live_mailbox_publication": "NOT PERFORMED",
+  "private_bundle_rebuilt": false,
+  "private_bundle_sha256": "68f6c9eb2bc0ce12b2c9c6d89e33f22898fb201b33a792887f6c5967ad16ec4e",
+  "notebook_startup_cell_lines": 24,
+  "notebook_cells_compile_and_match_generator": true,
+  "dotenv_rewritten": false,
+  "worker_model_settings_ownership_changed": false,
+  "automatic_generation_retries": 0,
+  "frontend_changed": false,
+  "frontend_suite_repeated": false,
+  "fresh_kaggle_rehearsal": "NOT STARTED",
+  "capstone_deployment_ready_claimed": false
+}

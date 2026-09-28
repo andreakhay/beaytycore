@@ -4,6 +4,8 @@ Source: Supervisor's CODEX HANDOFF 001, EXP-001, and later critical-path directi
 
 Current operational preparation (Deployment 01, 2026-09-28): the verified Next.js → central FastAPI → unified Kaggle worker topology remains unchanged. Additive image-free readiness/history endpoints and correlated transport logs instrument the existing clients and GPU owner. No automatic retry or idempotency protocol; ambiguous disconnects do not permit duplicate active work. Original separate destinations/runtimes remain explicit configuration rollback. The new repeatable startup notebook includes the already approved Nails step support. Fresh-session rehearsal is pending, not deployment acceptance. [Audit and local evidence](../docs/experiments/deployment01.md).
 
+Subsequent startup automation changes only operator coordination: Kaggle publishes signed expiring endpoint metadata to a temporary HTTP mailbox; Windows discovers/validates it and supplies process-level configuration. Discovery is outside the inference request path. No model/worker/client/ownership change or new private bundle. Existing configuration/notebooks remain rollback; fresh rehearsal must use the [new one-cell/one-launcher guide](../docs/guides/capstone-start.md).
+
 Approved first-demo path:
 
 1. Portrait plus selected hairstyle enters FLUX.2 Klein 4B with the project's trained hairstyle image-edit LoRA.

@@ -191,8 +191,8 @@ def test_unavailable_controller_and_ports_preserve_processes(local, monkeypatch)
     assert launch.STATE.exists()
 
 
-@pytest.mark.parametrize('fail_backend', [False, True])
-def test_supervisor_orchestrates_and_closes_owned_children(local, monkeypatch, fail_backend):
+@pytest.mark.parametrize('fail_stage', [None, 'backend_readiness', 'final_readiness'])
+def test_supervisor_orchestrates_and_closes_owned_children(local, monkeypatch, fail_stage):
     next_script = local / 'frontend/node_modules/next/dist/bin/next'
     next_script.parent.mkdir(parents=True)
     next_script.write_text('fixture')
@@ -213,15 +213,15 @@ def test_supervisor_orchestrates_and_closes_owned_children(local, monkeypatch, f
     monkeypatch.setattr(launch, 'start_child', spawn)
     def wait(processes, stopped, stage):
         waits.append(stage)
-        if fail_backend:
-            raise discovery.StartupError('Controlled backend failure')
+        if stage == fail_stage:
+            raise discovery.StartupError('Controlled application startup failure')
         if stage == 'final_readiness': stopped.set()
     monkeypatch.setattr(launch, 'wait_application', wait)
     launch.supervise()
-    assert len(spawned) == (1 if fail_backend else 2)
+    assert len(spawned) == (1 if fail_stage == 'backend_readiness' else 2)
     assert spawned[0][0][1:4] == ['-m', 'uvicorn', 'app.main:app']
     assert all(row[1]['AI_REMOTE_URL'] == URL for row in spawned)
-    if not fail_backend:
+    if fail_stage != 'backend_readiness':
         assert spawned[-1][0][-3:] == ['dev', '--port', '3000']
     assert closed == [True] and not launch.STATE.exists()
 

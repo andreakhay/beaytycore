@@ -47,6 +47,8 @@ Do not restore a deprecated architecture or silently change the confirmed one. G
 
 ## Deployment 01 decisions, 2026-09-28
 
+Later startup automation: **CONFIRMED scope; LOCAL VERIFIED implementation; fresh-session NEEDS VERIFICATION.** Supervisor delegates a small publish/discover mechanism and authorizes additive START/STOP automation. Choose anonymous ntfy cached HTTP metadata with separately derived HMAC topic/signature, four-hour expiry and latest-only selection, then verify public/authenticated worker identity. No API key published, no local URL cache, `.env` write, silent rollback or generation retry. Public support scripts are pinned to a Git commit/hash; the private Deployment-01 package remains unchanged. Mailbox failure is explicit and permits a verified manual override; it is a demo dependency, not persistent hosting. Owned Windows jobs/controller prevent arbitrary process kills. [Decision](../docs/specs/0002-capstone-startup.md), [guide](../docs/guides/capstone-start.md).
+
 | Decision | Status | Evidence | Rationale and authority |
 | --- | --- | --- | --- |
 | Preserve single-attempt remote generation; add correlation/crop diagnostics and manual history checks rather than automatic retry | CONFIRMED | Source audit: no prior retry/deduplication; timeout/disconnect acceptance is ambiguous. Focused diagnostics and ownership regressions LOCAL VERIFIED; original 502 cause UNKNOWN | Supervisor's conservative Deployment-01 instruction. Zero automatic retries, including 429. Missing bounded history never proves non-acceptance; ownership remains held until GPU work drains. |

@@ -2,6 +2,8 @@
 
 Preparation is locally validated. **Fresh-session rehearsal is pending.** Kaggle provides a temporary demo runtime, not 24/7 hosting. Nail quality improvement is deferred.
 
+The later [one-cell/one-launcher operator guide](capstone-start.md) is the preferred fresh-session workflow. The manual procedure below and this notebook remain intact as explicit rollback. The existing private bundle is reused unchanged.
+
 ## One-time handoff
 
 Upload [deployment01_20260928_v2.bin](../../artifacts/deployment01_20260928_v2.bin) as a **private** Kaggle Dataset. Size 128,962,896 bytes, SHA-256 `68f6c9eb2bc0ce12b2c9c6d89e33f22898fb201b33a792887f6c5967ad16ec4e`. This package reuses the accepted Gate 3 assets and adds diagnostics. Keep the original dataset/runtime as rollback. Do not rebuild the package for every demo.
