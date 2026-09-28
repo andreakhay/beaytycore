@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "HAIR CAPSTONE · AI Virtual Hairstyle",
-  description: "A development preview of the HAIR CAPSTONE hairstyle transformation flow.",
+  title: "Andrea's · AI Beauty Try-On",
+  description: "Explore hairstyle, makeup, and nail looks in Andrea's AI studio.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

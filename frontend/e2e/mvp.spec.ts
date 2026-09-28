@@ -30,11 +30,13 @@ test("upload, choose, generate, change style, and reset", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "A first look at the flow" })).toBeVisible();
   await expect(page.getByText("AI model not connected yet.", { exact: false })).toBeVisible();
   await expect(page.getByAltText("Development preview from the mock generator")).toBeVisible();
+  await page.getByRole("dialog").getByRole("button", { name: "Close", exact: true }).click();
 
   await page.locator('button[aria-pressed]').filter({ hasText: "Pixie" }).click();
   await expect(page.getByRole("heading", { name: "A first look at the flow" })).toHaveCount(0);
   await generate.click();
-  await expect(page.getByText("Pixie", { exact: true }).last()).toBeVisible();
+  await expect(page.getByRole("dialog")).toContainText("Pixie");
+  await page.getByRole("dialog").getByRole("button", { name: "Close", exact: true }).click();
 
   await page.getByRole("button", { name: "Remove" }).click();
   await expect(generate).toBeDisabled();

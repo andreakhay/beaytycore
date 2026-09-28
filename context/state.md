@@ -2,6 +2,10 @@
 
 As of 2026-09-28. Earlier feature rows retain their dated evidence; current Gate 3 and Nails latency status follows. Source: repository and local artifact inspection, Supervisor decisions, and linked experiment records.
 
+## AI studio experience, 2026-09-28
+
+**UI IMPLEMENTED; LOCAL BROWSER VERIFIED.** The three existing Next.js feature pages now use the Andrea's reference application's deep purple, gold and serif design language. Hair, Makeup and Nails retain their separate selectors, upload checks and central `/features/{feature}/generate` calls. A shared processing view displays an indeterminate animation and elapsed time without a fictional percentage. Success opens a native comparison dialog with original/generated images, download, close, regenerate and reopen. Frontend API, FastAPI, Kaggle worker, prompts, models and Nails hybrid processing are unchanged. Frontend lint/build and 16 focused mocked Edge/API client tests passed; live GPU use through this redesigned UI is NEEDS VERIFICATION.
+
 ## Capstone startup automation, 2026-09-28
 
 **TRAIN-002 expansion IN PROGRESS; LOCAL VERIFIED.** Bun HTTP 400 traced to a local thirteen-style registry versus the attached three-style TRAIN-001 worker package. Launcher now selects the registry from signed bundle identity, preserving ignored legacy configuration. One new private candidate adds the verified existing TRAIN-002 artifact and optional registry via a wrapper around the unchanged GPU bootstrap/worker; no model, prompt or ownership change. 113 focused tests passed including real bundle/artifact checks and mocked Bun → Makeup → Nails → Crew Cut restoration. Original three-style runtime remains fallback. Fresh expanded notebook startup and Bun inference are NEEDS VERIFICATION. [Candidate evidence](../docs/experiments/capstone-train002.md), [upload/start guide](../docs/guides/capstone-train002.md). Next: attach new private candidate, fresh expanded START CAPSTONE, then Bun/Crew Cut and deployment rehearsal.
