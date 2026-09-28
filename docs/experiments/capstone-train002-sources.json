@@ -1,0 +1,8 @@
+{
+  "support_commit": "8009ea46111be63691c0ebe292fdef0dbb6eb099",
+  "support_sha256": {
+    "capstone_discovery.py": "98555390828f22939851f28c7e15bdef368b011e0b6ac62b2174cff09ed32e24",
+    "capstone_kaggle.py": "256cdc00ee2ae6290647b14bff5bbdc50e62751f29936fd73c953e3f0c66ac60"
+  },
+  "private_bundle": "capstone_train002_20260928_v1.bin"
+}
