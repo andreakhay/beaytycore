@@ -1,6 +1,7 @@
 """The DATA-N001-LOCAL-v1 single-nail transform for live 512 px hands."""
 
 import itertools
+import logging
 import math
 
 import numpy as np
@@ -13,6 +14,7 @@ FINGERS = ("thumb", "index", "middle", "ring", "little")
 TIP_INDEX = (4, 8, 12, 16, 20)
 DIP_INDEX = (3, 7, 11, 15, 19)
 SIZE = 512
+LOGGER = logging.getLogger(__name__)
 
 
 def localized_nails(mask: Image.Image, hand: HandGeometry) -> list[dict]:
@@ -70,18 +72,30 @@ def _crop_geometry(nail: dict, full_mask: Image.Image, group: np.ndarray) -> dic
     others = np.where(all_pixels & ~one_pixels, 255, 0).astype(np.uint8)
     other_support = np.asarray(Image.fromarray(others, "L").filter(ImageFilter.MaxFilter(11))) > 0
     minimum_side = max(48, round(1.8 * max(nail["nail_bbox_wh"])))
+    rejected = {"image_boundary": 0, "target_not_contained": 0, "neighbor_support": 0}
     for side in range(nail["crop_side_px"], minimum_side - 1, -1):
         left = round(cx - side / 2)
         top = round(cy + side * .10 - side / 2)
         box = (left, top, left + side, top + side)
         if min(box[:2]) < 0 or max(box[2:]) > SIZE:
+            rejected["image_boundary"] += 1
             continue
         sl = np.s_[top:top + side, left:left + side]
-        if int(one_pixels[sl].sum()) != int(one_pixels.sum()) or np.any(other_support[sl]):
+        if int(one_pixels[sl].sum()) != int(one_pixels.sum()):
+            rejected["target_not_contained"] += 1
+            continue
+        if np.any(other_support[sl]):
+            rejected["neighbor_support"] += 1
             continue
         return {**nail, "crop_side_px": side, "crop_box_rotated": list(box),
                 "model_size": [SIZE, SIZE], "rgb_resampling": "BICUBIC",
                 "mask_resampling": "NEAREST", "rotation_center_original": nail["center"]}
+    LOGGER.warning(
+        "Nails crop rejected before GPU: finger=%s side_range=%s..%s "
+        "image_boundary=%s target_not_contained=%s neighbor_support=%s",
+        nail["finger_id"], minimum_side, nail["crop_side_px"],
+        rejected["image_boundary"], rejected["target_not_contained"], rejected["neighbor_support"],
+    )
     return None
 
 

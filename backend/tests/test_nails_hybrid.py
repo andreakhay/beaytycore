@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw
 
 from app.nails.geometry import HandGeometry, ReviewedMaskSegmenter, UnusableHand
 from app.nails.hybrid import HybridNailsPipeline, normalized_hand
+from app.nails.localized import localized_nails
 from app.nails.contract import (ADAPTER_ID, ADAPTER_SHA256, GENERATOR, GUIDANCE,
                                 MODEL_ID, MODEL_REVISION, SEED, STEPS)
 from app.nails.remote import NailsGenerationError, RemoteLocalizedNails
@@ -78,6 +79,45 @@ def test_hybrid_rejects_missing_masks_before_model_calls():
     pipeline = HybridNailsPipeline(Localizer(), ReviewedMaskSegmenter(Image.new("L", source.size)), Model())
     with pytest.raises(UnusableHand, match="could not be located"):
         asyncio.run(pipeline.run(source, NAIL_STYLE_BY_ID["classic_red"]))
+
+
+@pytest.mark.parametrize("xs,reason", [
+    ((90, 132, 174, 216, 258), "neighbor_support"),
+    ((12, 170, 250, 330, 410), "image_boundary"),
+])
+def test_rejected_crop_logs_reason_without_calling_model(xs, reason, caplog):
+    source, _, hand = hand_fixture()
+    mask = Image.new("L", source.size)
+    draw = ImageDraw.Draw(mask)
+    points = list(hand.points)
+    for tip, base, x in zip((4, 8, 12, 16, 20), (3, 7, 11, 15, 19), xs):
+        points[tip], points[base] = (x / 512, 130 / 512), (x / 512, 220 / 512)
+        draw.ellipse((x - 12, 130, x + 12, 160), fill=255)
+    geometry = HandGeometry(tuple(points), 512, 512)
+
+    class Localizer:
+        def locate(self, image):
+            return geometry
+
+    class Model:
+        async def generate(self, image, style):
+            raise AssertionError("Rejected crop reached GPU")
+
+    with pytest.raises(UnusableHand, match="too close together"):
+        asyncio.run(HybridNailsPipeline(Localizer(), ReviewedMaskSegmenter(mask), Model())
+                    .run(source, NAIL_STYLE_BY_ID["classic_red"]))
+    records = [r for r in caplog.records if "Nails crop rejected before GPU" in r.message]
+    assert len(records) == 1
+    counts = dict(field.split("=", 1) for field in records[0].message.split() if "=" in field)
+    assert int(counts[reason]) > 0
+
+
+def test_accepted_crop_has_no_rejection_log(caplog):
+    _, mask, hand = hand_fixture()
+    mappings = localized_nails(mask, hand)
+    assert len(mappings) == 5
+    assert [m["crop_side_px"] for m in mappings] == [74] * 5
+    assert not any("Nails crop rejected" in r.message for r in caplog.records)
 
 
 def test_renderer_preserves_non_square_original_outside_mapped_mask():
