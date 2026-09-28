@@ -120,6 +120,9 @@ def test_remote_makeup_rejects_hair_styles_before_network_call(monkeypatch):
 
 
 def test_makeup_config_requires_its_own_url_and_key(monkeypatch):
+    # Exercise legacy configuration independently of a developer's live unified .env.
+    monkeypatch.delenv("AI_REMOTE_URL", raising=False)
+    monkeypatch.delenv("AI_REMOTE_API_KEY", raising=False)
     monkeypatch.setenv("MAKEUP_GENERATION_ENGINE", "remote_makeup")
     monkeypatch.delenv("MAKEUP_REMOTE_URL", raising=False)
     monkeypatch.delenv("MAKEUP_REMOTE_API_KEY", raising=False)

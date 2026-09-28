@@ -1,4 +1,4 @@
-"""The DATA-N001-LOCAL-v1 single-nail transform for live 512 px hands."""
+"""Evaluated single-nail crops with neighboring context for close hand poses."""
 
 import itertools
 import logging
@@ -18,7 +18,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 def localized_nails(mask: Image.Image, hand: HandGeometry) -> list[dict]:
-    """Match reviewed mask islands to landmarks and reproduce training crop rules."""
+    """Keep evaluated crops when possible; allow neighboring context when needed."""
     if mask.size != (SIZE, SIZE) or (hand.width, hand.height) != (SIZE, SIZE):
         raise ValueError("Localized Nails geometry requires a 512 by 512 hand")
     groups = nail_components(np.asarray(mask.convert("L")) > 127)
@@ -53,7 +53,7 @@ def localized_nails(mask: Image.Image, hand: HandGeometry) -> list[dict]:
                 "original_nail_pixels": int(len(group))}
         mapping = _crop_geometry(nail, full, group)
         if mapping is None:
-            raise UnusableHand("The fingernails are too close together for a safe edit. Retake with separated fingers.")
+            raise UnusableHand("The full nail cannot fit in the crop. Include your fingertips with room around them.")
         mappings.append(mapping)
     return sorted(mappings, key=lambda item: item["finger_index"])
 
@@ -73,6 +73,8 @@ def _crop_geometry(nail: dict, full_mask: Image.Image, group: np.ndarray) -> dic
     other_support = np.asarray(Image.fromarray(others, "L").filter(ImageFilter.MaxFilter(11))) > 0
     minimum_side = max(48, round(1.8 * max(nail["nail_bbox_wh"])))
     rejected = {"image_boundary": 0, "target_not_contained": 0, "neighbor_support": 0}
+    contextual = None
+    contextual_pixels = None
     for side in range(nail["crop_side_px"], minimum_side - 1, -1):
         left = round(cx - side / 2)
         top = round(cy + side * .10 - side / 2)
@@ -84,12 +86,24 @@ def _crop_geometry(nail: dict, full_mask: Image.Image, group: np.ndarray) -> dic
         if int(one_pixels[sl].sum()) != int(one_pixels.sum()):
             rejected["target_not_contained"] += 1
             continue
+        mapping = {**nail, "crop_side_px": side, "crop_box_rotated": list(box),
+                   "model_size": [SIZE, SIZE], "rgb_resampling": "BICUBIC",
+                   "mask_resampling": "NEAREST", "rotation_center_original": nail["center"]}
         if np.any(other_support[sl]):
             rejected["neighbor_support"] += 1
+            # Neighboring pixels may be conditioning context, never the paste
+            # boundary. HybridNailsPipeline restores only the selected nail mask.
+            # Keep the least neighboring nail area, preferring more context on ties.
+            neighbor_pixels = int((all_pixels & ~one_pixels)[sl].sum())
+            if contextual is None or neighbor_pixels < contextual_pixels:
+                contextual = mapping
+                contextual_pixels = neighbor_pixels
             continue
-        return {**nail, "crop_side_px": side, "crop_box_rotated": list(box),
-                "model_size": [SIZE, SIZE], "rgb_resampling": "BICUBIC",
-                "mask_resampling": "NEAREST", "rotation_center_original": nail["center"]}
+        return mapping
+    if contextual is not None:
+        LOGGER.info("Nails crop permits neighboring context: finger=%s side=%s neighbor_nail_pixels=%s",
+                    nail["finger_id"], contextual["crop_side_px"], contextual_pixels)
+        return {**contextual, "neighbor_context_pixels": contextual_pixels}
     LOGGER.warning(
         "Nails crop rejected before GPU: finger=%s side_range=%s..%s "
         "image_boundary=%s target_not_contained=%s neighbor_support=%s",

@@ -78,8 +78,8 @@ class HybridNailsPipeline:
         validate_nail_mask(mask, hand)
         phases["nail_segmentation"] = time.monotonic() - started
         started = time.monotonic()
-        # Renderer styles can edit neighboring visible nails. Model crops must
-        # isolate each nail, using the exact training geometry.
+        # Prefer evaluated isolated model crops. Close poses may include a
+        # neighboring nail as context; reconstruction still pastes one nail only.
         nail_count = len(nail_components(np.asarray(mask.convert("L")) > 127))
         original_mask = _to_original(mask, content_box, original.size, mask=True)
         phases["mask_preparation"] = time.monotonic() - started
