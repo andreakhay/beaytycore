@@ -1,9 +1,9 @@
 # 0001. Shared application architecture
 
 **Date**: 2026-09-27  
-**Status**: DEPRECATED as a phase 1 routing plan by the Supervisor's 2026-09-27 integration direction; shared GPU runtime remains PROPOSED for later evaluation
+**Status**: DEPRECATED as a phase 1 routing plan; historical feasibility audit retained. Later separately authorized Gate 1/2/3 implementation and reviewed evidence supersede pending-status claims below.
 
-**Current implementation**: Phases 1 and 2 established registry dispatch and central frontend calls. Phase 3 locally/mocked validated those paths and hardened malformed-response boundaries. The Supervisor subsequently authorized the feasibility audit below, without implementation or live GPU execution. GPU consolidation remains PROPOSED and live centralized inference remains unverified. See [Phase 3 evidence](../experiments/central-architecture-phase3.md) and [state](../../context/state.md).
+**Current implementation**: central frontend/backend dispatch and one-foundation unified Kaggle serving are implemented. Gate 1/2/3 passed their separately reviewed scopes, including live central application integration. Original runtimes remain rollback. Deployment 01 adds operational diagnostics/readiness and repeatable startup preparation; fresh-session rehearsal is pending. No architecture redesign. See [Gate 3 evidence](../experiments/unified-kaggle-gate3.md), [Deployment 01 evidence](../experiments/deployment01.md) and [state](../../context/state.md). The dated audit below records its original knowledge, not current implementation status.
 
 **2026-09-28 experiment update:** the separately authorized Gate 1 completed on Kaggle and passed evidence review: three individual fixed cases under one candidate environment, exact historical-reference PNG/RGB equality, unchanged settings and no observed resource blocker. Pip conflicts in unused preinstalled libraries remain documented. Each case used a fresh sequential pipeline, not one shared foundation. The proposal/audit below remains historical; Gate 2/shared server and live centralized application acceptance are still unverified and unimplemented. See [Gate 1 reviewed evidence](../experiments/unified-kaggle-gate1.md) and [reproduction handoff](../guides/unified-kaggle-gate1.md).
 

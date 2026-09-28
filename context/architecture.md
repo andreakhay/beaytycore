@@ -2,6 +2,8 @@
 
 Source: Supervisor's CODEX HANDOFF 001, EXP-001, and later critical-path direction. The first-demo model path remains CONFIRMED. Earlier implementation statements below are dated history; current feature status is in [state](state.md).
 
+Current operational preparation (Deployment 01, 2026-09-28): the verified Next.js → central FastAPI → unified Kaggle worker topology remains unchanged. Additive image-free readiness/history endpoints and correlated transport logs instrument the existing clients and GPU owner. No automatic retry or idempotency protocol; ambiguous disconnects do not permit duplicate active work. Original separate destinations/runtimes remain explicit configuration rollback. The new repeatable startup notebook includes the already approved Nails step support. Fresh-session rehearsal is pending, not deployment acceptance. [Audit and local evidence](../docs/experiments/deployment01.md).
+
 Approved first-demo path:
 
 1. Portrait plus selected hairstyle enters FLUX.2 Klein 4B with the project's trained hairstyle image-edit LoRA.

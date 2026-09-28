@@ -1,14 +1,16 @@
 # HAIR CAPSTONE
 
-The local application has Hairstyle, Makeup, and Nails pages that call one FastAPI backend. Hairstyle supports `MockEngine` or `RemoteFluxEngine`; Makeup supports mock or `RemoteMakeupEngine`; Nails supports mock or a hybrid pipeline. The model paths use separate, temporary authenticated Kaggle GPU services configured in `backend/.env`. Nails uses its GPU LoRA for Red and Black, and a local renderer for Nude Pink, French Tip, and Pink Ombre. The Supervisor reports all three feature paths working. No user upload is stored permanently by the application server. Current evidence and quality limits are in [state](context/state.md).
+The local application has Hairstyle, Makeup, and Nails pages that call one FastAPI backend. Hairstyle supports `MockEngine` or `RemoteFluxEngine`; Makeup supports mock or `RemoteMakeupEngine`; Nails supports mock or a hybrid pipeline. The verified unified model path uses one temporary authenticated Kaggle GPU service configured in `backend/.env`; original separate services remain rollback. Nails uses its GPU LoRA for Red and Black, and a local renderer for Nude Pink, French Tip, and Pink Ombre. No user upload is stored permanently by the application server. Current evidence and quality limits are in [state](context/state.md).
 
-Gate 3 adds an opt-in candidate unified Kaggle service behind the same central FastAPI clients. Set the complete `AI_REMOTE_URL`/`AI_REMOTE_API_KEY` pair to route Hair, Makeup and Nails AI crop generation to one temporary server; the original three endpoint settings remain a rollback when the pair is removed. The unified service is locally/mock validated and awaits live notebook/application acceptance. Follow the [Gate 3 handoff](docs/guides/unified-kaggle-gate3.md); do not treat this as a completed live deployment.
+Gate 3 passed reviewed live application integration with one URL and one persistent Base. Set the complete `AI_REMOTE_URL`/`AI_REMOTE_API_KEY` pair to route Hair, Makeup and Nails AI crop generation to that service; original endpoint settings remain rollback when both are removed. Deployment 01 adds startup/readiness/transport diagnostics and is locally validated; its fresh-session rehearsal is pending. Follow the [exact capstone launch runbook](docs/guides/capstone-deployment01.md) and import [the four-cell notebook](notebooks/deployment01_kaggle.ipynb). This is temporary capstone hosting, not persistent public deployment.
 
-The trained model evidence and live handoffs are in [TRAIN-001](docs/experiments/TRAIN-001.md), [MAKEUP-001 integration](docs/experiments/MAKEUP-001-integration.md), and [Nails hybrid live handoff](docs/experiments/NAILS-001-hybrid-live-handoff.md). Kaggle remains the GPU provider for the next integration milestone. The current feature implementations are preserved before any shared-runtime work; see [state](context/state.md).
+The trained model evidence and earlier separate-runtime handoffs are in [TRAIN-001](docs/experiments/TRAIN-001.md), [MAKEUP-001 integration](docs/experiments/MAKEUP-001-integration.md), and [Nails hybrid live handoff](docs/experiments/NAILS-001-hybrid-live-handoff.md). Kaggle remains the current GPU provider. Feature implementations and original runtimes are preserved; see [state](context/state.md).
 
 ## Run locally on Windows
 
 The verified development machine has Node.js 24 and Python 3.11. Use two PowerShell terminals.
+
+The initial mock setup below creates a virtual environment; it does not install the full local Nails vision environment. For the verified three-feature demo, use the existing working system Python and retained Nails asset/isolated segmenter configuration in the [deployment runbook](docs/guides/capstone-deployment01.md). Do not rebuild environments each demo.
 
 Terminal 1, backend:
 
@@ -28,7 +30,7 @@ Copy-Item .env.example .env.local
 npm run dev
 ```
 
-Open [http://127.0.0.1:3000](http://127.0.0.1:3000) for Hairstyle, [/makeup](http://127.0.0.1:3000/makeup) for Makeup, or [/nails](http://127.0.0.1:3000/nails) for Nails. The backend listens at `http://127.0.0.1:8000`. If you change its address, edit `frontend/.env.local` and restart Next.js. The backend reads `backend/.env` at startup; use [backend/.env.example](backend/.env.example) for the feature-specific mode, URL, and key names. Kaggle sessions and tunnel URLs must be refreshed when they expire. `FRONTEND_ORIGINS` defaults to both `localhost:3000` and `127.0.0.1:3000`.
+Open [http://localhost:3000](http://localhost:3000) for Hairstyle, [/makeup](http://localhost:3000/makeup) for Makeup, or [/nails](http://localhost:3000/nails) for Nails. The backend listens at `http://127.0.0.1:8000`. If you change its address, edit `frontend/.env.local` and restart Next.js. The backend reads `backend/.env` at startup; use [backend/.env.example](backend/.env.example) for mode, URL, and key names. Each new Kaggle tunnel URL requires updating the ignored backend configuration and restarting FastAPI. `FRONTEND_ORIGINS` defaults to both `localhost:3000` and `127.0.0.1:3000`.
 
 ## API contract
 
@@ -44,10 +46,12 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000) for Hairstyle, [/makeup](htt
 | `GET /features` | Lists `hairstyle`, `makeup`, and `nails` with frontend-safe names and descriptions. |
 | `GET /features/{feature_id}/styles` | Returns the selected feature's existing style catalog. |
 | `POST /features/{feature_id}/generate` | Accepts the same multipart `image` and `style_id` fields and delegates to the selected existing feature handler. |
+| `GET /deployment/readiness` | Checks unified configuration/auth, ready idle Base, load count 1 and supported features without images. |
+| `GET /deployment/diagnostics[/UUID]` | Safe bounded remote request history; missing history does not imply safe retry. |
 
 The API accepts JPG and PNG files up to 8 MB. Each image dimension must be 64 to 4096 pixels, with no more than 16,777,216 total pixels. It checks the decoded format, corrects EXIF orientation, and converts to RGB. The generator interface in `backend/app/generation/base.py` accepts the validated image and selected style and returns image bytes. `RemoteFluxEngine` implements that interface without loading FLUX on the local PC.
 
-All three pages use `frontend/lib/api.ts` to discover styles and generate results through `/features/{feature_id}`. The client also exposes `getFeatures()`. Legacy backend routes remain available for compatibility, with no automatic frontend fallback. Hair still calls `/health` for its existing mock/model label. Unknown feature IDs return 404; each feature retains its own style validation and remote Kaggle configuration. No shared GPU runtime is part of this integration phase.
+All three pages use `frontend/lib/api.ts` to discover styles and generate results through `/features/{feature_id}`. The client also exposes `getFeatures()`. Legacy backend routes remain available for compatibility, with no automatic frontend fallback. Hair still calls `/health` for its existing mock/model label. Unknown feature IDs return 404; each feature retains its own style validation and remote client. Unified GPU routing is selected explicitly by the shared configuration pair.
 
 ## Verify
 
@@ -68,4 +72,4 @@ npm run test:e2e
 
 The browser tests use the locally installed Microsoft Edge and a synthetic portrait in `frontend/e2e/fixtures/`. Run them against `npm run build` followed by `npm run start -- --port 3000`; the current Next.js dev server blocks the test origin `127.0.0.1` from its development resources. Use a backend in mock mode for all three features. Tests cover all three central-route browser workflows, mocked model responses, and shared client request/error handling. They do not run the real FLUX model. For an alternate test frontend port, set `PLAYWRIGHT_BASE_URL`; `NEXT_PUBLIC_API_BASE_URL` must select the matching backend at build time.
 
-Phase 3 locally validated the central architecture with 152 backend tests, 28 standard frontend tests and 8 opt-in synthetic remote client/Edge checks. The opt-in suite exercises real remote clients and Nails hybrid processing with fake HTTP/localization/segmentation boundaries; its test-only server must never be deployed. Reproduction commands, configuration boundaries and limitations are in [Phase 3 evidence](docs/experiments/central-architecture-phase3.md). Live end-to-end validation against the current Kaggle models is explicitly deferred and has not been performed through the new centralized path. Separate Kaggle runtimes and legacy compatibility routes remain available.
+Phase 3 originally validated the central architecture with 152 backend tests, 28 standard frontend tests and 8 opt-in synthetic remote client/Edge checks. Its test-only server must never be deployed; commands/limits are in [Phase 3 evidence](docs/experiments/central-architecture-phase3.md). Later [Gate 3](docs/experiments/unified-kaggle-gate3.md) independently passed live model/application integration. Deployment 01's full backend suite passes 299 tests; fresh-session startup rehearsal is pending. Separate runtimes and legacy routes remain available. From the repository root, `python scripts/demo_readiness.py` is the image-free pre-demo check; transport generation has no automatic retries.

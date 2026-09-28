@@ -24,6 +24,7 @@ from scripts.kaggle_inference_server import FluxRuntime, read_adapter_metadata, 
 from scripts.makeup_inference_server import MakeupRuntime, validated_portrait
 from scripts.unified_gate3_nails import NailsRuntime
 from app.nails.inference_options import SUPPORTED_STEPS
+from app.generation.diagnostics import RequestDiagnostics, current, emit
 from app.styles import REGISTRY
 from app.registry import styles_by_id
 from app.makeup_contract import (ADAPTER_ID as MAKEUP_ID, ADAPTER_SHA256 as MAKEUP_SHA,
@@ -121,6 +122,7 @@ class ServingOwner(SharedExperiment):
                 expected = expected_contract(feature, style_id)
             started = time.monotonic()
             self.event('inference_start', feature=feature, label=label)
+            emit('worker_inference_start', feature=feature, style_id=style_id)
             try:
                 with gate.optional_runtime_telemetry(self.torch, []):
                     if feature == 'nails' and inference_steps != 20:
@@ -134,19 +136,22 @@ class ServingOwner(SharedExperiment):
                 self.ready, self.active, self.active_state = False, None, None
                 try:
                     self.synchronize()
-                except Exception:
-                    LOGGER.exception('GPU drain failed; unified runtime is unready')
+                except Exception as exc:
+                    emit('worker_error', category='gpu_drain', exception_type=type(exc).__name__, ready=False)
                 raise
             self.event('inference_end', feature=feature, label=label,
                        seconds=time.monotonic() - started)
             LOGGER.info('Completed %s/%s with %s in %.2f seconds', feature, style_id,
                         expected['adapter_id'], time.monotonic() - started)
             self.audit.append({'feature': feature, 'style_id': style_id,
+                **current(),
                 'inference_steps': inference_steps,
                 'adapter_id': expected['adapter_id'], 'adapter_sha256': expected['adapter_sha256'],
                 'base_revision': gate.REVISION, 'inference_seconds': round(time.monotonic() - started, 3),
                 'http_status': 200, 'memory_after': self.measure()})
             del self.audit[:-30]
+            emit('worker_inference_end', feature=feature, style_id=style_id,
+                 adapter_id=expected['adapter_id'], inference_seconds=round(time.monotonic() - started, 3))
             return payload
         finally:
             self.event('ownership_end', label=label)
@@ -214,30 +219,35 @@ class UnifiedRuntime:
                 'active_feature': active.split(':')[0] if active else None,
                 'active_adapter': active.split(':')[-1] if active else None,
                 'supported_features': list(FEATURES), 'load_seconds': self.load_seconds,
-                'nails_inference_steps': list(SUPPORTED_STEPS)}
+                'nails_inference_steps': list(SUPPORTED_STEPS),
+                'gpu_busy': bool(owner and owner.owner.locked()),
+                'diagnostics_version': 'deployment-01'}
 
     def status(self):
         return {**self.health(), 'requests': list(self.owner.audit) if self.owner else [],
+                'http_requests': list(HTTP_RECORDS),
                 'switch_events': sum(event['event'] == 'switch_end' for event in self.owner.events)
                     if self.owner else 0}
 
 
 runtime = UnifiedRuntime()
+HTTP_RECORDS = []
 
 
 @asynccontextmanager
 async def lifespan(_app):
     try:
         runtime.load()
-    except Exception:
+    except Exception as exc:
         runtime.ready = False
-        LOGGER.exception('Unified GPU initialization failed; process remains unready')
+        emit('worker_error', category='base_initialization', exception_type=type(exc).__name__, ready=False)
     yield
     runtime.ready = False
 
 
 app = FastAPI(title='Unified Kaggle inference candidate', lifespan=lifespan,
               docs_url=None, redoc_url=None, openapi_url=None)
+app.add_middleware(RequestDiagnostics, layer='worker', records=HTTP_RECORDS)
 
 
 @app.get('/health')
@@ -300,9 +310,9 @@ async def generate(feature: str, image: Annotated[UploadFile, File()], style_id:
                                     inference_steps=inference_steps)
     except asyncio.CancelledError:
         raise
-    except SwitchFailure:
-        LOGGER.exception('Adapter switch failed; request blocked')
+    except SwitchFailure as exc:
+        emit('worker_error', category='adapter_switch', exception_type=type(exc).__name__, ready=owner.ready)
         raise HTTPException(503, 'GPU adapter switch failed. Please try again.') from None
-    except Exception:
-        LOGGER.exception('Unified GPU inference failed')
+    except Exception as exc:
+        emit('worker_error', category='inference', exception_type=type(exc).__name__, ready=owner.ready)
         raise HTTPException(500, 'GPU inference failed. Please try again.') from None

@@ -11,6 +11,8 @@ from app.nails.contract import (ADAPTER_ID, ADAPTER_SHA256, GENERATOR, GUIDANCE,
                                 MODEL_ID, MODEL_REVISION, MODEL_STYLES, SEED, STEPS)
 from app.nails.styles import NailStyle
 from app.nails.inference_options import validate_steps
+from app.generation.remote_http import observed_request
+from app.generation.diagnostics import emit
 
 
 class NailsGenerationError(Exception):
@@ -29,7 +31,8 @@ class RemoteLocalizedNails:
         if self._steps_verified:
             return
         root = self.url.removesuffix("/nails")
-        response = await client.get(f"{root}/health", timeout=min(10, self.timeout_seconds))
+        response = await observed_request(client, 'get', f"{root}/health",
+            feature='nails', style_id='health', boundary='step_preflight', timeout=min(10, self.timeout_seconds))
         try:
             supported = response.json().get("nails_inference_steps")
             if response.status_code != 200 or not isinstance(supported, list) or self.inference_steps not in supported:
@@ -49,8 +52,9 @@ class RemoteLocalizedNails:
                 fields = {"style_id": style.id}
                 if self.inference_steps != STEPS:
                     fields["inference_steps"] = str(self.inference_steps)
-                response = await client.post(
+                response = await observed_request(client, 'post',
                     f"{self.url}/generate", data=fields,
+                    feature='nails', style_id=style.id,
                     files={"image": ("nail.png", stream.getvalue(), "image/png")},
                     headers={"X-API-Key": self.api_key})
         except httpx.RequestError as exc:
@@ -90,4 +94,6 @@ class RemoteLocalizedNails:
                     result.info["runtime_seconds"] = runtime
                 return result
         except (KeyError, AttributeError, TypeError, ValueError, binascii.Error, UnidentifiedImageError, OSError) as exc:
+            emit('remote_validation_failed', feature='nails', style_id=style.id,
+                 category='invalid_response', exception_type=type(exc).__name__, automatic_retry=False)
             raise NailsGenerationError("The Nails GPU returned an invalid image or model response.") from exc

@@ -45,6 +45,13 @@ Source for all entries: Supervisor's CODEX HANDOFF 001. Decision dates before th
 
 Do not restore a deprecated architecture or silently change the confirmed one. Gather evidence and seek Supervisor approval for a new major decision.
 
+## Deployment 01 decisions, 2026-09-28
+
+| Decision | Status | Evidence | Rationale and authority |
+| --- | --- | --- | --- |
+| Preserve single-attempt remote generation; add correlation/crop diagnostics and manual history checks rather than automatic retry | CONFIRMED | Source audit: no prior retry/deduplication; timeout/disconnect acceptance is ambiguous. Focused diagnostics and ownership regressions LOCAL VERIFIED; original 502 cause UNKNOWN | Supervisor's conservative Deployment-01 instruction. Zero automatic retries, including 429. Missing bounded history never proves non-acceptance; ownership remains held until GPU work drains. |
+| Reuse approved unified notebook/bootstrap/assets for repeatable demo startup, with image-free readiness and a bounded fresh-session rehearsal | CONFIRMED | New private bundle/notebook preflight and 299 backend tests LOCAL VERIFIED; fresh Kaggle rehearsal NOT STARTED | Supervisor authorizes capstone preparation, not permanent hosting. Include existing approved latency support without changing chosen settings; preserve separate services and legacy routes. `CAPSTONE_DEPLOYMENT_READY` requires returned fresh-session evidence review. [Runbook](../docs/guides/capstone-deployment01.md). |
+
 ## Application integration decisions, 2026-09-27
 
 | Decision | Status | Evidence | Rationale and authority |

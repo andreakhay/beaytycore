@@ -1,0 +1,34 @@
+{
+  "phase": "Deployment-01 preparation",
+  "date": "2026-09-28",
+  "status": "LOCAL_VERIFIED_FRESH_SESSION_PENDING",
+  "gate3_checkpoint": "1d1b5e6d39a145b5b68d211114d65bd8f1ea1740",
+  "backend_validation": {
+    "working_directory": "backend",
+    "command": "python -m pytest tests -q",
+    "passed": 299,
+    "warnings": 1,
+    "seconds": 41.35,
+    "warning": "Existing python_multipart pending deprecation"
+  },
+  "final_diagnostics_test_file": {
+    "command": "python -m pytest tests/test_deployment01.py -q",
+    "passed": 36,
+    "warnings": 1,
+    "seconds": 2.81
+  },
+  "artifact_checks": {
+    "outer_hash_size_crc_inventory_member_hashes": "VERIFIED",
+    "original_model_methods_weights_dependency_pins_unchanged": "VERIFIED",
+    "four_notebook_cells_compile": "VERIFIED",
+    "extracted_worker_import_and_adapter_preflight": "VERIFIED",
+    "local_model_load_count": 0
+  },
+  "frontend_changed": false,
+  "frontend_tests_build_repeated": false,
+  "automatic_retries": 0,
+  "gpu_ownership_changed": false,
+  "original_transport_failure_cause": "UNKNOWN",
+  "fresh_kaggle_rehearsal": "NOT STARTED",
+  "capstone_deployment_ready_claimed": false
+}

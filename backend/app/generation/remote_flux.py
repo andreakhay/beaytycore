@@ -10,6 +10,8 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 from app.generation.base import GeneratedImage
 from app.styles import Style
 from app.styles import REAL_STYLE_BY_ID
+from app.generation.remote_http import observed_request
+from app.generation.diagnostics import emit
 
 
 class RemoteGenerationError(Exception):
@@ -35,8 +37,9 @@ class RemoteFluxEngine:
         normalized.save(buffer, format="PNG")
         try:
             async with httpx.AsyncClient(timeout=self.timeout_seconds, follow_redirects=False) as client:
-                response = await client.post(
+                response = await observed_request(client, 'post',
                     f"{self.url}/generate",
+                    feature='hairstyle', style_id=style.id,
                     data={"style_id": style.id},
                     files={"image": ("portrait.png", buffer.getvalue(), "image/png")},
                     headers={"X-API-Key": self.api_key},
@@ -72,6 +75,8 @@ class RemoteFluxEngine:
                     raise ValueError("remote image metadata mismatch")
             return GeneratedImage(content, "image/png", item["width"], item["height"], metadata)
         except (KeyError, AttributeError, TypeError, ValueError, UnidentifiedImageError, OSError) as exc:
+            emit('remote_validation_failed', feature='hairstyle', style_id=style.id,
+                 category='invalid_response', exception_type=type(exc).__name__, automatic_retry=False)
             raise RemoteGenerationError("The Kaggle GPU endpoint returned an invalid image response.") from exc
 
 

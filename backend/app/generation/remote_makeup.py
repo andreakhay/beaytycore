@@ -10,6 +10,8 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 from app.generation.base import GeneratedImage
 from app.makeup_contract import ADAPTER_ID, ADAPTER_SHA256, GENERATOR, MODEL_ID, MODEL_REVISION, PRESETS_SHA256, PROMPTS
 from app.makeup_styles import MakeupStyle
+from app.generation.remote_http import observed_request
+from app.generation.diagnostics import emit
 
 
 class MakeupGenerationError(Exception):
@@ -32,8 +34,9 @@ class RemoteMakeupEngine:
                      color=(245, 245, 245)).save(buffer, format="PNG")
         try:
             async with httpx.AsyncClient(timeout=self.timeout_seconds, follow_redirects=False) as client:
-                response = await client.post(
+                response = await observed_request(client, 'post',
                     f"{self.url}/generate", data={"style_id": style.id},
+                    feature='makeup', style_id=style.id,
                     files={"image": ("portrait.png", buffer.getvalue(), "image/png")},
                     headers={"X-API-Key": self.api_key},
                 )
@@ -67,6 +70,8 @@ class RemoteMakeupEngine:
                 decoded.verify()
             return GeneratedImage(content, "image/png", 512, 512, metadata)
         except (KeyError, AttributeError, TypeError, ValueError, UnidentifiedImageError, OSError) as exc:
+            emit('remote_validation_failed', feature='makeup', style_id=style.id,
+                 category='invalid_response', exception_type=type(exc).__name__, automatic_retry=False)
             raise MakeupGenerationError("The Makeup GPU returned an invalid image or model response.") from exc
 
 

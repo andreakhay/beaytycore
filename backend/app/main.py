@@ -21,6 +21,7 @@ load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 from app.generation.base import GenerationEngine
 from app.generation.mock import MockEngine
+from app.generation.diagnostics import RequestDiagnostics
 from app.generation.remote_flux import RemoteFluxEngine, RemoteGenerationError, from_environment
 from app.styles import STYLE_BY_ID, STYLES, REAL_STYLE_BY_ID, REAL_STYLES, Style
 from app.makeup_styles import MAKEUP_STYLE_BY_ID, MAKEUP_STYLES
@@ -53,6 +54,7 @@ def configured_engine() -> GenerationEngine:
 engine = configured_engine()
 makeup_engine = configured_makeup_engine()
 app = FastAPI(title="HAIR CAPSTONE API", version="0.1.0", openapi_url=None, docs_url=None, redoc_url=None)
+app.add_middleware(RequestDiagnostics, layer='central')
 origins = [origin.strip() for origin in os.getenv(
     "FRONTEND_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
 ).split(",") if origin.strip()]
@@ -140,6 +142,31 @@ async def validated_image(upload: UploadFile) -> Image.Image:
 @app.get("/health")
 async def health() -> dict[str, str]:
     return {"status": "ok", "generator": engine.name}
+
+
+@app.get('/deployment/readiness')
+async def deployment_readiness():
+    from app.deployment import check_readiness
+    from fastapi.responses import JSONResponse
+    report = await check_readiness(engine, makeup_engine, _nails_pipeline)
+    return JSONResponse(report, status_code=200 if report['ready'] else 503)
+
+
+@app.get('/deployment/diagnostics/{identity}')
+async def deployment_diagnostics(identity: str):
+    from uuid import UUID
+    from app.deployment import diagnose
+    try:
+        identity = str(UUID(identity))
+    except ValueError:
+        raise HTTPException(400, 'Expected a request UUID') from None
+    return await diagnose(identity)
+
+
+@app.get('/deployment/diagnostics')
+async def deployment_snapshot():
+    from app.deployment import diagnose
+    return await diagnose(None)
 
 
 @app.get("/styles", response_model=list[StyleResponse])

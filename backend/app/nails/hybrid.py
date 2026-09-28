@@ -15,6 +15,7 @@ from app.nails.geometry import (NailCrop, composite_nails,
 from app.nails.localized import localized_nails, model_crop, restore_crop, single_nail_mask
 from app.nails.render import render_target
 from app.nails.styles import NailStyle
+from app.generation.diagnostics import scope, emit
 
 
 class LocalizedGenerator(Protocol):
@@ -114,12 +115,20 @@ class HybridNailsPipeline:
             phases["result_reconstruction"] = 0.0
             phases["compositing"] = 0.0
             assembled = normalized.copy()
-            for mapping in mappings:
+            for crop_index, mapping in enumerate(mappings, 1):
                 started = time.monotonic()
                 reference = model_crop(normalized, mapping)
                 phases["crop_preparation"] += time.monotonic() - started
                 started = time.monotonic()
-                generated = await self.model.generate(reference, style)
+                with scope(crop_index=crop_index, crop_count=len(mappings), finger_id=mapping['finger_id']):
+                    emit('nails_crop_start', feature='nails', style_id=style.id)
+                    try:
+                        generated = await self.model.generate(reference, style)
+                    except BaseException as exc:
+                        emit('nails_crop_failed', feature='nails', style_id=style.id,
+                             exception_type=type(exc).__name__)
+                        raise
+                    emit('nails_crop_end', feature='nails', style_id=style.id)
                 phases["gpu_request"] += time.monotonic() - started
                 runtime = generated.info.get("runtime_seconds")
                 if isinstance(runtime, (int, float)) and runtime >= 0:

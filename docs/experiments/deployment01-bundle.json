@@ -1,0 +1,14 @@
+{
+  "name": "deployment01_20260928_v2.bin",
+  "bytes": 128962896,
+  "sha256": "68f6c9eb2bc0ce12b2c9c6d89e33f22898fb201b33a792887f6c5967ad16ec4e",
+  "schema": "deployment-01-sources-v1",
+  "source_bundle_sha256": "a3d73ce4ac0995a17bfa6a7c48253e2a2fa7db9ae635941295804d60dcb03683",
+  "gate3_acceptance_commit": "1d1b5e6d39a145b5b68d211114d65bd8f1ea1740",
+  "source_hashes": {
+    "scripts/unified_gate3_server.py": "8144bfa6a10be1f2b9c876e4813e60c067fc60e858174675a92fd0d5ef368f6f",
+    "scripts/unified_gate3_nails.py": "a28d00a0c3c3f62ca3fd110a00cb2e565b95d1b6960b70383465a86195e8996f",
+    "backend/app/nails/inference_options.py": "db57371532b6b6cf7c38218c613f3aa3f0c7283157e5d3555a804499b5ee8211",
+    "backend/app/generation/diagnostics.py": "0b2be0c141d3e00d98f9af2840922ae7cf32d6967ad694f2e965cad3d67aacf9"
+  }
+}
