@@ -1,6 +1,6 @@
 # Unified Kaggle Gate 1, common environment and individual equivalence
 
-2026-09-28. **Preparation DONE, LOCAL VERIFIED. Live experiment NOT STARTED, NEEDS VERIFICATION. Gate 1 has not passed.** Supervisor authorized only this experiment, not a unified server, application migration or Gate 2. Application checkpoint: `88acee3be1280f0a98401a93742fabe48bdd4628`.
+2026-09-28. **Gate 1 DONE; live individual inference and exact fixed-reference equivalence VERIFIED. GATE_1_PASSED following evidence review.** Supervisor authorized only this experiment, not a unified server, application migration or Gate 2. Application checkpoint: `88acee3be1280f0a98401a93742fabe48bdd4628`. Preparation evidence below is retained as dated history; reviewed Kaggle results follow at the end.
 
 ## Design and implementation
 
@@ -64,8 +64,44 @@ python scripts/package_unified_gate1.py --output artifacts/unified_gate1_rebuild
 
 Defaults name the inspected local artifact locations; override CLI input paths on another machine. A rebuilt outer hash must be independently verified and updated in the notebook/guide before uploading. No secret belongs in that process.
 
-## Kaggle evidence still required
+## Original Kaggle evidence handoff
 
 Use the [exact handoff](../guides/unified-kaggle-gate1.md). Return `evidence.zip`, Cell 3 status and actual accelerator selection, including failed/partial runs. Review environment/commit pins, all three valid outputs/provenance, historical differences, RAM/VRAM/storage/time and any failures before deciding Gate 1 acceptance. Completed inference is labeled `INDIVIDUAL_INFERENCE_COMPLETED_REVIEW_REQUIRED`, never an automatic pass.
 
-Current result: **GATE_1_READY_FOR_KAGGLE**. Actual inference, candidate output equivalence and GPU/CPU resource feasibility remain NEEDS VERIFICATION. Separate services and legacy routes remain unchanged. Gate 2, final unified runtime and centralized live application acceptance have not begun.
+Preparation result was **GATE_1_READY_FOR_KAGGLE**. The completed run and acceptance review below supersede that status. Separate services and legacy routes remain unchanged.
+
+## Completed Kaggle run and independent review, 2026-09-28
+
+**Result: GATE_1_PASSED for the three approved individual cases.** The notebook correctly left automatic acceptance false and required review. This decision follows examination of the returned archive, independent contract/hash/pixel checks and visual inspection; the raw reports are not rewritten to claim an automatic pass. It does not establish a shared foundation, unified server, all-style quality or centralized application live acceptance.
+
+Evidence archive: 4,237,620 bytes, SHA-256 `7b427c1421480ef874b1ca3d1fc2e5c29edff0c8419d624973f46ef80b619303`, 40 unique safe paths, ZIP CRC verified. Original source is the Supervisor's downloaded `evidence.zip`. A local copy, raw logs/reports/images and independent check script are preserved under ignored `.tmp/gate1-review-20260928/`; do not commit private image evidence. The [sanitized quantitative review](unified-kaggle-gate1-review.json) preserves exact resolved versions, timings, hashes and measurements in Git.
+
+The independently verified original upload and every manifest file, including adapter bytes, match the trusted bundle. Returned manifest digest is `26074719b7e4cd5027c9992e07b5d4fc40b9819cfc7f7bf96862d5937826e6ff`. Returned plan, inputs, references and reference records match that bundle byte-for-byte. All three workers exited 0; the original adapter preflight succeeded. Current feature contracts match unchanged prompts/settings/adapter identities; decoded response PNG bytes, reported hashes/provenance and environment pins are consistent. The downloaded Base's pinned revision and model-index digest are recorded, not independently recomputed from full Base weights locally.
+
+### Runtime and resource evidence
+
+One common environment: Python 3.12.13; Torch 2.10.0+cu128/CUDA 12.8; Diffusers 0.39.0.dev0 at the candidate commit; Transformers 5.5.3; Accelerate 1.13.0; PEFT 0.18.1; Hub 1.23.0; NumPy 1.26.4; **Safetensors 0.9.0rc1**; Pillow 11.3.0. Preserve the resolved release candidate identity rather than treating it as a stable Safetensors release. The candidate removed optional torchao 0.10.0; original requirements remain untouched.
+
+The evidence reports two Tesla T4 devices, 15,360 MiB each. Only GPU 0 was used; GPU 1 stayed at zero throughout samples. System RAM reported 31.35 GiB. This run demonstrates sequential inference on one T4, not simultaneous model residency or guaranteed future Kaggle allocation.
+
+| Feature / style | Base load (s) | Adapter load (s) | Inference (s) | Process peak RSS (GiB) | Output comparison |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Hairstyle / `crew_cut` | 57.841 | 0.218 | 63.950 | 22.890 | Exact PNG and RGB equality; zero differing pixels |
+| Makeup / `natural_makeup` | 36.972 | 0.380 | 65.320 | 18.879 | Exact PNG and RGB equality; zero differing pixels |
+| Nails / `classic_red` | 44.612 | 0.424 | 67.178 | 18.837 | Exact PNG and RGB equality; zero differing pixels |
+
+For each feature, measured PyTorch inference peaks were 8,705,465,856 allocated bytes (8.108 GiB) and 8,965,324,800 reserved bytes (8.350 GiB). Whole-device sampled maximum was **8,687 MiB (8.483 GiB)**; this is a once-per-second maximum, not a continuous exact peak. After inference, PyTorch allocated/reserved were 9,569,280/56,623,104 bytes and device 0 used 191 MiB. Successive fresh processes began with zero PyTorch allocation and 3 MiB device usage. No OOM, failed worker or telemetry warning appeared. Peak RSS includes Base-loading high-water marks; minimum sampled available system RAM was approximately 11.36 GiB across the run. There is no observed resource blocker to a subsequent one-foundation experiment, but persistent switching memory/recovery remain unmeasured.
+
+Dependency setup: 47.016 s; Base download/cache reuse: 92.595 s; setup before feature loads: 187.754 s; total bootstrap/probes: 602.525 s. Base snapshot backing files: 15,980,131,711 bytes (14.883 GiB), cache: 15,980,136,544 bytes. Measured scratch free space changed from 1,201,692,979,200 to 1,185,365,479,424 bytes; these filesystem values do **not** establish Kaggle account/output storage quotas. Extracted bundle: 140,036,653 bytes.
+
+### Dependency warnings and visual limits
+
+Pip reported 18 conflicts with preinstalled Kaggle packages, including NumPy-2 requirements in Kaggle environments, JAX, CuPy, OpenCV variants and scientific libraries, plus unrelated Colab/Gym/Decorator requirements. They did not prevent these actual FLUX inference paths. **The environment is not globally dependency-clean.** Do not run Nails' local MediaPipe/YOLO/OpenCV pipeline in this candidate GPU environment based on this evidence. Preserve its existing local boundary. No package correction was made to force a pass; the unauthenticated Hub-download warning was also nonblocking.
+
+All three comparison sheets were visually inspected. Candidate and historical reference are identical. Hair still reconstructs some facial detail; Makeup retains the historical face/skin-tone/texture changes and stronger-than-restrained appearance; the Nails crop retains the historical red result. Equivalence demonstrates no new regression on these cases, not improved preservation or new quality approval. Historical full dependency records remain incomplete; no fresh corrected Makeup serving capture was supplied.
+
+### Acceptance scope and next gate
+
+The eight Gate 1 criteria are met for the approved cases: one candidate environment completed all three paths, artifacts verified, three valid 512-square RGB outputs, unchanged inference settings, no incompatibility blocking the exercised paths, and no observed resource blocker. Only one input/style per feature was tested with fresh sequential pipelines. Nails localization/segmentation/refinement/reconstruction/compositing, alternate styles, Hair TRAIN-002, concurrent serving and the central frontend/backend live path are outside this experiment.
+
+**Gate 2 is NOT STARTED.** Next recommended milestone, requiring separate authorization: prepare an isolated one-foundation cross-feature adapter switching/equivalence/recovery experiment using this observed stack. Keep every existing runtime/client/configuration and legacy route as fallback. No server, tunnel, application migration or runtime consolidation was implemented in this review. Local review used trusted repository validation functions without loading models; no application suite rerun for evidence/documentation-only changes.

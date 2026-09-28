@@ -5,7 +5,7 @@
 
 **Current implementation**: Phases 1 and 2 established registry dispatch and central frontend calls. Phase 3 locally/mocked validated those paths and hardened malformed-response boundaries. The Supervisor subsequently authorized the feasibility audit below, without implementation or live GPU execution. GPU consolidation remains PROPOSED and live centralized inference remains unverified. See [Phase 3 evidence](../experiments/central-architecture-phase3.md) and [state](../../context/state.md).
 
-**2026-09-28 experiment update:** the Supervisor separately authorized Gate 1 preparation. An isolated candidate environment/bootstrap and sequential fresh feature probes are locally verified and ready for manual Kaggle execution. This implements the first gate's harness, not the proposed shared server or Gate 2. Gate 1 acceptance and real GPU feasibility remain unverified. See [Gate 1 evidence](../experiments/unified-kaggle-gate1.md) and [handoff](../guides/unified-kaggle-gate1.md).
+**2026-09-28 experiment update:** the separately authorized Gate 1 completed on Kaggle and passed evidence review: three individual fixed cases under one candidate environment, exact historical-reference PNG/RGB equality, unchanged settings and no observed resource blocker. Pip conflicts in unused preinstalled libraries remain documented. Each case used a fresh sequential pipeline, not one shared foundation. The proposal/audit below remains historical; Gate 2/shared server and live centralized application acceptance are still unverified and unimplemented. See [Gate 1 reviewed evidence](../experiments/unified-kaggle-gate1.md) and [reproduction handoff](../guides/unified-kaggle-gate1.md).
 
 ## Summary
 

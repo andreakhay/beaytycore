@@ -1,6 +1,6 @@
 # Unified Kaggle Gate 1 handoff
 
-2026-09-28. **Harness prepared and locally verified. GPU compatibility, resource feasibility and Gate 1 acceptance NEED VERIFICATION.** No final unified server or application migration.
+2026-09-28. **Completed run reviewed: GATE_1_PASSED for the three approved individual cases.** See [results and limits](../experiments/unified-kaggle-gate1.md). The exact cells below remain reproduction instructions; no rerun is needed for this accepted archive. No final unified server, Gate 2 or application migration.
 
 ## What you upload
 

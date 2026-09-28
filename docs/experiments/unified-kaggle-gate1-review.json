@@ -1,0 +1,461 @@
+{
+  "schema": "unified-kaggle-gate1-evidence-review-v1",
+  "review_date": "2026-09-28",
+  "status": "GATE_1_PASSED",
+  "scope": "Individual fixed-case inference compatibility only; fresh sequential pipelines.",
+  "evidence_sha256": "7b427c1421480ef874b1ca3d1fc2e5c29edff0c8419d624973f46ef80b619303",
+  "evidence_bytes": 4237620,
+  "archive_members": 40,
+  "archive_crc_verified": true,
+  "trusted_bundle_sha256": "8ed784714d534ff767dd261bd5d440d643b526cfac60f2d8dccd47e2c9d44293",
+  "bundle_manifest_sha256": "26074719b7e4cd5027c9992e07b5d4fc40b9819cfc7f7bf96862d5937826e6ff",
+  "independent_checks": [
+    "Archive CRC/path inventory",
+    "Trusted bundle full file inventory/hashes including adapters",
+    "Returned plan/inputs/references match trusted bundle",
+    "Current feature contracts/settings",
+    "Response PNG decode/provenance/hash",
+    "Exact reference file/RGB equality",
+    "Environment pins/commit and feature consistency",
+    "Exit codes and telemetry maxima"
+  ],
+  "environment": {
+    "python": "3.12.13",
+    "packages": {
+      "diffusers": "0.39.0.dev0",
+      "transformers": "5.5.3",
+      "accelerate": "1.13.0",
+      "peft": "0.18.1",
+      "huggingface_hub": "1.23.0",
+      "numpy": "1.26.4",
+      "torch": "2.10.0+cu128",
+      "safetensors": "0.9.0rc1",
+      "Pillow": "11.3.0",
+      "fastapi": "0.136.1",
+      "uvicorn": "0.46.0",
+      "python-multipart": "0.0.26"
+    },
+    "diffusers_commit": "c943837899b16cbae2f619b8dd4f7bb6f07dd81a",
+    "torch": "2.10.0+cu128",
+    "cuda": "12.8",
+    "cuda_available": true,
+    "gpu": "Tesla T4",
+    "gpu_total_bytes": 15636037632
+  },
+  "base_model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "base_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "base_model_index_sha256": "de1fef01845f0af3e1e2f2581cd5e86f2dfa4a4776f7f0b26b4c77feac4ee70f",
+  "storage": {
+    "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+    "revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "model_index_sha256": "de1fef01845f0af3e1e2f2581cd5e86f2dfa4a4776f7f0b26b4c77feac4ee70f",
+    "download_or_cache_reuse_seconds": 92.59509044900005,
+    "snapshot_unique_backing_bytes": 15980131711,
+    "cache_bytes": 15980136544,
+    "scratch_before": {
+      "free_bytes": 1201351868416,
+      "total_bytes": 8758385086464
+    },
+    "scratch_after": {
+      "free_bytes": 1185370959872,
+      "total_bytes": 8758385086464
+    }
+  },
+  "storage_before_setup": {
+    "free_bytes": 1201692979200,
+    "total_bytes": 8758385086464
+  },
+  "storage_after": {
+    "free_bytes": 1185365479424,
+    "total_bytes": 8758385086464
+  },
+  "extracted_bundle_bytes": 140036653,
+  "setup_timing_seconds": {
+    "dependency_setup": 47.016224482999974,
+    "setup_before_feature_loads": 187.75397439799997,
+    "total_bootstrap_and_probes": 602.5250547279999
+  },
+  "removed_optional_torchao": "0.10.0",
+  "features": [
+    {
+      "feature": "hairstyle",
+      "style_id": "crew_cut",
+      "input_sha256": "3690f83b3f517ea1d2408ee35c1cdb3bdb89ddc3a69d061d6b57fba51f69e537",
+      "adapter_sha256": "7e3991f8a4e502573d3e82e9ac34c89fdf3f0b66fb337abb026a5b4c9ad080ff",
+      "output_sha256": "da234556a871228b97543f97b3a9fe650894b24703510fff2836a12eb66c3497",
+      "output_dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      },
+      "reference_kind": "held-out TRAIN-001 evaluation, not current service capture",
+      "comparison": {
+        "file_hash_equal": true,
+        "rgb_pixels_equal": true,
+        "changed_pixels": 0,
+        "mean_absolute_channel_difference": 0.0,
+        "max_channel_difference": 0,
+        "quality_judgment": "NOT_AUTOMATED, HUMAN_REVIEW_REQUIRED",
+        "acceptance_tolerance": null
+      },
+      "worker_exit_code": 0,
+      "timing_seconds": {
+        "Base_load": 57.84138077199998,
+        "adapter_load": 0.21820525599991925,
+        "runtime_load_including_verification_offload": 58.291059398000016,
+        "inference_call": 63.95037364699999
+      },
+      "process_peak_rss_bytes": 24578387968,
+      "minimum_sampled_system_available_bytes": 14027591680,
+      "before_model_load": {
+        "process_rss_bytes": 1036218368,
+        "process_peak_rss_bytes": 1081692160,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 31390556160
+        },
+        "torch_gpu_bytes": {
+          "allocated": 0,
+          "reserved": 0,
+          "peak_allocated": 0,
+          "peak_reserved": 0
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 3,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "after_Base_load": {
+        "process_rss_bytes": 17283805184,
+        "process_peak_rss_bytes": 24578387968,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 15323426816
+        },
+        "torch_gpu_bytes": {
+          "allocated": 0,
+          "reserved": 0,
+          "peak_allocated": 0,
+          "peak_reserved": 0
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 3,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "after_inference": {
+        "process_rss_bytes": 18523041792,
+        "process_peak_rss_bytes": 24578387968,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 14044626944
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8705465856,
+          "peak_reserved": 8965324800
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "sampled_peak_device0_used_mib": 8687,
+      "memory_sample_count": 117,
+      "telemetry_warnings": []
+    },
+    {
+      "feature": "makeup",
+      "style_id": "natural_makeup",
+      "input_sha256": "81e57faca39e3989ed9920ebd6568efad563ae4f012f3fbb130918858d18e8ed",
+      "adapter_sha256": "f6f0419e4259a75102f08a450222ad806e3aec1c2ae50ff89f875139084ae510",
+      "output_sha256": "2c8a1511035fec5b326878af85130cdb10118c3706a56eae168241f395f8fd39",
+      "output_dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      },
+      "reference_kind": "reviewed MAKEUP-001 held-out evaluation, not corrected V2 service capture",
+      "comparison": {
+        "file_hash_equal": true,
+        "rgb_pixels_equal": true,
+        "changed_pixels": 0,
+        "mean_absolute_channel_difference": 0.0,
+        "max_channel_difference": 0,
+        "quality_judgment": "NOT_AUTOMATED, HUMAN_REVIEW_REQUIRED",
+        "acceptance_tolerance": null
+      },
+      "worker_exit_code": 0,
+      "timing_seconds": {
+        "Base_load": 36.972178043999975,
+        "adapter_load": 0.37984995100009655,
+        "runtime_load_including_verification_offload": 37.56733780299999,
+        "inference_call": 65.31996303899996
+      },
+      "process_peak_rss_bytes": 20271321088,
+      "minimum_sampled_system_available_bytes": 12188622848,
+      "before_model_load": {
+        "process_rss_bytes": 1037291520,
+        "process_peak_rss_bytes": 1037291520,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 31492382720
+        },
+        "torch_gpu_bytes": {
+          "allocated": 0,
+          "reserved": 0,
+          "peak_allocated": 0,
+          "peak_reserved": 0
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 3,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "after_Base_load": {
+        "process_rss_bytes": 17142300672,
+        "process_peak_rss_bytes": 19390816256,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 15407640576
+        },
+        "torch_gpu_bytes": {
+          "allocated": 0,
+          "reserved": 0,
+          "peak_allocated": 0,
+          "peak_reserved": 0
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 3,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "after_inference": {
+        "process_rss_bytes": 20271321088,
+        "process_peak_rss_bytes": 20271321088,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 12188622848
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8705465856,
+          "peak_reserved": 8965324800
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "sampled_peak_device0_used_mib": 8687,
+      "memory_sample_count": 99,
+      "telemetry_warnings": []
+    },
+    {
+      "feature": "nails",
+      "style_id": "classic_red",
+      "input_sha256": "7e28a5bc644b2970298fb04f53b95008a4eee47816e379368ae748b828626cf4",
+      "adapter_sha256": "5bff16c67e0014c78a6d938813347685f914f8a608d76407b10f5b54b7a0eb1f",
+      "output_sha256": "c9101d97bed8d48990988cba2bc63aa4bd733eff101a7ff9c7813a37fe2d037b",
+      "output_dimensions": [
+        512,
+        512
+      ],
+      "settings": {
+        "width": 512,
+        "height": 512,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 1977,
+        "dtype": "float16",
+        "cpu_offload": true
+      },
+      "reference_kind": "verified step-50 held-out crop evaluation",
+      "comparison": {
+        "file_hash_equal": true,
+        "rgb_pixels_equal": true,
+        "changed_pixels": 0,
+        "mean_absolute_channel_difference": 0.0,
+        "max_channel_difference": 0,
+        "quality_judgment": "NOT_AUTOMATED, HUMAN_REVIEW_REQUIRED",
+        "acceptance_tolerance": null
+      },
+      "worker_exit_code": 0,
+      "timing_seconds": {
+        "Base_load": 44.611925820000124,
+        "adapter_load": 0.4235219429999688,
+        "runtime_load_including_verification_offload": 45.26396457999999,
+        "inference_call": 67.17846672899987
+      },
+      "process_peak_rss_bytes": 20226375680,
+      "minimum_sampled_system_available_bytes": 12200837120,
+      "before_model_load": {
+        "process_rss_bytes": 1036328960,
+        "process_peak_rss_bytes": 1036328960,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 31500513280
+        },
+        "torch_gpu_bytes": {
+          "allocated": 0,
+          "reserved": 0,
+          "peak_allocated": 0,
+          "peak_reserved": 0
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 3,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "after_Base_load": {
+        "process_rss_bytes": 17129066496,
+        "process_peak_rss_bytes": 19724468224,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 15406182400
+        },
+        "torch_gpu_bytes": {
+          "allocated": 0,
+          "reserved": 0,
+          "peak_allocated": 0,
+          "peak_reserved": 0
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 3,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "after_inference": {
+        "process_rss_bytes": 20225867776,
+        "process_peak_rss_bytes": 20225867776,
+        "system_ram_bytes": {
+          "MemTotal": 33659383808,
+          "MemAvailable": 12215726080
+        },
+        "torch_gpu_bytes": {
+          "allocated": 9569280,
+          "reserved": 56623104,
+          "peak_allocated": 8705465856,
+          "peak_reserved": 8965324800
+        },
+        "device_memory_mib": [
+          {
+            "index": 0,
+            "used": 191,
+            "total": 15360
+          },
+          {
+            "index": 1,
+            "used": 0,
+            "total": 15360
+          }
+        ],
+        "warnings": []
+      },
+      "sampled_peak_device0_used_mib": 8687,
+      "memory_sample_count": 109,
+      "telemetry_warnings": []
+    }
+  ],
+  "limits": [
+    "One fixed style/input per feature; historical references, not fresh serving captures.",
+    "Pip reports conflicts in preinstalled packages outside the exercised FLUX paths, including OpenCV/NumPy; environment is not globally dependency-clean.",
+    "Safetensors resolved to 0.9.0rc1; preserve this exact observed version in subsequent reproduction.",
+    "Nails crop only; CPU localization/segmentation/compositing were not run on Kaggle.",
+    "Single GPU0 used; GPU1 unused. Device peaks sampled, not continuous.",
+    "Disk values describe the measured scratch filesystem, not Kaggle output quota.",
+    "Base revision/download/model-index evidence is recorded, not independent full checkpoint byte verification.",
+    "No shared pipeline switching, concurrent requests, server/tunnel or centralized live end-to-end validation."
+  ],
+  "gate2_started": false
+}
