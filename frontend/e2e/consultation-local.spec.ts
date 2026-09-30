@@ -22,13 +22,17 @@ for (const feature of ["hairstyle", "makeup", "nails"] as const) {
     });
     await page.goto("/consultation");
     await page.getByRole("button", { name: new RegExp(`^${feature}`, "i") }).click();
+    await page.getByRole("button", { name: /Continue/ }).click();
     await page.getByLabel("Upload consultation photo").setInputFiles(photo);
     await page.getByRole("button", { name: /Find my looks/ }).click();
+    await page.getByRole("button", { name: /Explore My Looks/ }).click();
+    await page.getByRole("button", { name: /Generate My Looks/ }).click();
     await expect(page.getByRole("article")).toHaveCount(3);
     await expect(page.getByRole("article").nth(2)).toContainText("completed", { timeout: 30000 });
     expect(generations).toHaveLength(3);
-    await expect(page.locator(".consult-card img")).toHaveCount(3);
-    await page.getByRole("article").nth(0).getByRole("button", { name: "Select this look" }).click();
+    await expect(page.locator(".consult-look-tile img")).toHaveCount(3);
+    await page.getByRole("button", { name: /View look 1/ }).click();
+    await page.getByRole("button", { name: "Select This Look" }).click();
     await expect(page.getByRole("region", { name: "Selected recommendation" })).toBeVisible();
   });
 }

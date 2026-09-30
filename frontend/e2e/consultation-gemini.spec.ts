@@ -79,20 +79,28 @@ test("Gemini mode asks, captures answers, then feeds three existing result cards
     await route.fulfill({ status: 404, json: { detail: "Unexpected request" } });
   });
   await page.goto("/consultation");
+  await page.getByRole("button", { name: /^Hairstyle/i }).click();
+  await page.getByRole("button", { name: /Continue/ }).click();
   await expect(page.getByText("Start when your photo is ready.", { exact: false })).toBeVisible();
   await expect(page.getByLabel("Occasion or event")).toHaveCount(0);
   await page.getByLabel("Upload consultation photo").setInputFiles({ name: "test.png", mimeType: "image/png", buffer: photo });
   await page.getByRole("button", { name: /Start AI consultation/ }).click();
   await expect(page.getByRole("log")).toContainText("What are you getting ready for?");
+  await page.getByRole("button", { name: "Graduation", exact: true }).click();
+  await expect(page.getByLabel("Your reply")).toHaveValue("Graduation");
   await page.getByLabel("Your reply").fill("My graduation.");
   await page.getByRole("button", { name: "Send reply" }).click();
   await expect(page.getByRole("log")).toContainText("What kind of look would you like?");
   await page.getByLabel("Your reply").fill("Clean and easy to maintain.");
   await page.getByRole("button", { name: "Send reply" }).click();
+  await expect(page.getByRole("button", { name: /Explore My Looks/ })).toBeVisible();
+  expect(generated).toEqual([]);
+  await page.getByRole("button", { name: /Explore My Looks/ }).click();
+  await page.getByRole("button", { name: /Generate My Looks/ }).click();
   await expect(page.getByRole("article")).toHaveCount(3);
   await expect(page.getByRole("article").nth(2)).toContainText("completed");
   expect(generated).toEqual(["rec-1", "rec-2", "rec-3"]);
-  await expect(page.locator(".consult-card img")).toHaveCount(3);
+  await expect(page.locator(".consult-look-tile img")).toHaveCount(3);
 });
 
 test("an unavailable opening question can be retried on the same consultation", async ({ page }) => {
@@ -126,6 +134,8 @@ test("an unavailable opening question can be retried on the same consultation", 
     await route.fulfill({ status: 404 });
   });
   await page.goto("/consultation");
+  await page.getByRole("button", { name: /^Hairstyle/i }).click();
+  await page.getByRole("button", { name: /Continue/ }).click();
   await page.getByLabel("Upload consultation photo").setInputFiles({ name: "test.png", mimeType: "image/png", buffer: photo });
   await page.getByRole("button", { name: /Start AI consultation/ }).click();
   await expect(page.locator(".studio-alert")).toContainText("unavailable");

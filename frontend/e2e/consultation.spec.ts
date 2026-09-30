@@ -55,7 +55,7 @@ async function mockConsultation(page: Page, feature: "hairstyle" | "makeup" | "n
       if (method === "POST") {
         generationRequests.push(index);
         attempts[index]++;
-        await new Promise((resolve) => setTimeout(resolve, 150));
+        await new Promise((resolve) => setTimeout(resolve, index === 0 ? 450 : 150));
         if (!success) { await route.fulfill({ status: 502, json: { detail: "Controlled inference failure." } }); return; }
       }
       const generation = { recommendation_id: `rec-${index + 1}`, status: success ? "completed" : "failed",
@@ -80,19 +80,29 @@ for (const feature of ["hairstyle", "makeup", "nails"] as const) {
     const tracked = await mockConsultation(page, feature);
     await page.goto("/consultation");
     await page.waitForLoadState("networkidle");
-    await page.getByRole("button", { name: /^Makeup A finish/ }).click();
-    await expect(page.getByRole("button", { name: /^Makeup A finish/ })).toHaveAttribute("aria-pressed", "true");
     await page.getByRole("button", { name: new RegExp(`^${feature}`, "i") }).click();
+    await expect(page.getByRole("button", { name: new RegExp(`^${feature}`, "i") })).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByLabel("Upload consultation photo")).toHaveCount(0);
+    await page.getByRole("button", { name: /Continue/ }).click();
     await page.getByLabel("Upload consultation photo").setInputFiles({ name: "photo.png", mimeType: "image/png", buffer: image });
     await expect(page.getByAltText("Consultation photo preview")).toBeVisible();
     await page.getByLabel("Occasion or event").fill("Celebration");
     await page.getByRole("button", { name: /Find my looks/ }).click();
+    await expect(page.getByRole("button", { name: /Explore My Looks/ })).toBeVisible();
+    expect(tracked.generationRequests).toEqual([]);
+    await page.getByRole("button", { name: /Explore My Looks/ }).click();
+    await page.getByRole("button", { name: /Generate My Looks/ }).click();
     await expect(page.getByRole("article")).toHaveCount(3);
+    await expect(page.getByRole("article").nth(0)).toContainText("generating");
+    await expect(page.getByRole("article").nth(1)).toContainText("Up next");
     await expect(page.getByRole("article").nth(0)).toContainText("completed");
     await expect(page.getByRole("article").nth(2)).toContainText("completed");
     expect(tracked.generationRequests).toEqual([0, 1, 2]);
+    await page.getByRole("button", { name: /View look 1/ }).click();
     await expect(page.getByAltText("Generated Look 1 preview")).toBeVisible();
-    await page.getByRole("article").nth(1).getByRole("button", { name: "Select this look" }).click();
+    await page.getByRole("button", { name: /View look 2/ }).click();
+    expect(tracked.generationRequests).toEqual([0, 1, 2]);
+    await page.getByRole("button", { name: "Select This Look" }).click();
     await expect(page.getByRole("region", { name: "Selected recommendation" })).toContainText("Look 2");
     await expect(page.getByText("Natural Makeup").first()).toBeVisible();
   });
@@ -102,13 +112,19 @@ test("one failed look is retried manually without regenerating siblings", async 
   const tracked = await mockConsultation(page, "hairstyle", true);
   await page.goto("/consultation");
   await page.waitForLoadState("networkidle");
+  await page.getByRole("button", { name: /^Hairstyle/i }).click();
+  await page.getByRole("button", { name: /Continue/ }).click();
   await page.getByLabel("Upload consultation photo").setInputFiles({ name: "photo.png", mimeType: "image/png", buffer: image });
   await expect(page.getByAltText("Consultation photo preview")).toBeVisible();
   await page.getByRole("button", { name: /Find my looks/ }).click();
-  await expect(page.getByRole("article").nth(1)).toContainText("Controlled inference failure.");
+  await page.getByRole("button", { name: /Explore My Looks/ }).click();
+  await page.getByRole("button", { name: /Generate My Looks/ }).click();
+  await expect(page.getByRole("article").nth(1)).toContainText("failed");
   await expect(page.getByRole("article").nth(2)).toContainText("completed");
   expect(tracked.generationRequests).toEqual([0, 1, 2]);
-  await page.getByRole("article").nth(1).getByRole("button", { name: "Retry this look" }).click();
+  await page.getByRole("button", { name: /View look 2/ }).click();
+  await expect(page.getByText("Controlled inference failure.")).toBeVisible();
+  await page.getByRole("button", { name: "Retry this look" }).click();
   await expect(page.getByRole("article").nth(1)).toContainText("completed");
   expect(tracked.generationRequests).toEqual([0, 1, 2, 1]);
 });
@@ -121,6 +137,7 @@ for (const item of [{ feature: "hairstyle", href: "/" }, { feature: "makeup", hr
     await page.goto("/consultation");
     await page.waitForLoadState("networkidle");
     await page.getByRole("button", { name: new RegExp(`^${item.feature}`, "i") }).click();
+    await page.getByRole("button", { name: /Continue/ }).click();
     await page.getByLabel("Upload consultation photo").setInputFiles({ name: "photo.png", mimeType: "image/png", buffer: image });
     await expect(page.getByAltText("Consultation photo preview")).toBeVisible();
     await page.getByRole("link", { name: new RegExp(`Custom ${item.feature}`, "i") }).click();
@@ -137,10 +154,13 @@ test("malformed two-item recommendations fail safely before generation", async (
   } }));
   await page.goto("/consultation");
   await page.waitForLoadState("networkidle");
+  await page.getByRole("button", { name: /^Hairstyle/i }).click();
+  await page.getByRole("button", { name: /Continue/ }).click();
   await page.getByLabel("Upload consultation photo").setInputFiles({ name: "photo.png", mimeType: "image/png", buffer: image });
   await expect(page.getByAltText("Consultation photo preview")).toBeVisible();
   await page.getByRole("button", { name: /Find my looks/ }).click();
   await expect(page.locator(".studio-alert")).toContainText("unreadable response");
+  await expect(page.getByRole("button", { name: /Explore My Looks/ })).toHaveCount(0);
   expect(tracked.generationRequests).toEqual([]);
 });
 
@@ -148,9 +168,12 @@ test("consultation remains usable on a narrow screen", async ({ page }) => {
   await mockConsultation(page, "nails");
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/consultation");
-  await page.getByRole("button", { name: /^Nails A polished/ }).click();
+  await page.getByRole("button", { name: /^Nails/i }).click();
+  await page.getByRole("button", { name: /Continue/ }).click();
   await page.getByLabel("Upload consultation photo").setInputFiles({ name: "photo.png", mimeType: "image/png", buffer: image });
   await page.getByRole("button", { name: /Find my looks/ }).click();
+  await page.getByRole("button", { name: /Explore My Looks/ }).click();
+  await page.getByRole("button", { name: /Generate My Looks/ }).click();
   await expect(page.getByRole("article").nth(2)).toContainText("completed");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });

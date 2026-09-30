@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { type ChangeEvent, useEffect, useRef, useState } from "react";
 
-import { StudioPanel, StudioPhoto, StudioShell } from "@/components/ai-studio";
+import { StudioPhoto, StudioShell } from "@/components/ai-studio";
 import type { FeatureId, GenerateResponse } from "@/lib/api";
 import { createConsultation, generateRecommendation, getConsultationMode, getGenerationDetail, recommendConsultation,
   sendConsultationTurn,
@@ -15,6 +15,7 @@ type CardStatus = "pending" | "generating" | "completed" | "failed" | "unknown";
 type Card = { recommendation: Recommendation; status: CardStatus; result: GenerateResponse | null;
   error: string; canRetry: boolean };
 type Phase = "setup" | "preparing" | "generating" | "ready" | "attention";
+type Step = 1 | 2 | 3;
 
 const SERVICES: { id: FeatureId; label: string; detail: string; href: string }[] = [
   { id: "hairstyle", label: "Hairstyle", detail: "A cut or shape for your next look", href: "/" },
@@ -25,7 +26,11 @@ const MAX_BYTES = 8 * 1024 * 1024;
 const wait = (milliseconds: number) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 export default function ConsultationPage() {
-  const [service, setService] = useState<FeatureId>("hairstyle");
+  const [service, setService] = useState<FeatureId | null>(null);
+  const [step, setStep] = useState<Step>(1);
+  const [activeLookId, setActiveLookId] = useState("");
+  const [showMorePreferences, setShowMorePreferences] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
   const previewRef = useRef("");
@@ -55,9 +60,7 @@ export default function ConsultationPage() {
     return () => { active = false; };
   }, []);
 
-  function onFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const chosen = event.target.files?.[0];
-    event.target.value = "";
+  function acceptFile(chosen?: File) {
     if (!chosen) return;
     if (!["image/jpeg", "image/png"].includes(chosen.type) || chosen.size < 1 || chosen.size > MAX_BYTES) {
       setError("Choose a JPG or PNG image up to 8 MB."); return;
@@ -68,9 +71,15 @@ export default function ConsultationPage() {
     setFile(chosen);
     setCards([]);
     setSelectedId("");
+    setActiveLookId("");
     setPhase("setup");
     setConsultationId(""); setChatMessages([]); setChatInput(""); setConversationReady(false);
     setError("");
+  }
+
+  function onFileChange(event: ChangeEvent<HTMLInputElement>) {
+    acceptFile(event.target.files?.[0]);
+    event.target.value = "";
   }
 
   function changeService(next: FeatureId) {
@@ -78,6 +87,7 @@ export default function ConsultationPage() {
     setServicePreference("");
     setCards([]);
     setSelectedId("");
+    setActiveLookId("");
     setPhase("setup");
     setConsultationId(""); setChatMessages([]); setChatInput(""); setConversationReady(false);
     setError("");
@@ -100,6 +110,7 @@ export default function ConsultationPage() {
   function applyDetail(id: string, detail: GenerationDetail): boolean {
     if (detail.generation.status === "completed" && detail.result) {
       patchCard(id, { status: "completed", result: detail.result, error: "", canRetry: false });
+      setActiveLookId((current) => current || id);
       return true;
     }
     if (detail.generation.status === "failed") {
@@ -147,7 +158,7 @@ export default function ConsultationPage() {
   }
 
   async function start() {
-    if (!file || running.current) return;
+    if (!file || !service || running.current) return;
     running.current = true;
     setError("");
     setCards([]);
@@ -161,7 +172,9 @@ export default function ConsultationPage() {
       const set = await recommendConsultation(created.id);
       setCards(set.recommendations.map((recommendation) => ({ recommendation, status: "pending",
         result: null, error: "", canRetry: false })));
-      await generatePending(created.id, set.recommendations);
+      setActiveLookId(set.recommendations[0].id);
+      setConversationReady(true);
+      setPhase("setup");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Consultation could not start. Please try again.");
       setPhase("setup");
@@ -169,7 +182,7 @@ export default function ConsultationPage() {
   }
 
   async function beginConversation() {
-    if (!file || running.current || providerMode !== "gemini") return;
+    if (!file || !service || running.current || providerMode !== "gemini") return;
     running.current = true;
     setError(""); setPhase("preparing"); setCards([]); setSelectedId("");
     try {
@@ -210,7 +223,8 @@ export default function ConsultationPage() {
         setConversationReady(true);
         setCards(turn.recommendations.recommendations.map((recommendation) => ({ recommendation,
           status: "pending", result: null, error: "", canRetry: false })));
-        await generatePending(consultationId, turn.recommendations.recommendations);
+        setActiveLookId(turn.recommendations.recommendations[0].id);
+        setPhase("setup");
       } else setPhase("setup");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "The AI consultant could not respond.");
@@ -246,6 +260,13 @@ export default function ConsultationPage() {
     finally { running.current = false; }
   }
 
+  async function generateLooks() {
+    if (!consultationId || running.current || cards.length !== 3 || cards.some((card) => card.status !== "pending")) return;
+    running.current = true;
+    try { await generatePending(consultationId, cards.map((card) => card.recommendation)); }
+    finally { running.current = false; }
+  }
+
   async function select(card: Card) {
     if (!consultationId || card.status !== "completed") return;
     try {
@@ -255,116 +276,183 @@ export default function ConsultationPage() {
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Selection could not be saved."); }
   }
 
-  const serviceInfo = SERVICES.find((item) => item.id === service)!;
+  const serviceInfo = SERVICES.find((item) => item.id === service);
   const busy = phase === "preparing" || phase === "generating";
   const selected = cards.find((card) => card.recommendation.id === selectedId);
+  const activeCard = cards.find((card) => card.recommendation.id === activeLookId) || cards[0];
+  const activeIndex = cards.findIndex((card) => card.recommendation.id === activeCard?.recommendation.id);
+  const lastQuestion = [...chatMessages].reverse().find((item) => item.role === "assistant")?.content || "";
+  const quickReplies = /maintenance|easy to maintain/i.test(lastQuestion) ? ["Easy to maintain", "Some styling is fine", "No preference"]
+    : /intensity|natural|soft|bold/i.test(lastQuestion) ? ["Natural and subtle", "Soft and polished", "Bold and expressive"]
+    : /color|finish/i.test(lastQuestion) ? ["Dark and glossy", "Soft and natural", "No preference"]
+    : /occasion|getting ready|event/i.test(lastQuestion) ? ["Everyday", "Special event", "Graduation"] : [];
+  const customLink = serviceInfo && <Link className="consult-custom-link" href={serviceInfo.href}
+    onClick={() => { if (file) rememberCustomPhoto(serviceInfo.id, file); }}>Prefer to choose yourself? <strong>Custom {serviceInfo.label} <span aria-hidden="true">↗</span></strong></Link>;
 
-  return <StudioShell feature="consultation" eyebrow="THE AI BEAUTY STUDIO" title="Find a look" emphasis="made for your plans."
-    description={providerMode === "gemini" ? "Choose a service, share one photo and talk with our AI consultant. Then explore three supported looks." :
-      "Choose a service, share one photo and a few preferences, then explore three supported looks."}
+  return <StudioShell feature="consultation" eyebrow="A PERSONAL BEAUTY EXPERIENCE" title="Find a look" emphasis="made for you."
+    description="One service. One photo. Three directions chosen around what you love."
     badge={providerMode === "gemini" ? "AI beauty consultation" : "Guided consultation preview"}>
-    <div className="studio-workspace">
-      <StudioPanel id="consult-service" number="01" title="Choose a service" detail="Each consultation focuses on one primary service.">
-        <div className="consult-service-grid" role="group" aria-label="Choose service">
-          {SERVICES.map((item) => <button key={item.id} type="button" className="consult-service-card"
-            aria-pressed={service === item.id} disabled={busy} onClick={() => changeService(item.id)}>
-            <strong>{item.label}</strong><span>{item.detail}</span></button>)}
+    <nav className="consult-steps" aria-label="Consultation progress">
+      {([1, 2, 3] as const).map((number) => <div key={number} className={`consult-step ${number === step ? "is-current" : number < step ? "is-complete" : ""}`}
+        aria-current={number === step ? "step" : undefined}>
+        <span className="consult-step-number">{number < step ? "✓" : `0${number}`}</span>
+        <span>{number === 1 ? "Service" : number === 2 ? "Direction" : "Your Looks"}</span>
+      </div>)}
+    </nav>
+    {error && <p role="alert" className="studio-alert">{error}</p>}
+
+    {step === 1 && <section key="service" className="consult-stage consult-service-stage" aria-labelledby="consult-service-title">
+      <div className="consult-stage-heading"><span className="studio-eyebrow">01 / CHOOSE A SERVICE</span>
+        <h2 id="consult-service-title">Where shall we begin?</h2>
+        <p>Choose the experience you want to explore today.</p></div>
+      <div className="consult-service-grid" role="group" aria-label="Choose service">
+        {SERVICES.map((item, index) => <button key={item.id} type="button" className={`consult-service-card consult-service-${item.id}`}
+          aria-label={`${item.label} — ${item.detail}`} aria-pressed={service === item.id} onClick={() => changeService(item.id)}>
+          <span className="consult-service-art" aria-hidden="true"><span>{index === 0 ? "✦" : index === 1 ? "◐" : "◇"}</span></span>
+          <span className="consult-service-copy"><small>0{index + 1} / BEAUTY SERVICE</small><strong>{item.label}</strong><span>{item.detail}</span></span>
+          <span className="consult-service-arrow" aria-hidden="true">↗</span>
+        </button>)}
+      </div>
+      <div className="consult-stage-footer"><p>{service ? `${serviceInfo?.label} selected` : "Select one service to continue."}</p>
+        <button type="button" className="studio-primary-button" disabled={!service}
+          onClick={() => setStep(2)}>Continue <span aria-hidden="true">→</span></button></div>
+      {service && <div className="consult-custom-row">{customLink}</div>}
+    </section>}
+
+    {step === 2 && <section key="direction" className="consult-stage" aria-labelledby="consult-direction-title">
+      <div className="consult-stage-heading"><span className="studio-eyebrow">02 / TELL US YOUR DIRECTION</span>
+        <h2 id="consult-direction-title">Tell us what feels like you.</h2>
+        <p>{providerMode === "gemini" ? "A short conversation helps us find styles that fit your plans." : "A few thoughtful choices are enough to get started."}</p></div>
+      <div className="consult-direction-layout">
+        <div className="consult-direction-panel">
+          {providerMode === "loading" ? <p role="status" className="consult-waiting"><span className="consult-spinner" />Connecting to your consultation…</p>
+          : providerMode === "gemini" ? <div className="consult-conversation">
+            {chatMessages.length === 0 ? <div className="consult-chat-intro"><span aria-hidden="true">✦</span>
+              <h3>A conversation about your look</h3><p>Start when your photo is ready. The consultant will ask a few useful questions.</p></div>
+              : <div className="consult-chat-log" role="log" aria-label="Consultation conversation" aria-live="polite">
+                {chatMessages.map((item, index) => <p key={index} className={`consult-chat-message consult-chat-${item.role}`}>
+                  <strong>{item.role === "assistant" ? "AI consultant" : "You"}</strong><span>{item.content}</span></p>)}
+              </div>}
+            {phase === "preparing" && <p role="status" className="consult-waiting"><span className="consult-spinner" />Waiting for the consultant…</p>}
+            {consultationId && chatMessages.length === 0 && !busy && <button type="button" className="studio-secondary-button"
+              onClick={() => void retryOpeningQuestion()}>Retry opening question</button>}
+            {!consultationId && <button type="button" className="studio-primary-button" disabled={!file || busy}
+              onClick={() => void beginConversation()}>{busy ? "Starting…" : "Start AI consultation"} <span aria-hidden="true">✦</span></button>}
+            {consultationId && !conversationReady && chatMessages.length > 0 && <div className="consult-chat-compose">
+              {quickReplies.length > 0 && <div className="consult-quick-replies" aria-label="Suggested replies"><small>Quick replies</small><div>
+                {quickReplies.map((reply) => <button key={reply} type="button" className="consult-chip" aria-pressed={chatInput === reply}
+                  disabled={busy} onClick={() => setChatInput(reply)}>{reply}</button>)}</div></div>}
+              <label htmlFor="consult-reply">Your reply</label>
+              <textarea id="consult-reply" value={chatInput} maxLength={500} rows={3} disabled={busy}
+                onChange={(event) => setChatInput(event.target.value)}
+                onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void replyToConsultant(); } }}
+                placeholder="Add your own details or edit a quick reply…" />
+              <button type="button" className="studio-primary-button" disabled={!chatInput.trim() || busy}
+                onClick={() => void replyToConsultant()}>Send reply <span aria-hidden="true">→</span></button>
+            </div>}
+          </div> : <div className="consult-fields">
+            <fieldset><legend>What are you getting ready for?</legend><div className="consult-chip-row">
+              {["Everyday", "Celebration", "Formal"].map((option) => <button key={option} type="button" className="consult-chip" aria-pressed={occasion === option}
+                disabled={busy} onClick={() => setOccasion(occasion === option ? "" : option)}>{option}</button>)}</div>
+              <label className="consult-field-subtle" htmlFor="consult-occasion">Or describe it</label><input id="consult-occasion" value={occasion} maxLength={80}
+                disabled={busy} onChange={(event) => setOccasion(event.target.value)} placeholder="Occasion or event" aria-label="Occasion or event" /></fieldset>
+            <fieldset><legend>What mood are you drawn to?</legend><div className="consult-chip-row">
+              {["Natural", "Classic", "Bold"].map((option) => <button key={option} type="button" className="consult-chip" aria-pressed={vibe === option}
+                disabled={busy} onClick={() => setVibe(vibe === option ? "" : option)}>{option}</button>)}</div>
+              <label className="consult-field-subtle" htmlFor="consult-vibe">Or describe it</label><input id="consult-vibe" value={vibe} maxLength={80}
+                disabled={busy} onChange={(event) => setVibe(event.target.value)} placeholder="Desired vibe" aria-label="Desired vibe" /></fieldset>
+            <fieldset><legend>{service === "hairstyle" ? "Maintenance preference" : service === "makeup" ? "Makeup intensity" : "Nail finish"}</legend>
+              <div className="consult-chip-row">{(service === "hairstyle" ? ["low", "medium", "high"] : service === "makeup" ? ["natural", "soft", "bold"] : ["glossy", "matte", "ombre", "french"])
+                .map((option) => <button key={option} type="button" className="consult-chip" aria-pressed={servicePreference === option}
+                  disabled={busy} onClick={() => setServicePreference(servicePreference === option ? "" : option)}>{option.charAt(0).toUpperCase() + option.slice(1)}</button>)}</div></fieldset>
+            <button type="button" className="consult-more-toggle" aria-expanded={showMorePreferences}
+              onClick={() => setShowMorePreferences((value) => !value)}>{showMorePreferences ? "Hide optional details" : "Add optional details"} <span aria-hidden="true">{showMorePreferences ? "−" : "+"}</span></button>
+            {showMorePreferences && <div className="consult-extra-fields">
+              <label>Anything to avoid? <small>(comma separated)</small><input value={avoids} maxLength={160} disabled={busy}
+                onChange={(event) => setAvoids(event.target.value)} placeholder="For example, high maintenance" /></label>
+              <label>Optional notes<textarea value={notes} maxLength={500} disabled={busy} rows={3}
+                onChange={(event) => setNotes(event.target.value)} placeholder="What else should we consider?" /></label>
+            </div>}
+            {!conversationReady && <button type="button" className="studio-primary-button" disabled={!file || busy}
+              onClick={() => void start()}>{busy ? "Preparing…" : "Find my looks"} <span aria-hidden="true">✦</span></button>}
+          </div>}
+          {conversationReady && cards.length === 3 && <div className="consult-ready" role="status">
+            <span className="consult-ready-mark" aria-hidden="true">✦</span><div><h3>We&apos;ve got your direction.</h3>
+              <p>Three supported looks are ready for you to explore.</p></div>
+            <button type="button" className="studio-primary-button" onClick={() => setStep(3)}>Explore My Looks <span aria-hidden="true">→</span></button>
+          </div>}
         </div>
-        <div className="consult-photo-block">
-          <h3>Your {service === "nails" ? "hand photo" : "portrait"}</h3>
+        <aside className="consult-photo-panel" aria-label="Your consultation photo">
+          <div className="consult-photo-label"><span>YOUR {service === "nails" ? "HAND PHOTO" : "PORTRAIT"}</span><span>01 PHOTO · 03 LOOKS</span></div>
           <input ref={inputRef} className="sr-only" type="file" accept="image/jpeg,image/png"
             aria-label="Upload consultation photo" onChange={onFileChange} disabled={busy} />
           {preview ? <div className="consult-photo-preview"><StudioPhoto src={preview} alt="Consultation photo preview" /></div>
-            : <button type="button" className="studio-upload consult-upload" onClick={() => inputRef.current?.click()}>
-              <span className="studio-upload-icon" aria-hidden="true">↑</span><strong>Choose one photo</strong>
-              <small>JPG or PNG, up to 8 MB. Reused for all three looks.</small></button>}
+            : <button type="button" className={`studio-upload consult-upload ${dragging ? "is-dragging" : ""}`}
+              onClick={() => inputRef.current?.click()}
+              onDragOver={(event) => { event.preventDefault(); setDragging(true); }}
+              onDragLeave={() => setDragging(false)}
+              onDrop={(event) => { event.preventDefault(); setDragging(false); acceptFile(event.dataTransfer.files[0]); }}>
+              <span className="studio-upload-icon" aria-hidden="true">↑</span><strong>Bring your photo in</strong>
+              <small>Choose or drop a JPG or PNG, up to 8 MB.</small></button>}
           {file && <div className="studio-file-row"><strong>{file.name}</strong><button type="button" className="studio-text-button"
-            disabled={busy} onClick={() => inputRef.current?.click()}>Replace</button></div>}
-        </div>
-      </StudioPanel>
-      <StudioPanel id="consult-preferences" number="02"
-        title={providerMode === "gemini" ? "Talk about your look" : "Tell us your direction"}
-        detail={providerMode === "gemini" ? "A short conversation helps narrow the supported looks. Your photo stays with this application." :
-          "A few answers help narrow the supported styles."}>
-        {providerMode === "gemini" ? <div className="consult-conversation">
-          {chatMessages.length === 0 ? <p className="consult-chat-intro">Start when your photo is ready. The consultant will ask a few useful questions.</p>
-            : <div className="consult-chat-log" role="log" aria-label="Consultation conversation">
-              {chatMessages.map((item, index) => <p key={index} className={`consult-chat-message consult-chat-${item.role}`}>
-                <strong>{item.role === "assistant" ? "AI consultant" : "You"}</strong><span>{item.content}</span></p>)}
-            </div>}
-          {consultationId && chatMessages.length === 0 && <button type="button" className="studio-secondary-button"
-            disabled={busy} onClick={() => void retryOpeningQuestion()}>Retry opening question</button>}
-          {consultationId && !conversationReady && <div className="consult-chat-compose">
-            <label htmlFor="consult-reply">Your reply</label>
-            <textarea id="consult-reply" value={chatInput} maxLength={500} rows={3}
-              disabled={busy} onChange={(event) => setChatInput(event.target.value)}
-              onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault(); void replyToConsultant();
-              } }} placeholder="Tell us what you are getting ready for and what feels right to you." />
-            <button type="button" className="studio-primary-button" disabled={!chatInput.trim() || busy}
-              onClick={() => void replyToConsultant()}>Send reply</button>
-          </div>}
-          {conversationReady && <p role="status" className="studio-tip">The consultant has enough information. Your three supported looks are below.</p>}
-        </div> : <>
-        <div className="consult-fields">
-          <label>Occasion or event<input value={occasion} maxLength={80} disabled={busy} onChange={(event) => setOccasion(event.target.value)} placeholder="Everyday, celebration, formal…" /></label>
-          <label>Desired vibe<input value={vibe} maxLength={80} disabled={busy} onChange={(event) => setVibe(event.target.value)} placeholder="Soft, bold, classic…" /></label>
-          <label>{service === "hairstyle" ? "Maintenance preference" : service === "makeup" ? "Makeup intensity" : "Nail finish"}
-            <select value={servicePreference} disabled={busy} onChange={(event) => setServicePreference(event.target.value)}>
-              <option value="">No preference</option>
-              {(service === "hairstyle" ? ["low", "medium", "high"] : service === "makeup" ? ["natural", "soft", "bold"] : ["glossy", "matte", "ombre", "french"])
-                .map((option) => <option key={option} value={option}>{option.charAt(0).toUpperCase() + option.slice(1)}</option>)}
-            </select></label>
-          <label>Anything to avoid? <small>(comma separated)</small><input value={avoids} maxLength={160} disabled={busy}
-            onChange={(event) => setAvoids(event.target.value)} placeholder="For example, high maintenance" /></label>
-          <label>Optional notes<textarea value={notes} maxLength={500} disabled={busy} rows={3}
-            onChange={(event) => setNotes(event.target.value)} placeholder="What else should we consider?" /></label>
-        </div>
-        <p className="studio-tip"><strong>For this preview</strong><br />Recommendations come from supported styles and configured demo estimates. No appointment or real salon price is being offered.</p></>}
-      </StudioPanel>
-    </div>
-    <section className="studio-action-bar" aria-label="Start consultation"><div><small>03 / EXPLORE THREE LOOKS</small>
-      <h2>Ready for your recommendations?</h2><p>Looks generate one at a time. Nails may take longer.</p></div>
-      <div className="consult-actions"><Link className="studio-secondary-button" href={serviceInfo.href}
-        onClick={() => { if (file) rememberCustomPhoto(service, file); }}>Custom {serviceInfo.label}</Link>
-        {providerMode !== "gemini" ? <button type="button" className="studio-primary-button"
-          disabled={!file || busy || providerMode === "loading"} onClick={() => void start()}>
-          {phase === "preparing" ? "Preparing…" : busy ? "Generating looks…" : cards.length ? "Start a new consultation" : "Find my looks"} ✦</button>
-          : !consultationId && <button type="button" className="studio-primary-button" disabled={!file || busy}
-            onClick={() => void beginConversation()}>{busy ? "Starting…" : "Start AI consultation"} ✦</button>}</div>
-    </section>
-    {error && <p role="alert" className="studio-alert">{error}</p>}
-    {phase === "preparing" && <p role="status" className="consult-progress"><span className="consult-spinner" />Preparing your recommendations…</p>}
-    {cards.length > 0 && <section className="consult-results" aria-label="Your three recommendations">
-      <div className="consult-results-heading"><div><p className="studio-eyebrow">YOUR PERSONALIZED EDIT</p><h2>Three looks to explore</h2></div>
-        <p>One result completes before the next begins. Select the look you like best.</p></div>
-      <div className="consult-card-grid">{cards.map((card, index) => <article key={card.recommendation.id} className="consult-card"
-        aria-label={`Recommendation ${index + 1}: ${card.recommendation.primary.style_name}`}>
-        <div className="consult-card-visual">{card.result ? <StudioPhoto src={card.result.image.data_url}
-          alt={`Generated ${card.recommendation.primary.style_name} preview`} />
-          : <div className="consult-card-placeholder">{card.status === "generating" && <span className="consult-spinner" />}
-            <span>{card.status === "pending" ? "Waiting for this look" : card.status === "generating" ? "Generating this look…" : card.status === "unknown" ? "Checking request status" : "Preview unavailable"}</span></div>}</div>
-        <div className="consult-card-body"><div className="consult-card-top"><span>LOOK {index + 1}</span><span className={`consult-status consult-status-${card.status}`}>{card.status}</span></div>
-          <h3>{card.recommendation.primary.style_name}</h3><p>{card.recommendation.reason}</p>
-          <p className="consult-estimate">Estimated ₱{card.recommendation.primary.service.estimated_price.toLocaleString()} · {card.recommendation.primary.service.estimated_duration_minutes} min <small>(demo estimate)</small></p>
-          {card.recommendation.complements.length > 0 && <p className="consult-complements">Pairs with {card.recommendation.complements.map((item) => item.style_name).join(", ")}. Visuals are not generated for complementary services.</p>}
-          {card.error && <p role="alert" className="consult-card-error">{card.error}</p>}
-          <div className="consult-card-actions">{card.status === "completed" && <><button type="button" className="studio-primary-button"
-            onClick={() => void select(card)}>{selectedId === card.recommendation.id ? "Selected" : "Select this look"}</button>
-            <a className="studio-secondary-button" href={card.result!.image.data_url} download={`andreas-${card.recommendation.primary.style_id}.${card.result!.image.content_type === "image/jpeg" ? "jpg" : "png"}`}>Download</a></>}
-            {card.canRetry && <button type="button" className="studio-secondary-button" disabled={busy}
-              onClick={() => void retry(card)}>Retry this look</button>}
-            {card.status === "unknown" && <button type="button" className="studio-secondary-button"
-              onClick={() => void checkStatus(card)}>Check status</button>}</div>
-        </div>
-      </article>)}</div>
+            disabled={busy} onClick={() => inputRef.current?.click()}>Change photo</button></div>}
+          <p className="consult-photo-note">One photo is reused for all three results. Your photo is not sent to the conversational AI.</p>
+        </aside>
+      </div>
+      <div className="consult-stage-footer"><button type="button" className="studio-secondary-button" disabled={busy || !!consultationId}
+        onClick={() => setStep(1)}>Back to services</button>{customLink}</div>
+    </section>}
+
+    {step === 3 && <section key="looks" className="consult-stage" aria-labelledby="consult-looks-title">
+      <div className="consult-stage-heading"><span className="studio-eyebrow">03 / EXPLORE YOUR LOOKS</span>
+        <h2 id="consult-looks-title">Three looks, your direction.</h2>
+        <p>They&apos;ll be generated one at a time. Nails can take longer; keep this page open.</p></div>
+      {cards.length === 3 && cards.every((card) => card.status === "pending") && <div className="consult-generate-intro">
+        <div><strong>Your recommendations are ready.</strong><p>Generate three visual previews using your uploaded photo. Each look begins after the previous one finishes.</p></div>
+        <button type="button" className="studio-primary-button" disabled={busy} onClick={() => void generateLooks()}>Generate My Looks <span aria-hidden="true">✦</span></button>
+      </div>}
+      {cards.length > 0 && <div className="consult-look-layout">
+        {activeCard && <div className={`consult-featured-look ${activeCard.status === "completed" ? "has-result" : ""}`} aria-label="Featured look">
+          <div className="consult-featured-visual">{activeCard.result ? <StudioPhoto src={activeCard.result.image.data_url}
+            alt={`Generated ${activeCard.recommendation.primary.style_name} preview`} />
+            : <div className="consult-card-placeholder">{activeCard.status === "generating" && <span className="consult-spinner" />}
+              <span>{activeCard.status === "pending" ? "Your preview is up next" : activeCard.status === "generating" ? "Creating this look…" : activeCard.status === "unknown" ? "Checking request status" : "Preview unavailable"}</span></div>}
+            <span className="consult-featured-index">LOOK 0{activeIndex + 1} / 03</span></div>
+          <div className="consult-featured-copy"><div className="consult-card-top"><span>YOUR PERSONALIZED EDIT</span><span className={`consult-status consult-status-${activeCard.status}`}>{activeCard.status === "pending" ? "Up next" : activeCard.status}</span></div>
+            <h3>{activeCard.recommendation.primary.style_name}</h3><p className="consult-reason">{activeCard.recommendation.reason}</p>
+            <p className="consult-estimate">Estimated ₱{activeCard.recommendation.primary.service.estimated_price.toLocaleString()} · {activeCard.recommendation.primary.service.estimated_duration_minutes} min <small>(demo estimate)</small></p>
+            {activeCard.recommendation.complements.length > 0 && <p className="consult-complements">Pairs with {activeCard.recommendation.complements.map((item) => item.style_name).join(", ")}. Complementary visuals are not generated.</p>}
+            {activeCard.error && <p role="alert" className="consult-card-error">{activeCard.error}</p>}
+            <div className="consult-card-actions">{activeCard.status === "completed" && <><button type="button" className="studio-primary-button"
+              onClick={() => void select(activeCard)}>{selectedId === activeCard.recommendation.id ? "Selected" : "Select This Look"}</button>
+              <a className="studio-secondary-button" href={activeCard.result!.image.data_url}
+                download={`andreas-${activeCard.recommendation.primary.style_id}.${activeCard.result!.image.content_type === "image/jpeg" ? "jpg" : "png"}`}>Download</a></>}
+              {activeCard.canRetry && <button type="button" className="studio-secondary-button" disabled={busy}
+                onClick={() => void retry(activeCard)}>Retry this look</button>}
+              {activeCard.status === "unknown" && <button type="button" className="studio-secondary-button"
+                onClick={() => void checkStatus(activeCard)}>Check status</button>}</div>
+          </div>
+        </div>}
+        <div className="consult-look-list" aria-label="Your three recommendations">{cards.map((card, index) => <article key={card.recommendation.id}
+          className={`consult-look-tile ${activeCard?.recommendation.id === card.recommendation.id ? "is-active" : ""}`}
+          aria-label={`Recommendation ${index + 1}: ${card.recommendation.primary.style_name}`}>
+          <button type="button" className="consult-look-switch" aria-pressed={activeCard?.recommendation.id === card.recommendation.id}
+            onClick={() => setActiveLookId(card.recommendation.id)} aria-label={`View look ${index + 1}: ${card.recommendation.primary.style_name}`}>
+            <span className="consult-look-thumb">{card.result ? <StudioPhoto src={card.result.image.data_url} alt="" /> : <span aria-hidden="true">0{index + 1}</span>}</span>
+            <span className="consult-look-summary"><small>LOOK 0{index + 1} · <span className={`consult-status consult-status-${card.status}`}>{card.status === "pending" ? "Up next" : card.status}</span></small>
+              <strong>{card.recommendation.primary.style_name}</strong><span>{card.recommendation.reason}</span></span>
+            <span className="consult-look-chevron" aria-hidden="true">↗</span>
+          </button>
+        </article>)}</div>
+      </div>}
       {phase === "attention" && cards.some((card) => card.status === "pending") && !cards.some((card) => card.status === "unknown")
         && <button type="button" className="studio-secondary-button consult-continue" onClick={() => void continuePending()}>Continue remaining looks</button>}
-    </section>}
-    {selected && <section className="consult-selection" aria-label="Selected recommendation"><p className="studio-eyebrow">YOUR SELECTED LOOK</p>
-      <h2>{selected.recommendation.primary.style_name}</h2><p>Saved to this consultation for the current session. The estimate is for demonstration only; no booking has been made.</p>
-      <p>{selected.recommendation.primary.service.name} · ₱{selected.recommendation.primary.service.estimated_price.toLocaleString()} · {selected.recommendation.primary.service.estimated_duration_minutes} min</p>
-      {selected.recommendation.complements.length > 0 && <p>Suggested complements: {selected.recommendation.complements.map((item) => item.style_name).join(", ")}</p>}
+      {selected && <section className="consult-selection" aria-label="Selected recommendation"><p className="studio-eyebrow">YOUR SELECTED LOOK</p>
+        <h2>{selected.recommendation.primary.style_name}</h2><p>Saved to this consultation for the current session. No booking has been made.</p>
+        <p>{selected.recommendation.primary.service.name} · ₱{selected.recommendation.primary.service.estimated_price.toLocaleString()} · {selected.recommendation.primary.service.estimated_duration_minutes} min (demo estimate)</p>
+        {selected.recommendation.complements.length > 0 && <p>Suggested complements: {selected.recommendation.complements.map((item) => item.style_name).join(", ")}</p>}
+      </section>}
+      <div className="consult-stage-footer">{customLink}</div>
     </section>}
   </StudioShell>;
 }

@@ -17,7 +17,7 @@ export function StudioShell({ feature, eyebrow, title, emphasis, description, ba
   feature: FeatureId | "consultation"; eyebrow: string; title: string; emphasis: string;
   description: string; badge?: string; children: ReactNode;
 }) {
-  return <div className="studio-page">
+  return <div className={`studio-page studio-page-${feature}`}>
     <header className="studio-header">
       <div className="studio-header-inner">
         <Link href="/" className="studio-brand" aria-label="Andrea's AI studio home">
