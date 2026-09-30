@@ -1,6 +1,10 @@
 # Current state
 
-As of 2026-09-28. Earlier feature rows retain their dated evidence; current Gate 3 and Nails latency status follows. Source: repository and local artifact inspection, Supervisor decisions, and linked experiment records.
+As of 2026-09-30. Earlier feature rows retain their dated evidence; current Consultation, Gate 3 and Nails latency status follows. Source: repository and local artifact inspection, Supervisor decisions, and linked experiment records.
+
+## CONSULTATION-01 foundation, 2026-09-30
+
+**IMPLEMENTED; CPU/LOCAL API VERIFIED; NO LLM OR GPU.** Additive consultation routes create/retrieve bounded process-local state, validate/store one private photo with the existing upload validator, merge short structured preferences and messages, expose the currently active Hair/Makeup/Nails styles with editorial tags, and return three deterministic recommendations. The backend revalidates every provider style ID and attaches demo-only service price/duration. Nails candidates retain model/renderer labels. Default mock Hair, the optional 13-style Hair registry, Makeup and Nails catalogs were checked; the full backend suite passed 375 tests. Existing feature generation routes, frontend Custom pages, remote clients, Kaggle worker and retry policy are unchanged. [Architecture](../docs/specs/0003-consultation-foundation.md) and [local evidence](../docs/experiments/CONSULTATION-01-local.md). CONSULTATION-02 recommendation-to-generation and frontend handoff remain NOT STARTED; CONSULTATION-03 real LLM remains NOT STARTED.
 
 ## AI studio experience, 2026-09-28
 

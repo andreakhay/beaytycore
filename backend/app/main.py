@@ -61,7 +61,7 @@ origins = [origin.strip() for origin in os.getenv(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "PUT", "PATCH"],
     allow_headers=["Content-Type"],
 )
 
@@ -385,3 +385,15 @@ async def generate_feature(
     style_id: Annotated[str, Form()],
 ) -> GenerateResponse:
     return await feature_route(feature_id).generate(image, style_id)
+
+
+# Consultation reads the active style callbacks but never invokes generation.
+from app.consultation.api import build_router  # noqa: E402
+from app.consultation.store import ConsultationStore  # noqa: E402
+
+consultation_store = ConsultationStore()
+app.include_router(build_router(
+    lambda: {feature_id: route.styles for feature_id, route in FEATURE_ROUTES.items()},
+    validated_image,
+    consultation_store,
+))
