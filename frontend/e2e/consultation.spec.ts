@@ -28,6 +28,9 @@ async function mockConsultation(page: Page, feature: "hairstyle" | "makeup" | "n
     const url = new URL(route.request().url());
     const routePath = url.pathname;
     const method = route.request().method();
+    if (routePath === "/consultations/mode") {
+      await route.fulfill({ json: { provider: "deterministic", model: null } }); return;
+    }
     const state = { id: identity, primary_service: feature, stage: "recommended", photo: null,
       recommendations: { recommendations }, generations: [], selected_recommendation_id: selected };
     if (routePath === "/consultations" && method === "POST") {

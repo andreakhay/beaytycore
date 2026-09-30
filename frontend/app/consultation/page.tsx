@@ -5,7 +5,8 @@ import { type ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { StudioPanel, StudioPhoto, StudioShell } from "@/components/ai-studio";
 import type { FeatureId, GenerateResponse } from "@/lib/api";
-import { createConsultation, generateRecommendation, getGenerationDetail, recommendConsultation,
+import { createConsultation, generateRecommendation, getConsultationMode, getGenerationDetail, recommendConsultation,
+  sendConsultationTurn,
   selectRecommendation, updateConsultation, uploadConsultationPhoto,
   type GenerationDetail, type Preferences, type Recommendation } from "@/lib/consultation-api";
 import { rememberCustomPhoto } from "@/lib/photo-handoff";
@@ -35,6 +36,10 @@ export default function ConsultationPage() {
   const [avoids, setAvoids] = useState("");
   const [notes, setNotes] = useState("");
   const [servicePreference, setServicePreference] = useState("");
+  const [providerMode, setProviderMode] = useState<"loading" | "deterministic" | "gemini">("loading");
+  const [chatInput, setChatInput] = useState("");
+  const [chatMessages, setChatMessages] = useState<{ role: "user" | "assistant"; content: string }[]>([]);
+  const [conversationReady, setConversationReady] = useState(false);
   const [phase, setPhase] = useState<Phase>("setup");
   const [consultationId, setConsultationId] = useState("");
   const [cards, setCards] = useState<Card[]>([]);
@@ -42,6 +47,13 @@ export default function ConsultationPage() {
   const [error, setError] = useState("");
 
   useEffect(() => () => { if (previewRef.current) URL.revokeObjectURL(previewRef.current); }, []);
+
+  useEffect(() => {
+    let active = true;
+    getConsultationMode().then((mode) => { if (active) setProviderMode(mode.provider); })
+      .catch(() => { if (active) setError("Consultation mode is unavailable. Check the backend and reload."); });
+    return () => { active = false; };
+  }, []);
 
   function onFileChange(event: ChangeEvent<HTMLInputElement>) {
     const chosen = event.target.files?.[0];
@@ -57,6 +69,7 @@ export default function ConsultationPage() {
     setCards([]);
     setSelectedId("");
     setPhase("setup");
+    setConsultationId(""); setChatMessages([]); setChatInput(""); setConversationReady(false);
     setError("");
   }
 
@@ -66,6 +79,7 @@ export default function ConsultationPage() {
     setCards([]);
     setSelectedId("");
     setPhase("setup");
+    setConsultationId(""); setChatMessages([]); setChatInput(""); setConversationReady(false);
     setError("");
   }
 
@@ -154,6 +168,56 @@ export default function ConsultationPage() {
     } finally { running.current = false; }
   }
 
+  async function beginConversation() {
+    if (!file || running.current || providerMode !== "gemini") return;
+    running.current = true;
+    setError(""); setPhase("preparing"); setCards([]); setSelectedId("");
+    try {
+      const created = await createConsultation(service);
+      setConsultationId(created.id);
+      await uploadConsultationPhoto(created.id, file);
+      const first = await sendConsultationTurn(created.id);
+      setChatMessages((first.state.messages || []).map(({ role, content }) => ({ role, content })));
+      setPhase("setup");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "The AI consultant could not start.");
+      setPhase("setup");
+    } finally { running.current = false; }
+  }
+
+  async function retryOpeningQuestion() {
+    if (!consultationId || running.current || chatMessages.length) return;
+    running.current = true;
+    setError(""); setPhase("preparing");
+    try {
+      const first = await sendConsultationTurn(consultationId);
+      setChatMessages((first.state.messages || []).map(({ role, content }) => ({ role, content })));
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "The AI consultant could not respond.");
+    } finally { setPhase("setup"); running.current = false; }
+  }
+
+  async function replyToConsultant() {
+    const message = chatInput.trim();
+    if (!message || !consultationId || running.current || providerMode !== "gemini") return;
+    running.current = true;
+    setError(""); setPhase("preparing");
+    try {
+      const turn = await sendConsultationTurn(consultationId, message);
+      setChatInput("");
+      setChatMessages((turn.state.messages || []).map(({ role, content }) => ({ role, content })));
+      if (turn.status === "ready_for_recommendation" && turn.recommendations) {
+        setConversationReady(true);
+        setCards(turn.recommendations.recommendations.map((recommendation) => ({ recommendation,
+          status: "pending", result: null, error: "", canRetry: false })));
+        await generatePending(consultationId, turn.recommendations.recommendations);
+      } else setPhase("setup");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "The AI consultant could not respond.");
+      setPhase("setup");
+    } finally { running.current = false; }
+  }
+
   async function retry(card: Card) {
     if (!consultationId || !card.canRetry || running.current) return;
     running.current = true;
@@ -196,8 +260,9 @@ export default function ConsultationPage() {
   const selected = cards.find((card) => card.recommendation.id === selectedId);
 
   return <StudioShell feature="consultation" eyebrow="THE AI BEAUTY STUDIO" title="Find a look" emphasis="made for your plans."
-    description="Choose a service, share one photo and a few preferences, then explore three supported looks. This guided preview uses a deterministic recommender."
-    badge="Guided consultation preview">
+    description={providerMode === "gemini" ? "Choose a service, share one photo and talk with our AI consultant. Then explore three supported looks." :
+      "Choose a service, share one photo and a few preferences, then explore three supported looks."}
+    badge={providerMode === "gemini" ? "AI beauty consultation" : "Guided consultation preview"}>
     <div className="studio-workspace">
       <StudioPanel id="consult-service" number="01" title="Choose a service" detail="Each consultation focuses on one primary service.">
         <div className="consult-service-grid" role="group" aria-label="Choose service">
@@ -217,7 +282,30 @@ export default function ConsultationPage() {
             disabled={busy} onClick={() => inputRef.current?.click()}>Replace</button></div>}
         </div>
       </StudioPanel>
-      <StudioPanel id="consult-preferences" number="02" title="Tell us your direction" detail="A few answers help narrow the supported styles.">
+      <StudioPanel id="consult-preferences" number="02"
+        title={providerMode === "gemini" ? "Talk about your look" : "Tell us your direction"}
+        detail={providerMode === "gemini" ? "A short conversation helps narrow the supported looks. Your photo stays with this application." :
+          "A few answers help narrow the supported styles."}>
+        {providerMode === "gemini" ? <div className="consult-conversation">
+          {chatMessages.length === 0 ? <p className="consult-chat-intro">Start when your photo is ready. The consultant will ask a few useful questions.</p>
+            : <div className="consult-chat-log" role="log" aria-label="Consultation conversation">
+              {chatMessages.map((item, index) => <p key={index} className={`consult-chat-message consult-chat-${item.role}`}>
+                <strong>{item.role === "assistant" ? "AI consultant" : "You"}</strong><span>{item.content}</span></p>)}
+            </div>}
+          {consultationId && chatMessages.length === 0 && <button type="button" className="studio-secondary-button"
+            disabled={busy} onClick={() => void retryOpeningQuestion()}>Retry opening question</button>}
+          {consultationId && !conversationReady && <div className="consult-chat-compose">
+            <label htmlFor="consult-reply">Your reply</label>
+            <textarea id="consult-reply" value={chatInput} maxLength={500} rows={3}
+              disabled={busy} onChange={(event) => setChatInput(event.target.value)}
+              onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault(); void replyToConsultant();
+              } }} placeholder="Tell us what you are getting ready for and what feels right to you." />
+            <button type="button" className="studio-primary-button" disabled={!chatInput.trim() || busy}
+              onClick={() => void replyToConsultant()}>Send reply</button>
+          </div>}
+          {conversationReady && <p role="status" className="studio-tip">The consultant has enough information. Your three supported looks are below.</p>}
+        </div> : <>
         <div className="consult-fields">
           <label>Occasion or event<input value={occasion} maxLength={80} disabled={busy} onChange={(event) => setOccasion(event.target.value)} placeholder="Everyday, celebration, formal…" /></label>
           <label>Desired vibe<input value={vibe} maxLength={80} disabled={busy} onChange={(event) => setVibe(event.target.value)} placeholder="Soft, bold, classic…" /></label>
@@ -232,15 +320,18 @@ export default function ConsultationPage() {
           <label>Optional notes<textarea value={notes} maxLength={500} disabled={busy} rows={3}
             onChange={(event) => setNotes(event.target.value)} placeholder="What else should we consider?" /></label>
         </div>
-        <p className="studio-tip"><strong>For this preview</strong><br />Recommendations come from supported styles and configured demo estimates. No appointment or real salon price is being offered.</p>
+        <p className="studio-tip"><strong>For this preview</strong><br />Recommendations come from supported styles and configured demo estimates. No appointment or real salon price is being offered.</p></>}
       </StudioPanel>
     </div>
     <section className="studio-action-bar" aria-label="Start consultation"><div><small>03 / EXPLORE THREE LOOKS</small>
       <h2>Ready for your recommendations?</h2><p>Looks generate one at a time. Nails may take longer.</p></div>
       <div className="consult-actions"><Link className="studio-secondary-button" href={serviceInfo.href}
         onClick={() => { if (file) rememberCustomPhoto(service, file); }}>Custom {serviceInfo.label}</Link>
-        <button type="button" className="studio-primary-button" disabled={!file || busy} onClick={() => void start()}>
-          {phase === "preparing" ? "Preparing…" : busy ? "Generating looks…" : cards.length ? "Start a new consultation" : "Find my looks"} ✦</button></div>
+        {providerMode !== "gemini" ? <button type="button" className="studio-primary-button"
+          disabled={!file || busy || providerMode === "loading"} onClick={() => void start()}>
+          {phase === "preparing" ? "Preparing…" : busy ? "Generating looks…" : cards.length ? "Start a new consultation" : "Find my looks"} ✦</button>
+          : !consultationId && <button type="button" className="studio-primary-button" disabled={!file || busy}
+            onClick={() => void beginConversation()}>{busy ? "Starting…" : "Start AI consultation"} ✦</button>}</div>
     </section>
     {error && <p role="alert" className="studio-alert">{error}</p>}
     {phase === "preparing" && <p role="status" className="consult-progress"><span className="consult-spinner" />Preparing your recommendations…</p>}

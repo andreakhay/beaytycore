@@ -1,6 +1,8 @@
 """Consultation orchestration over the existing central feature handlers."""
 
 import asyncio
+import logging
+import os
 from collections.abc import Awaitable, Callable, Mapping
 from io import BytesIO
 from typing import Annotated
@@ -12,7 +14,10 @@ from starlette.datastructures import Headers
 
 from app.consultation.catalog import CatalogConfigurationError, active_catalog
 from app.consultation.models import (CatalogResponse, ConsultationState, CreateConsultation,
-                                     GenerationDetail, RecommendationSet, UpdateConsultation)
+                                     ConsultationMode, ConversationTurnInput,
+                                     ConversationTurnResult, GenerationDetail, Preferences,
+                                     RecommendationSet, UpdateConsultation)
+from app.consultation.gemini import ConversationProvider, GeminiProvider, ProviderFailure
 from app.consultation.recommend import (DeterministicProvider, InsufficientCandidates,
                                         InvalidRecommendation, RecommendationProvider, candidate_styles,
                                         validate_recommendations)
@@ -24,10 +29,19 @@ def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable
                  validate_image: Callable[[UploadFile], Awaitable[Image.Image]],
                  store: ConsultationStore | None = None,
                  provider: RecommendationProvider | None = None,
-                 dispatch: Callable[[str, UploadFile, str], Awaitable[object]] | None = None) -> APIRouter:
+                 dispatch: Callable[[str, UploadFile, str], Awaitable[object]] | None = None,
+                 conversation: ConversationProvider | None = None) -> APIRouter:
     sessions = store or ConsultationStore()
     recommender = provider or DeterministicProvider()
+    mode = "gemini" if conversation is not None else os.getenv("CONSULTATION_PROVIDER", "deterministic").strip().lower()
+    if mode not in ("deterministic", "gemini"):
+        raise ValueError("CONSULTATION_PROVIDER must be deterministic or gemini")
+    conversational = conversation or (GeminiProvider() if mode == "gemini" else None)
     router = APIRouter(prefix="/consultations", tags=["consultations"])
+
+    @router.get("/mode", response_model=ConsultationMode)
+    async def consultation_mode() -> ConsultationMode:
+        return ConsultationMode(provider=mode, model=conversational.model if isinstance(conversational, GeminiProvider) else None)
 
     def state_or_404(consultation_id: UUID) -> ConsultationState:
         try:
@@ -83,6 +97,10 @@ def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable
     @router.post("/{consultation_id}/recommendations", response_model=RecommendationSet)
     async def recommend(consultation_id: UUID) -> RecommendationSet:
         state = state_or_404(consultation_id)
+        if conversational is not None:
+            if state.recommendations is None:
+                raise HTTPException(409, "Complete the conversation before requesting recommendations.")
+            return state.recommendations
         if state.photo is None:
             raise HTTPException(409, "Upload a photo before requesting recommendations.")
         try:
@@ -105,6 +123,53 @@ def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable
             raise HTTPException(409, str(exc)) from None
         except KeyError:
             raise HTTPException(404, "Consultation not found or expired.") from None
+
+    @router.post("/{consultation_id}/turn", response_model=ConversationTurnResult)
+    async def turn(consultation_id: UUID, body: ConversationTurnInput) -> ConversationTurnResult:
+        if conversational is None:
+            raise HTTPException(409, "Conversational consultation is not enabled.")
+        state_or_404(consultation_id)
+        try:
+            state = sessions.begin_turn(consultation_id, body.message)
+        except GenerationConflict as exc:
+            raise HTTPException(409, str(exc)) from None
+        committed = False
+        try:
+            catalog = await active_catalog(style_loaders())
+            candidates = {feature: candidate_styles(styles, state.preferences)
+                          for feature, styles in catalog.styles.items()}
+            proposal = await conversational.turn(state, body.message, candidates)
+            fields = proposal.preferences.model_dump(exclude_unset=True, exclude_none=True)
+            preferences = Preferences.model_validate({**state.preferences.model_dump(), **fields})
+            # New exclusions from this turn must also apply before validation.
+            eligible = {feature: candidate_styles(styles, preferences)
+                        for feature, styles in catalog.styles.items()}
+            resolved = None
+            if proposal.status == "ready_for_recommendation":
+                if not body.message and not any(row.role == "user" for row in state.messages):
+                    raise InvalidRecommendation("At least one user answer is required.")
+                updated = state.model_copy(update={"preferences": preferences})
+                resolved = validate_recommendations(proposal.recommendations, updated, catalog, eligible)
+            saved = sessions.finish_turn(consultation_id, state.updated_at, body.message,
+                                         proposal.assistant_message, proposal.status,
+                                         preferences, resolved)
+            committed = True
+            return ConversationTurnResult(state=saved, assistant_message=proposal.assistant_message,
+                                          status=proposal.status, recommendations=resolved)
+        except ProviderFailure as exc:
+            logging.getLogger(__name__).warning("Consultation provider failed category=%s", exc.category)
+            status = {"missing_key": 503, "timeout": 504, "rate_limit": 429,
+                      "model_unavailable": 503}.get(exc.category, 502)
+            raise HTTPException(status, "The AI consultant is unavailable. Please try again shortly.") from None
+        except CatalogConfigurationError:
+            raise HTTPException(503, "Consultation catalog is not configured for the active styles.") from None
+        except InvalidRecommendation:
+            raise HTTPException(502, "AI consultation output failed validation. No recommendation was saved.") from None
+        except (StaleConsultationError, GenerationConflict):
+            raise HTTPException(409, "Consultation changed. Please try again.") from None
+        finally:
+            if not committed:
+                sessions.abort_turn(consultation_id)
 
     @router.get("/{consultation_id}/recommendations/{recommendation_id}/generation",
                 response_model=GenerationDetail)

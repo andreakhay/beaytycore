@@ -136,6 +136,16 @@ button { cursor:pointer; } button:disabled { cursor:not-allowed; }
 .consult-fields label small { font-weight:400; }
 .consult-fields input,.consult-fields select,.consult-fields textarea { width:100%; min-height:42px; padding:10px 12px; border:1px solid rgba(176,64,216,.4); border-radius:0; background:#170c27; color:white; font-size:13px; line-height:1.45; font-family:inherit; }
 .consult-fields textarea { resize:vertical; }
+.consult-conversation { display:grid; gap:16px; }
+.consult-chat-intro { padding:18px; border:1px solid rgba(176,64,216,.28); color:var(--secondary); font-size:13px; line-height:1.6; }
+.consult-chat-log { display:grid; align-content:start; gap:12px; min-height:150px; max-height:360px; overflow:auto; padding:14px; border:1px solid rgba(176,64,216,.28); background:#170c27; }
+.consult-chat-message { display:grid; gap:5px; max-width:92%; margin:0; padding:12px 14px; color:var(--secondary); font-size:13px; line-height:1.5; white-space:pre-wrap; overflow-wrap:anywhere; background:rgba(45,16,84,.7); }
+.consult-chat-message strong { color:var(--gold-light); font-size:11px; }
+.consult-chat-user { justify-self:end; background:rgba(123,47,160,.42); }
+.consult-chat-compose { display:grid; gap:9px; }
+.consult-chat-compose label { color:var(--secondary); font-size:12px; font-weight:650; }
+.consult-chat-compose textarea { min-height:86px; padding:11px 12px; border:1px solid rgba(176,64,216,.4); background:#170c27; color:white; resize:vertical; font:13px/1.5 inherit; }
+.consult-chat-compose button { justify-self:end; }
 .consult-fields input:focus,.consult-fields select:focus,.consult-fields textarea:focus { outline:2px solid var(--gold); outline-offset:2px; }
 .consult-actions { display:flex; gap:10px; align-items:center; }
 .consult-actions .studio-secondary-button { display:inline-flex; align-items:center; text-decoration:none; white-space:nowrap; }

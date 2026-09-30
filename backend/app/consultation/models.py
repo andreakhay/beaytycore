@@ -52,7 +52,7 @@ class PhotoReference(StrictModel):
 
 
 class ConsultationMessage(StrictModel):
-    role: Literal["user"] = "user"
+    role: Literal["user", "assistant"] = "user"
     content: str
     created_at: datetime
 
@@ -115,6 +115,7 @@ class ConsultationState(StrictModel):
     id: UUID
     primary_service: FeatureId
     stage: Literal["collecting", "recommended"] = "collecting"
+    conversation_status: Literal["not_started", "more_information", "ready_for_recommendation"] = "not_started"
     photo: PhotoReference | None = None
     preferences: Preferences = Field(default_factory=Preferences)
     messages: list[ConsultationMessage] = Field(default_factory=list)
@@ -139,3 +140,32 @@ class CatalogStyle(StrictModel):
 class CatalogResponse(StrictModel):
     services: list[ServiceEstimate]
     styles: dict[FeatureId, list[CatalogStyle]]
+
+
+class ConversationTurnInput(StrictModel):
+    message: str | None = Field(default=None, min_length=1, max_length=500)
+
+
+class ConversationProposal(StrictModel):
+    status: Literal["more_information", "ready_for_recommendation"]
+    assistant_message: str = Field(min_length=1, max_length=400)
+    preferences: Preferences = Field(default_factory=Preferences)
+    recommendations: ProposedSet | None = None
+
+    @model_validator(mode="after")
+    def consistent(self):
+        if (self.status == "ready_for_recommendation") != (self.recommendations is not None):
+            raise ValueError("Recommendations are required only when ready.")
+        return self
+
+
+class ConversationTurnResult(StrictModel):
+    state: ConsultationState
+    assistant_message: str
+    status: Literal["more_information", "ready_for_recommendation"]
+    recommendations: RecommendationSet | None = None
+
+
+class ConsultationMode(StrictModel):
+    provider: Literal["deterministic", "gemini"]
+    model: str | None = None

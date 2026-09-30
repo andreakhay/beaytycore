@@ -6,8 +6,9 @@ from threading import RLock
 from uuid import UUID, uuid4
 
 from app.consultation.models import (ConsultationMessage, ConsultationState, FeatureId,
-                                     GenerationDetail, PhotoReference, RecommendationGeneration,
-                                     RecommendationSet, UpdateConsultation)
+                                     GenerationDetail, PhotoReference, Preferences,
+                                     RecommendationGeneration, RecommendationSet,
+                                     UpdateConsultation)
 
 
 LIFETIME = timedelta(hours=1)
@@ -34,6 +35,7 @@ class _Entry:
     state: ConsultationState
     photo_bytes: bytes | None = None
     results: dict[str, dict] | None = None
+    turn_in_progress: bool = False
 
 
 class ConsultationStore:
@@ -82,6 +84,7 @@ class ConsultationStore:
             entry.state = entry.state.model_copy(update={
                 "photo": PhotoReference(id=uuid4(), content_type=content_type, width=width, height=height),
                 "stage": "collecting", "recommendations": None, "generations": [],
+                "conversation_status": "not_started", "messages": [],
                 "selected_recommendation_id": None,
                 "updated_at": current, "expires_at": current + LIFETIME,
             })
@@ -100,11 +103,12 @@ class ConsultationStore:
             messages = list(entry.state.messages)
             current = now()
             if change.message is not None:
-                if len(messages) >= 10:
+                if len(messages) >= 12:
                     raise ValueError("Consultation message limit reached.")
                 messages.append(ConsultationMessage(content=change.message, created_at=current))
             entry.state = entry.state.model_copy(update={
                 "preferences": preferences, "messages": messages, "stage": "collecting",
+                "conversation_status": "more_information" if messages else "not_started",
                 "recommendations": None, "generations": [], "selected_recommendation_id": None,
                 "updated_at": current, "expires_at": current + LIFETIME,
             })
@@ -129,9 +133,55 @@ class ConsultationStore:
             entry.results = {}
             return entry.state.model_copy(deep=True)
 
+    def begin_turn(self, consultation_id: UUID, message: str | None) -> ConsultationState:
+        with self._lock:
+            entry = self._entry(consultation_id)
+            self._assert_idle(entry)
+            if entry.state.photo is None:
+                raise GenerationConflict("Upload a photo before starting the conversation.")
+            if entry.state.recommendations is not None:
+                raise GenerationConflict("This consultation already has recommendations.")
+            if len(entry.state.messages) + (1 if message else 0) + 1 > 12:
+                raise GenerationConflict("Consultation message limit reached.")
+            entry.turn_in_progress = True
+            return entry.state.model_copy(deep=True)
+
+    def finish_turn(self, consultation_id: UUID, expected_update: datetime,
+                    message: str | None, assistant_message: str, status: str,
+                    preferences: Preferences, recommendations: RecommendationSet | None) -> ConsultationState:
+        with self._lock:
+            entry = self._entry(consultation_id)
+            if not entry.turn_in_progress or entry.state.updated_at != expected_update:
+                raise StaleConsultationError("Consultation changed while the assistant responded.")
+            current = now()
+            messages = list(entry.state.messages)
+            if message:
+                messages.append(ConsultationMessage(role="user", content=message, created_at=current))
+            messages.append(ConsultationMessage(role="assistant", content=assistant_message, created_at=current))
+            entry.state = entry.state.model_copy(update={
+                "preferences": preferences, "messages": messages,
+                "conversation_status": status,
+                "stage": "recommended" if recommendations else "collecting",
+                "recommendations": recommendations,
+                "generations": [RecommendationGeneration(recommendation_id=row.id)
+                                for row in recommendations.recommendations] if recommendations else [],
+                "selected_recommendation_id": None,
+                "updated_at": current, "expires_at": current + LIFETIME,
+            })
+            entry.results = {} if recommendations else None
+            entry.turn_in_progress = False
+            return entry.state.model_copy(deep=True)
+
+    def abort_turn(self, consultation_id: UUID) -> None:
+        with self._lock:
+            try:
+                self._entry(consultation_id).turn_in_progress = False
+            except KeyError:
+                pass
+
     @staticmethod
     def _assert_idle(entry: _Entry) -> None:
-        if any(row.status == "generating" for row in entry.state.generations):
+        if entry.turn_in_progress or any(row.status == "generating" for row in entry.state.generations):
             raise GenerationConflict("A recommendation is still generating. Wait for it to finish.")
 
     @staticmethod

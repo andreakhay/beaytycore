@@ -19,10 +19,15 @@ export type RecommendationSet = { recommendations: [Recommendation, Recommendati
 export type GenerationStatus = { recommendation_id: string; status: "pending" | "generating" | "completed" | "failed";
   attempts: number; error: string | null; result_available: boolean };
 export type ConsultationState = { id: string; primary_service: FeatureId; stage: "collecting" | "recommended";
+  conversation_status?: "not_started" | "more_information" | "ready_for_recommendation";
+  messages?: { role: "user" | "assistant"; content: string; created_at: string }[];
   photo: { id: string; content_type: string; width: number; height: number } | null;
   recommendations: RecommendationSet | null; generations: GenerationStatus[];
   selected_recommendation_id: string | null };
 export type GenerationDetail = { generation: GenerationStatus; result: GenerateResponse | null };
+export type ConsultationMode = { provider: "deterministic" | "gemini"; model: string | null };
+export type ConversationTurn = { state: ConsultationState; assistant_message: string;
+  status: "more_information" | "ready_for_recommendation"; recommendations: RecommendationSet | null };
 
 function record(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -69,6 +74,28 @@ function consultationState(value: unknown): value is ConsultationState {
 function generationDetail(value: unknown): value is GenerationDetail {
   return record(value) && generationStatus(value.generation)
     && (value.result === null || isGeneration(value.result));
+}
+
+function consultationMode(value: unknown): value is ConsultationMode {
+  return record(value) && (value.provider === "deterministic" || value.provider === "gemini")
+    && (value.model === null || typeof value.model === "string");
+}
+
+function conversationTurn(value: unknown): value is ConversationTurn {
+  return record(value) && consultationState(value.state) && typeof value.assistant_message === "string"
+    && (value.status === "more_information" || value.status === "ready_for_recommendation")
+    && (value.status === "ready_for_recommendation"
+      ? recommendationSet(value.recommendations) : value.recommendations === null);
+}
+
+export function getConsultationMode(): Promise<ConsultationMode> {
+  return request("/consultations/mode", consultationMode);
+}
+
+export function sendConsultationTurn(id: string, message?: string): Promise<ConversationTurn> {
+  return request(`/consultations/${encodeURIComponent(id)}/turn`, conversationTurn,
+    { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(message === undefined ? {} : { message }) });
 }
 
 export function createConsultation(primaryService: FeatureId): Promise<ConsultationState> {
