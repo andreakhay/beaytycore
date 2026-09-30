@@ -28,7 +28,7 @@ The existing manual pages remain `/`, `/makeup` and `/nails`. CONSULTATION-01 do
 
 ## Next phases
 
-- **CONSULTATION-02:** connect validated recommendations and stored photo references to the existing feature generation dispatcher, plus the guided frontend and Custom handoff. Preserve the feature handlers and Nails hybrid boundary.
+- **CONSULTATION-02:** revalidate the selected recommendation against the then-current active catalog, then connect it and the stored photo reference to the existing feature generation dispatcher. Add the guided frontend and Custom handoff. Preserve the feature handlers and Nails hybrid boundary.
 - **CONSULTATION-03:** replace the deterministic provider with a conversational LLM provider that only proposes candidates; keep backend state, validation, pricing and generation authority.
 
 [Local test evidence](../experiments/CONSULTATION-01-local.md).
