@@ -1,5 +1,7 @@
 # CONSULTATION-01: consultation foundation
 
+This file records the completed CONSULTATION-01 checkpoint. The additive generation/UI work now lives in [CONSULTATION-02](0004-consultation-generation-integration.md); the future milestones below describe the plan as it stood at this checkpoint.
+
 **Status:** Implemented; CPU and local API verified on 2026-09-30. No LLM or image generation is part of this slice.
 
 ## Existing components reused
