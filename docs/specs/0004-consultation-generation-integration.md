@@ -1,6 +1,6 @@
 # CONSULTATION-02: existing-generator integration
 
-2026-09-30. **IMPLEMENTED; LOCAL/MOCKED VERIFIED; LIVE GPU NOT TESTED.** This record builds on the [CONSULTATION-01 foundation](0003-consultation-foundation.md). The deterministic provider, active catalog, three-item validator, backend-owned demo service estimates, photo validator, and one-hour process-local store remain authoritative.
+2026-09-30. **IMPLEMENTED; LOCAL/MOCKED AND REPRESENTATIVE LIVE INTEGRATION VERIFIED.** This record builds on the [CONSULTATION-01 foundation](0003-consultation-foundation.md). The deterministic provider, active catalog, three-item validator, backend-owned demo service estimates, photo validator, and one-hour process-local store remain authoritative. The [live gate](../experiments/CONSULTATION-02-live-gate.md) exercised three real recommended looks per feature through the unified Kaggle worker and confirmed a later Hair restoration; it did not assess all styles or visual quality.
 
 ## Application path
 
@@ -20,6 +20,6 @@ One failed look leaves completed siblings untouched. Failed looks can be manuall
 
 Custom links go to the original `/`, `/makeup` or `/nails` page. The browser transfers the already chosen `File` once through an in-memory module during client navigation; the manual page owns its normal upload and generation controls afterward. Refreshing or opening Custom in a new tab loses this transfer and the user can upload manually. No photo goes into browser storage or a URL.
 
-The original 10-session/one-hour process-local limit still applies. Generated image data URLs increase per-session RAM usage up to three primary results; they are not durable and vanish on restart/expiry. No LLM, booking, complementary image generation, real Kaggle generation, or multiworker persistence is included. CONSULTATION-03 may replace only the deterministic recommendation provider with a conversational provider; backend catalog validation, price/duration ownership and generation dispatch remain unchanged.
+The original 10-session/one-hour process-local limit still applies. Generated image data URLs increase per-session RAM usage up to three primary results; they are not durable and vanish on restart/expiry. No LLM, booking, complementary image generation, or multiworker persistence is included. CONSULTATION-03 may replace only the deterministic recommendation provider with a conversational provider; backend catalog validation, price/duration ownership and generation dispatch remain unchanged.
 
-[Local validation evidence](../experiments/CONSULTATION-02-local.md).
+[Local validation evidence](../experiments/CONSULTATION-02-local.md) and [representative live gate](../experiments/CONSULTATION-02-live-gate.md).
