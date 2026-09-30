@@ -384,10 +384,15 @@ async def generate_feature(
     image: Annotated[UploadFile, File()],
     style_id: Annotated[str, Form()],
 ) -> GenerateResponse:
+    return await dispatch_feature(feature_id, image, style_id)
+
+
+async def dispatch_feature(feature_id: str, image: UploadFile, style_id: str) -> GenerateResponse:
+    """Shared internal boundary for manual and consultation generation."""
     return await feature_route(feature_id).generate(image, style_id)
 
 
-# Consultation reads the active style callbacks but never invokes generation.
+# Consultation uses the same active handlers as the central feature routes.
 from app.consultation.api import build_router  # noqa: E402
 from app.consultation.store import ConsultationStore  # noqa: E402
 
@@ -396,4 +401,5 @@ app.include_router(build_router(
     lambda: {feature_id: route.styles for feature_id, route in FEATURE_ROUTES.items()},
     validated_image,
     consultation_store,
+    dispatch=dispatch_feature,
 ))

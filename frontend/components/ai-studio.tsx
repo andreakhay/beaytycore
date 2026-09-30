@@ -6,14 +6,15 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import type { FeatureId, GenerateResponse } from "@/lib/api";
 
-const features: { id: FeatureId; label: string; href: string }[] = [
+const features: { id: FeatureId | "consultation"; label: string; href: string }[] = [
+  { id: "consultation", label: "Consultation", href: "/consultation" },
   { id: "hairstyle", label: "Hairstyle", href: "/" },
   { id: "makeup", label: "Makeup", href: "/makeup" },
   { id: "nails", label: "Nails", href: "/nails" },
 ];
 
 export function StudioShell({ feature, eyebrow, title, emphasis, description, badge, children }: {
-  feature: FeatureId; eyebrow: string; title: string; emphasis: string;
+  feature: FeatureId | "consultation"; eyebrow: string; title: string; emphasis: string;
   description: string; badge?: string; children: ReactNode;
 }) {
   return <div className="studio-page">

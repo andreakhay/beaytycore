@@ -119,4 +119,54 @@ button { cursor:pointer; } button:disabled { cursor:not-allowed; }
 @keyframes studio-progress { from { transform:translateX(-100%); } to { transform:translateX(280%); } }
 @media (max-width:900px) { .studio-header-note,.studio-hero-art { display:none; } .studio-workspace { grid-template-columns:1fr; } .studio-hero { min-height:0; } }
 @media (max-width:640px) { .studio-header-inner { flex-wrap:wrap; padding:13px 17px; } .studio-nav { width:100%; justify-content:center; } .studio-nav a,.studio-nav span { flex:1; text-align:center; } .studio-main { padding:0 16px; } .studio-hero { padding:47px 0 36px; } .studio-hero h1 { font-size:clamp(38px,10vw,54px); } .studio-panel { padding:17px; } .studio-style-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .studio-action-bar { display:block; padding:20px; } .studio-action-bar .studio-primary-button { width:100%; margin-top:17px; } .studio-result-content { padding:16px; } .studio-result-header h2 { font-size:28px; } .studio-result-grid { grid-template-columns:1fr; } .studio-result-image .studio-photo { height:220px; } .studio-result-actions { display:grid; grid-template-columns:repeat(2,1fr); } .studio-result-actions .studio-primary-button { grid-column:1/-1; } }
+
+/* Consultation reuses the studio palette, panels, image treatment, and actions. */
+.consult-service-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.consult-service-card { min-height:93px; padding:13px; border:1px solid rgba(176,64,216,.36); background:rgba(45,16,84,.35); color:white; text-align:left; }
+.consult-service-card[aria-pressed="true"] { border-color:var(--gold); background:rgba(240,168,0,.1); }
+.consult-service-card strong { display:block; font:500 18px Georgia,serif; }
+.consult-service-card span { display:block; margin-top:7px; color:var(--secondary); font-size:11px; line-height:1.45; }
+.consult-service-card:disabled { opacity:.65; }
+.consult-photo-block { margin-top:24px; }
+.consult-photo-block h3 { margin-bottom:12px; font:500 20px Georgia,serif; }
+.consult-photo-preview .studio-photo { height:300px; aspect-ratio:auto; }
+.consult-upload { max-height:300px; }
+.consult-fields { display:grid; gap:13px; }
+.consult-fields label { display:grid; gap:6px; color:var(--secondary); font-size:12px; font-weight:650; }
+.consult-fields label small { font-weight:400; }
+.consult-fields input,.consult-fields select,.consult-fields textarea { width:100%; min-height:42px; padding:10px 12px; border:1px solid rgba(176,64,216,.4); border-radius:0; background:#170c27; color:white; font-size:13px; line-height:1.45; font-family:inherit; }
+.consult-fields textarea { resize:vertical; }
+.consult-fields input:focus,.consult-fields select:focus,.consult-fields textarea:focus { outline:2px solid var(--gold); outline-offset:2px; }
+.consult-actions { display:flex; gap:10px; align-items:center; }
+.consult-actions .studio-secondary-button { display:inline-flex; align-items:center; text-decoration:none; white-space:nowrap; }
+.consult-progress { display:flex; align-items:center; gap:13px; padding:22px; color:var(--secondary); }
+.consult-spinner { display:inline-block; width:27px; height:27px; flex:none; border:3px solid rgba(240,168,0,.24); border-top-color:var(--gold); border-radius:50%; animation:consult-spin .85s linear infinite; }
+@keyframes consult-spin { to { transform:rotate(360deg); } }
+.consult-results { margin-top:45px; }
+.consult-results-heading { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:20px; }
+.consult-results-heading h2,.consult-selection h2 { margin:6px 0 0; font:500 31px Georgia,serif; }
+.consult-results-heading > p { max-width:270px; color:var(--secondary); font-size:12px; line-height:1.5; }
+.consult-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.consult-card { min-width:0; border:1px solid rgba(176,64,216,.33); background:#20102f; }
+.consult-card-visual .studio-photo { height:260px; aspect-ratio:auto; }
+.consult-card-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; height:260px; padding:22px; background:radial-gradient(circle at 50% 45%,rgba(123,47,160,.3),transparent 70%),#170c27; color:var(--secondary); text-align:center; font-size:13px; }
+.consult-card-body { padding:18px; }
+.consult-card-top { display:flex; justify-content:space-between; gap:10px; color:var(--gold); font-size:10px; font-weight:750; letter-spacing:.16em; text-transform:uppercase; }
+.consult-status { color:var(--secondary); letter-spacing:.05em; }
+.consult-status-completed { color:#b5e0ba; }
+.consult-status-failed,.consult-status-unknown { color:#ffd6cf; }
+.consult-card h3 { margin:11px 0 6px; font:500 24px Georgia,serif; }
+.consult-card p { color:var(--secondary); font-size:12px; line-height:1.55; }
+.consult-estimate { padding-top:10px; border-top:1px solid rgba(176,64,216,.2); color:white!important; }
+.consult-estimate small { color:var(--muted); }
+.consult-complements { min-height:36px; }
+.consult-card-error { color:#ffd6cf!important; }
+.consult-card-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.consult-card-actions .studio-primary-button,.consult-card-actions .studio-secondary-button { min-height:39px; padding:9px 12px; font-size:11px; text-decoration:none; }
+.consult-continue { margin-top:18px; }
+.consult-selection { margin:30px 0; padding:23px; border:1px solid rgba(240,168,0,.36); background:linear-gradient(110deg,#28103c,#3d1a4d); }
+.consult-selection p:not(.studio-eyebrow) { color:var(--secondary); font-size:13px; line-height:1.6; }
+@media (max-width:900px) { .consult-card-grid { grid-template-columns:1fr; } .consult-card { display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); } .consult-card-visual .studio-photo,.consult-card-placeholder { height:100%; min-height:260px; } }
+@media (max-width:640px) { .consult-service-grid { grid-template-columns:1fr; } .consult-service-card { min-height:0; } .consult-actions { flex-wrap:wrap; margin-top:15px; } .consult-actions > * { flex:1; } .consult-results-heading { display:block; } .consult-card { display:block; } .consult-card-visual .studio-photo,.consult-card-placeholder { height:250px; min-height:0; } }
+@media (prefers-reduced-motion:reduce) { .consult-spinner { animation:none; } }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; } }

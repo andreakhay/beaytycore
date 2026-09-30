@@ -6,7 +6,8 @@ from threading import RLock
 from uuid import UUID, uuid4
 
 from app.consultation.models import (ConsultationMessage, ConsultationState, FeatureId,
-                                     PhotoReference, RecommendationSet, UpdateConsultation)
+                                     GenerationDetail, PhotoReference, RecommendationGeneration,
+                                     RecommendationSet, UpdateConsultation)
 
 
 LIFETIME = timedelta(hours=1)
@@ -24,10 +25,15 @@ class StaleConsultationError(RuntimeError):
     pass
 
 
+class GenerationConflict(RuntimeError):
+    pass
+
+
 @dataclass
 class _Entry:
     state: ConsultationState
     photo_bytes: bytes | None = None
+    results: dict[str, dict] | None = None
 
 
 class ConsultationStore:
@@ -71,18 +77,22 @@ class ConsultationStore:
                      width: int, height: int) -> ConsultationState:
         with self._lock:
             entry = self._entry(consultation_id)
+            self._assert_idle(entry)
             current = now()
             entry.state = entry.state.model_copy(update={
                 "photo": PhotoReference(id=uuid4(), content_type=content_type, width=width, height=height),
-                "stage": "collecting", "recommendations": None,
+                "stage": "collecting", "recommendations": None, "generations": [],
+                "selected_recommendation_id": None,
                 "updated_at": current, "expires_at": current + LIFETIME,
             })
             entry.photo_bytes = content
+            entry.results = None
             return entry.state.model_copy(deep=True)
 
     def update(self, consultation_id: UUID, change: UpdateConsultation) -> ConsultationState:
         with self._lock:
             entry = self._entry(consultation_id)
+            self._assert_idle(entry)
             preferences = entry.state.preferences
             if change.preferences is not None:
                 fields = change.preferences.model_dump(exclude_unset=True)
@@ -95,19 +105,96 @@ class ConsultationStore:
                 messages.append(ConsultationMessage(content=change.message, created_at=current))
             entry.state = entry.state.model_copy(update={
                 "preferences": preferences, "messages": messages, "stage": "collecting",
-                "recommendations": None, "updated_at": current, "expires_at": current + LIFETIME,
+                "recommendations": None, "generations": [], "selected_recommendation_id": None,
+                "updated_at": current, "expires_at": current + LIFETIME,
             })
+            entry.results = None
             return entry.state.model_copy(deep=True)
 
     def save_recommendations(self, consultation_id: UUID, expected_update: datetime,
                              recommendations: RecommendationSet) -> ConsultationState:
         with self._lock:
             entry = self._entry(consultation_id)
+            self._assert_idle(entry)
             if entry.state.updated_at != expected_update:
                 raise StaleConsultationError("Consultation changed while recommendations were prepared.")
             current = now()
             entry.state = entry.state.model_copy(update={
                 "recommendations": recommendations, "stage": "recommended",
+                "generations": [RecommendationGeneration(recommendation_id=row.id)
+                                for row in recommendations.recommendations],
+                "selected_recommendation_id": None,
                 "updated_at": current, "expires_at": current + LIFETIME,
+            })
+            entry.results = {}
+            return entry.state.model_copy(deep=True)
+
+    @staticmethod
+    def _assert_idle(entry: _Entry) -> None:
+        if any(row.status == "generating" for row in entry.state.generations):
+            raise GenerationConflict("A recommendation is still generating. Wait for it to finish.")
+
+    @staticmethod
+    def _generation(entry: _Entry, recommendation_id: str) -> RecommendationGeneration:
+        for row in entry.state.generations:
+            if row.recommendation_id == recommendation_id:
+                return row
+        raise KeyError("Recommendation not found.")
+
+    def detail(self, consultation_id: UUID, recommendation_id: str) -> GenerationDetail:
+        with self._lock:
+            entry = self._entry(consultation_id)
+            result = (entry.results or {}).get(recommendation_id)
+            return GenerationDetail(generation=self._generation(entry, recommendation_id), result=result)
+
+    def begin_generation(self, consultation_id: UUID, recommendation_id: str,
+                         expected_update: datetime) -> tuple[bytes, str]:
+        with self._lock:
+            entry = self._entry(consultation_id)
+            if entry.state.updated_at != expected_update:
+                raise StaleConsultationError("Consultation changed before generation started.")
+            self._assert_idle(entry)
+            row = self._generation(entry, recommendation_id)
+            if row.status == "completed":
+                raise GenerationConflict("This recommendation is already complete.")
+            if entry.state.photo is None or entry.photo_bytes is None:
+                raise GenerationConflict("Consultation photo is unavailable.")
+            changed = row.model_copy(update={"status": "generating", "attempts": row.attempts + 1,
+                                             "error": None, "result_available": False})
+            current = now()
+            entry.state = entry.state.model_copy(update={
+                "generations": [changed if item.recommendation_id == recommendation_id else item
+                                for item in entry.state.generations],
+                "updated_at": current, "expires_at": current + LIFETIME,
+            })
+            return entry.photo_bytes, entry.state.photo.content_type
+
+    def finish_generation(self, consultation_id: UUID, recommendation_id: str,
+                          result: dict | None, error: str | None = None) -> GenerationDetail:
+        with self._lock:
+            entry = self._entry(consultation_id)
+            row = self._generation(entry, recommendation_id)
+            if row.status != "generating":
+                raise GenerationConflict("Recommendation is not generating.")
+            changed = row.model_copy(update={"status": "completed" if result is not None else "failed",
+                                             "error": error, "result_available": result is not None})
+            if result is not None:
+                assert entry.results is not None
+                entry.results[recommendation_id] = result
+            current = now()
+            entry.state = entry.state.model_copy(update={
+                "generations": [changed if item.recommendation_id == recommendation_id else item
+                                for item in entry.state.generations],
+                "updated_at": current, "expires_at": current + LIFETIME,
+            })
+            return GenerationDetail(generation=changed, result=result)
+
+    def select(self, consultation_id: UUID, recommendation_id: str) -> ConsultationState:
+        with self._lock:
+            entry = self._entry(consultation_id)
+            if self._generation(entry, recommendation_id).status != "completed":
+                raise GenerationConflict("Generate this recommendation before selecting it.")
+            entry.state = entry.state.model_copy(update={
+                "selected_recommendation_id": recommendation_id, "updated_at": now(),
             })
             return entry.state.model_copy(deep=True)

@@ -3,6 +3,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { GenerationProgress, ResultDialog, StudioPanel, StudioPhoto, StudioShell } from "@/components/ai-studio";
 import { API_BASE_URL, generate, getHealth, getStyles, type GenerateResponse, type Style } from "@/lib/api";
+import { takeCustomPhoto } from "@/lib/photo-handoff";
 
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
 const ACCEPTED_TYPES = new Set(["image/jpeg", "image/png"]);
@@ -40,6 +41,12 @@ export default function Home() {
 
   useEffect(() => {
     let mounted = true;
+    const transferred = takeCustomPhoto("hairstyle");
+    if (transferred && ACCEPTED_TYPES.has(transferred.type) && transferred.size > 0 && transferred.size <= MAX_FILE_BYTES) {
+      previewRef.current = URL.createObjectURL(transferred);
+      setPreviewUrl(previewRef.current);
+      setFile(transferred);
+    }
     Promise.all([getStyles("hairstyle"), getHealth()])
       .then(([loaded, health]) => { if (mounted) { setStyles(loaded); setGeneratorMode(health.generator); } })
       .catch(() => { if (mounted) setStylesError(`The local API is unavailable at ${API_BASE_URL}. Start the backend and retry.`); })

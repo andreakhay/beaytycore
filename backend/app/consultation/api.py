@@ -1,26 +1,30 @@
-"""Additive consultation API. No image generation or remote inference calls."""
+"""Consultation orchestration over the existing central feature handlers."""
 
+import asyncio
 from collections.abc import Awaitable, Callable, Mapping
+from io import BytesIO
 from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from PIL import Image
+from starlette.datastructures import Headers
 
 from app.consultation.catalog import CatalogConfigurationError, active_catalog
 from app.consultation.models import (CatalogResponse, ConsultationState, CreateConsultation,
-                                     RecommendationSet, UpdateConsultation)
+                                     GenerationDetail, RecommendationSet, UpdateConsultation)
 from app.consultation.recommend import (DeterministicProvider, InsufficientCandidates,
                                         InvalidRecommendation, RecommendationProvider, candidate_styles,
                                         validate_recommendations)
-from app.consultation.store import (ConsultationStore, StaleConsultationError,
-                                    StoreFullError)
+from app.consultation.store import (ConsultationStore, GenerationConflict,
+                                    StaleConsultationError, StoreFullError)
 
 
 def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable[list]]]],
                  validate_image: Callable[[UploadFile], Awaitable[Image.Image]],
                  store: ConsultationStore | None = None,
-                 provider: RecommendationProvider | None = None) -> APIRouter:
+                 provider: RecommendationProvider | None = None,
+                 dispatch: Callable[[str, UploadFile, str], Awaitable[object]] | None = None) -> APIRouter:
     sessions = store or ConsultationStore()
     recommender = provider or DeterministicProvider()
     router = APIRouter(prefix="/consultations", tags=["consultations"])
@@ -61,6 +65,8 @@ def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable
                                          validated.width, validated.height)
         except KeyError:
             raise HTTPException(404, "Consultation not found or expired.") from None
+        except GenerationConflict as exc:
+            raise HTTPException(409, str(exc)) from None
 
     @router.patch("/{consultation_id}", response_model=ConsultationState)
     async def update(consultation_id: UUID, body: UpdateConsultation) -> ConsultationState:
@@ -71,6 +77,8 @@ def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable
             raise HTTPException(404, "Consultation not found or expired.") from None
         except ValueError as exc:
             raise HTTPException(422, str(exc)) from None
+        except GenerationConflict as exc:
+            raise HTTPException(409, str(exc)) from None
 
     @router.post("/{consultation_id}/recommendations", response_model=RecommendationSet)
     async def recommend(consultation_id: UUID) -> RecommendationSet:
@@ -93,7 +101,93 @@ def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable
             raise HTTPException(502, "Recommendation output failed validation.") from None
         except StaleConsultationError:
             raise HTTPException(409, "Consultation changed; request recommendations again.") from None
+        except GenerationConflict as exc:
+            raise HTTPException(409, str(exc)) from None
         except KeyError:
             raise HTTPException(404, "Consultation not found or expired.") from None
+
+    @router.get("/{consultation_id}/recommendations/{recommendation_id}/generation",
+                response_model=GenerationDetail)
+    async def generation_detail(consultation_id: UUID, recommendation_id: str) -> GenerationDetail:
+        state_or_404(consultation_id)
+        try:
+            return sessions.detail(consultation_id, recommendation_id)
+        except KeyError:
+            raise HTTPException(404, "Recommendation not found.") from None
+
+    @router.post("/{consultation_id}/recommendations/{recommendation_id}/generation",
+                 response_model=GenerationDetail)
+    async def generate_recommendation(consultation_id: UUID, recommendation_id: str) -> GenerationDetail:
+        state = state_or_404(consultation_id)
+        if dispatch is None:
+            raise HTTPException(503, "Consultation generation is unavailable.")
+        selected = next((row for row in (state.recommendations.recommendations
+                         if state.recommendations else []) if row.id == recommendation_id), None)
+        if selected is None:
+            raise HTTPException(404, "Recommendation not found.")
+        try:
+            current = await active_catalog(style_loaders())
+        except CatalogConfigurationError:
+            raise HTTPException(503, "Consultation catalog is not configured for the active styles.") from None
+        eligible = candidate_styles(current.styles[state.primary_service], state.preferences)
+        if (selected.primary.feature != state.primary_service
+                or selected.primary.style_id not in {style.style_id for style in eligible}):
+            raise HTTPException(409, "This recommendation is no longer available. Request new recommendations.")
+        try:
+            content, content_type = sessions.begin_generation(consultation_id, recommendation_id,
+                                                               state.updated_at)
+        except (GenerationConflict, StaleConsultationError) as exc:
+            raise HTTPException(409, str(exc)) from None
+        except KeyError:
+            raise HTTPException(404, "Consultation or recommendation not found.") from None
+
+        async def run_and_record() -> GenerationDetail:
+            upload = UploadFile(file=BytesIO(content), filename="consultation-photo",
+                                headers=Headers({"content-type": content_type}))
+            try:
+                generated = await dispatch(selected.primary.feature, upload,
+                                           selected.primary.style_id)
+                if getattr(getattr(generated, "style", None), "id", None) != selected.primary.style_id:
+                    raise RuntimeError("Generator returned a different style.")
+                return sessions.finish_generation(consultation_id, recommendation_id,
+                                                  generated.model_dump())
+            except HTTPException as exc:
+                sessions.finish_generation(consultation_id, recommendation_id, None,
+                                           str(exc.detail)[:240])
+                raise
+            except Exception:
+                sessions.finish_generation(consultation_id, recommendation_id, None,
+                                           "Generation failed. Please try again.")
+                raise HTTPException(500, "Generation failed. Please try again.") from None
+            finally:
+                await upload.close()
+
+        # A disconnected caller cannot free the consultation's generation slot while
+        # the original feature handler may still be using the serialized GPU owner.
+        task = asyncio.create_task(run_and_record())
+        try:
+            return await asyncio.shield(task)
+        except asyncio.CancelledError:
+            while not task.done():
+                try:
+                    await asyncio.shield(task)
+                except asyncio.CancelledError:
+                    continue
+                except Exception:
+                    break
+            if task.done() and not task.cancelled():
+                task.exception()
+            raise
+
+    @router.post("/{consultation_id}/recommendations/{recommendation_id}/select",
+                 response_model=ConsultationState)
+    async def select_recommendation(consultation_id: UUID, recommendation_id: str) -> ConsultationState:
+        state_or_404(consultation_id)
+        try:
+            return sessions.select(consultation_id, recommendation_id)
+        except KeyError:
+            raise HTTPException(404, "Recommendation not found.") from None
+        except GenerationConflict as exc:
+            raise HTTPException(409, str(exc)) from None
 
     return router

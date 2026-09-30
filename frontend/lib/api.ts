@@ -58,7 +58,7 @@ function isStyle(value: unknown): value is Style {
   return isRecord(value) && hasStrings(value, ["id", "name", "description", "status"]);
 }
 
-function isGeneration(value: unknown): value is GenerateResponse {
+export function isGeneration(value: unknown): value is GenerateResponse {
   if (!isRecord(value) || !hasStrings(value, ["status", "generator"]) || !isStyle(value.style)
       || !isRecord(value.image)) return false;
   const image = value.image;
@@ -69,7 +69,7 @@ function isGeneration(value: unknown): value is GenerateResponse {
     && (value.metadata === undefined || isRecord(value.metadata));
 }
 
-async function request<T>(path: string, validate: (value: unknown) => value is T, init?: RequestInit): Promise<T> {
+export async function request<T>(path: string, validate: (value: unknown) => value is T, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
     response = await fetch(`${API_BASE_URL}${path}`, init);

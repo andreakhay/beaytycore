@@ -3,6 +3,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { GenerationProgress, ResultDialog, StudioPanel, StudioPhoto, StudioShell } from "@/components/ai-studio";
 import { API_BASE_URL, generate as generateFeature, getStyles, type GenerateResponse, type Style } from "@/lib/api";
+import { takeCustomPhoto } from "@/lib/photo-handoff";
 
 const MAX_BYTES = 8 * 1024 * 1024;
 const COLORS: Record<string, string> = {
@@ -27,6 +28,12 @@ export default function NailsPage() {
 
   useEffect(() => {
     let active = true;
+    const transferred = takeCustomPhoto("nails");
+    if (transferred && ["image/jpeg", "image/png"].includes(transferred.type) && transferred.size > 0 && transferred.size <= MAX_BYTES) {
+      previewRef.current = URL.createObjectURL(transferred);
+      setPreview(previewRef.current);
+      setFile(transferred);
+    }
     getStyles("nails").then((items) => { if (active) setStyles(items); })
       .catch(() => { if (active) setStylesError(`The local API is unavailable at ${API_BASE_URL}.`); })
       .finally(() => { if (active) setLoading(false); });

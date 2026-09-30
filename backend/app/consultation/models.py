@@ -98,6 +98,19 @@ class RecommendationSet(StrictModel):
     recommendations: list[Recommendation] = Field(min_length=3, max_length=3)
 
 
+class RecommendationGeneration(StrictModel):
+    recommendation_id: str
+    status: Literal["pending", "generating", "completed", "failed"] = "pending"
+    attempts: int = 0
+    error: str | None = None
+    result_available: bool = False
+
+
+class GenerationDetail(StrictModel):
+    generation: RecommendationGeneration
+    result: dict | None = None
+
+
 class ConsultationState(StrictModel):
     id: UUID
     primary_service: FeatureId
@@ -106,6 +119,8 @@ class ConsultationState(StrictModel):
     preferences: Preferences = Field(default_factory=Preferences)
     messages: list[ConsultationMessage] = Field(default_factory=list)
     recommendations: RecommendationSet | None = None
+    generations: list[RecommendationGeneration] = Field(default_factory=list)
+    selected_recommendation_id: str | None = None
     created_at: datetime
     updated_at: datetime
     expires_at: datetime
