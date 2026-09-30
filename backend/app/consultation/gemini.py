@@ -41,7 +41,7 @@ class ConversationProvider(Protocol):
 class GeminiProvider:
     def __init__(self, *, model: str | None = None, api_key: str | None = None,
                  transport=None):
-        self.model = model or os.getenv("CONSULTATION_GEMINI_MODEL", "gemini-3.8-flash")
+        self.model = model or os.getenv("CONSULTATION_GEMINI_MODEL", "gemini-3.5-flash-lite")
         self.api_key = api_key if api_key is not None else os.getenv("GEMINI_API_KEY", "")
         self.transport = transport
 

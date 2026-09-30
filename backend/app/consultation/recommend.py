@@ -25,6 +25,19 @@ def _words(value: str) -> set[str]:
     return {part.lower() for part in value.replace("-", " ").replace("_", " ").split() if part}
 
 
+_SERVICE_WORDS = frozenset({"hair", "hairstyle", "makeup", "nail", "nails"})
+_AVOID_TAG_ALIASES = {"heavy": "bold", "dramatic": "bold"}
+
+
+def _avoid_terms(phrase: str) -> set[str]:
+    words = _words(phrase)
+    # A category word inside a longer phrase describes what is being styled,
+    # not the unwanted quality: "heavy makeup" must not exclude "Natural Makeup".
+    if len(words) > 1:
+        words -= _SERVICE_WORDS
+    return words | {_AVOID_TAG_ALIASES[word] for word in words if word in _AVOID_TAG_ALIASES}
+
+
 def preference_terms(preferences: Preferences) -> set[str]:
     values = [preferences.occasion, preferences.vibe, preferences.hair_length,
               preferences.hair_maintenance, preferences.makeup_intensity,
@@ -35,7 +48,7 @@ def preference_terms(preferences: Preferences) -> set[str]:
 
 def candidate_styles(styles: list[CatalogStyle], preferences: Preferences) -> list[CatalogStyle]:
     """Explicit things to avoid remove candidates; all other answers rank them."""
-    avoids = set().union(*(_words(value) for value in preferences.avoids))
+    avoids = set().union(*(_avoid_terms(value) for value in preferences.avoids))
     terms = preference_terms(preferences)
     eligible = [style for style in styles if style.status in AVAILABLE_STATUSES
                 and not (_words(" ".join(style.tags)) | _words(style.name)) & avoids]

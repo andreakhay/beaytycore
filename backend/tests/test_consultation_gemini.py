@@ -16,6 +16,13 @@ from app.consultation.models import ConversationProposal, Preferences
 from app.consultation.store import ConsultationStore
 
 
+def test_gemini_default_model_remains_configurable(monkeypatch):
+    monkeypatch.delenv("CONSULTATION_GEMINI_MODEL", raising=False)
+    assert GeminiProvider(api_key="test").model == "gemini-3.5-flash-lite"
+    monkeypatch.setenv("CONSULTATION_GEMINI_MODEL", "configured-model")
+    assert GeminiProvider(api_key="test").model == "configured-model"
+
+
 def portrait():
     output = BytesIO()
     Image.new("RGB", (128, 96), "#617da0").save(output, format="PNG")
@@ -117,13 +124,55 @@ def test_one_answer_and_no_optional_preference_can_be_ready():
     assert result.json()["status"] == "ready_for_recommendation"
 
 
+def test_makeup_new_avoid_phrase_preserves_subtle_candidates_during_revalidation():
+    requested = ("no_makeup_makeup", "natural_makeup", "matte_nude")
+
+    class Subtle:
+        async def turn(self, state, message, candidates):
+            assert {row.style_id for row in candidates["makeup"]} >= set(requested)
+            return ConversationProposal(status="ready_for_recommendation",
+                assistant_message="Here are three subtle options.",
+                preferences=Preferences(avoids=["heavy makeup", "dramatic eye makeup"]),
+                recommendations={"recommendations": [
+                    {"primary": {"feature": "makeup", "style_id": style_id},
+                     "reason": "A subtle daytime option.", "complements": []}
+                    for style_id in requested]})
+
+    client, _ = app_with(Subtle())
+    identity, _ = start(client, "makeup")
+    response = client.post(f"/consultations/{identity}/turn",
+                           json={"message": "Casual daytime; natural and subtle. Avoid heavy makeup."})
+    assert response.status_code == 200
+    assert [row["primary"]["style_id"] for row in response.json()["recommendations"]["recommendations"]] == list(requested)
+    assert response.json()["state"]["preferences"]["avoids"] == ["heavy makeup", "dramatic eye makeup"]
+
+
+def test_nails_turn_ignores_provider_makeup_specific_preference():
+    class Nails:
+        async def turn(self, state, message, candidates):
+            return ConversationProposal(status="ready_for_recommendation",
+                assistant_message="Here are three nail looks.",
+                preferences=Preferences(likes=["bold"], nail_color="dark", makeup_intensity="bold"),
+                recommendations={"recommendations": proposals("nails", candidates)})
+
+    client, _ = app_with(Nails())
+    identity, _ = start(client, "nails")
+    response = client.post(f"/consultations/{identity}/turn",
+                           json={"message": "Dark, bold nails for an event."})
+    assert response.status_code == 200
+    preferences = response.json()["state"]["preferences"]
+    assert preferences["nail_color"] == "dark"
+    assert preferences["likes"] == ["bold"]
+    assert preferences["makeup_intensity"] is None
+
+
 @pytest.mark.parametrize("bad", [
     lambda rows: rows.__setitem__(0, {**rows[0], "primary": {"feature": "hairstyle", "style_id": "invented"}}),
     lambda rows: rows.__setitem__(1, rows[0]),
     lambda rows: rows.__setitem__(0, {**rows[0], "primary": {"feature": "makeup", "style_id": "natural_makeup"}}),
     lambda rows: rows.__setitem__(0, {**rows[0], "complements": [{"feature": "makeup", "style_id": "invented"}]}),
 ])
-def test_bad_proposal_cannot_mutate_state(bad):
+def test_bad_proposal_cannot_mutate_state(bad, caplog):
     class Bad:
         async def turn(self, state, message, candidates):
             rows = proposals("hairstyle", candidates)
@@ -134,6 +183,10 @@ def test_bad_proposal_cannot_mutate_state(bad):
     identity, _ = start(client)
     response = client.post(f"/consultations/{identity}/turn", json={"message": "Formal look"})
     assert response.status_code == 502
+    assert "validator_reason=" in caplog.text
+    assert "count=3" in caplog.text
+    assert "Formal look" not in caplog.text
+    assert "invented" not in response.text
     state = client.get(f"/consultations/{identity}").json()
     assert state["messages"] == [] and state["recommendations"] is None
 

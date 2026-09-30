@@ -205,6 +205,22 @@ def test_candidate_filter_and_insufficient_styles(monkeypatch):
     assert client.get(f"/consultations/{identity}").json()["stage"] == "collecting"
 
 
+def test_avoid_phrases_target_style_traits_without_excluding_service_names():
+    import asyncio
+
+    catalog = asyncio.run(active_catalog({feature: route.styles for feature, route in main.FEATURE_ROUTES.items()}))
+    makeup = {row.style_id for row in candidate_styles(
+        catalog.styles["makeup"],
+        Preferences(avoids=["heavy makeup", "dramatic eye makeup"]))}
+    assert {"no_makeup_makeup", "natural_makeup", "matte_nude"} <= makeup
+    assert {"bold_evening_glam", "smoky_glam"}.isdisjoint(makeup)
+
+    nails = {row.style_id for row in candidate_styles(
+        catalog.styles["nails"], Preferences(avoids=["black nails"]))}
+    assert "glossy_black" not in nails
+    assert "nude_pink" in nails
+
+
 def test_validator_fails_closed_on_provider_hallucinations():
     import asyncio
 

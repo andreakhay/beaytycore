@@ -3,6 +3,7 @@
 import asyncio
 import logging
 import os
+import re
 from collections.abc import Awaitable, Callable, Mapping
 from io import BytesIO
 from typing import Annotated
@@ -23,6 +24,13 @@ from app.consultation.recommend import (DeterministicProvider, InsufficientCandi
                                         validate_recommendations)
 from app.consultation.store import (ConsultationStore, GenerationConflict,
                                     StaleConsultationError, StoreFullError)
+
+
+_SERVICE_PREFERENCE_FIELDS = {
+    "hair_length": "hairstyle", "hair_maintenance": "hairstyle",
+    "makeup_intensity": "makeup", "makeup_finish": "makeup",
+    "nail_color": "nails", "nail_finish": "nails",
+}
 
 
 def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable[list]]]],
@@ -134,12 +142,15 @@ def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable
         except GenerationConflict as exc:
             raise HTTPException(409, str(exc)) from None
         committed = False
+        proposal = None
         try:
             catalog = await active_catalog(style_loaders())
             candidates = {feature: candidate_styles(styles, state.preferences)
                           for feature, styles in catalog.styles.items()}
             proposal = await conversational.turn(state, body.message, candidates)
-            fields = proposal.preferences.model_dump(exclude_unset=True, exclude_none=True)
+            fields = {name: value for name, value in
+                      proposal.preferences.model_dump(exclude_unset=True, exclude_none=True).items()
+                      if _SERVICE_PREFERENCE_FIELDS.get(name, state.primary_service) == state.primary_service}
             preferences = Preferences.model_validate({**state.preferences.model_dump(), **fields})
             # New exclusions from this turn must also apply before validation.
             eligible = {feature: candidate_styles(styles, preferences)
@@ -163,7 +174,18 @@ def build_router(style_loaders: Callable[[], Mapping[str, Callable[[], Awaitable
             raise HTTPException(status, "The AI consultant is unavailable. Please try again shortly.") from None
         except CatalogConfigurationError:
             raise HTTPException(503, "Consultation catalog is not configured for the active styles.") from None
-        except InvalidRecommendation:
+        except InvalidRecommendation as exc:
+            rows = proposal.recommendations.recommendations if proposal and proposal.recommendations else []
+            def safe_id(value: str) -> str:
+                return value if re.fullmatch(r"[A-Za-z0-9_-]{1,80}", value) else "<invalid-id-format>"
+            logging.getLogger(__name__).warning(
+                "Consultation proposal rejected service=%s count=%d primary=%s complements=%s validator_reason=%s",
+                state.primary_service,
+                len(rows),
+                [(row.primary.feature, safe_id(row.primary.style_id)) for row in rows],
+                [[(item.feature, safe_id(item.style_id)) for item in row.complements] for row in rows],
+                str(exc),
+            )
             raise HTTPException(502, "AI consultation output failed validation. No recommendation was saved.") from None
         except (StaleConsultationError, GenerationConflict):
             raise HTTPException(409, "Consultation changed. Please try again.") from None
