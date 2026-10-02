@@ -1,5 +1,9 @@
 # Current state
 
+## Unified BeautyCore folder, 2026-10-02
+
+**IN PROGRESS; LOCAL VERIFIED; LIVE ACCEPTANCE NEEDS VERIFICATION.** The protected BeautyCore Phase 3 tracked source (150 files) is imported byte for byte under `beautycore/` in the HAIR repository. Root `START.bat` now launches the imported BeautyCore and the original private FastAPI from one folder through the existing signed Kaggle discovery; `STOP.bat` targets only launcher owned local processes. The original `I:` BeautyCore checkout, HAIR `frontend/`, AI pipelines, model/runtime code, BeautyCore auth/roles and Neon schema remain unchanged. BeautyCore's ignored `.env.local` and private Nails CPU assets are local install inputs, not Git content. Full FastAPI regression 408 passed; imported BeautyCore launcher 12 passed, adapter/client 23 passed, typecheck/build passed. Live Client login, Gemini plus GPU generation, and full client handoff after this move are pending. [Architecture](../docs/specs/0005-unified-beautycore-folder.md), [local evidence](../docs/experiments/unified-beautycore-local.md), [operator guide](../docs/guides/unified-beautycore.md).
+
 As of 2026-09-30. Earlier feature rows retain their dated evidence; current Consultation, Gate 3 and Nails latency status follows. Source: repository and local artifact inspection, Supervisor decisions, and linked experiment records.
 
 ## Consultation three-step UX, 2026-09-30

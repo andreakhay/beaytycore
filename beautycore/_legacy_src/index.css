@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-purple-dark: #1a0a2e;
+  --color-purple-mid: #2d1054;
+  --color-purple-main: #7b2fa0;
+  --color-purple-bright: #b040d8;
+  --color-purple-light: #d060f0;
+  --color-gold: #f0a800;
+  --color-gold-light: #f5c040;
+  --color-gold-dark: #c88800;
+  --color-off-white: #f9f4ff;
+  --color-text-light: #e0c8f0;
+  --color-text-muted: #9a7ab8;
+  --color-cream: #fdf8ff;
+  --color-purple-muted: #6a4a88;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Montserrat', Arial, sans-serif;
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background-color: #1a0a2e;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  img { max-width: 100%; display: block; }
+}
+
+/* Google Fonts */
+
+/* Utility: font-serif */
+.font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+.font-sans  { font-family: 'Montserrat', Arial, sans-serif; }
+
+/* Stat card top accent */
+.stat-card-accent::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #7b2fa0, #f0a800);
+}
+
+/* Progress bar */
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7b2fa0, #f0a800);
+  transition: width 0.4s;
+}
+
+/* Nail finger shapes */
+.nail-round    { border-radius: 50% 50% 40% 40%; }
+.nail-square   { border-radius: 4px; }
+.nail-oval     { border-radius: 50% 50% 35% 35%; }
+.nail-almond   { border-radius: 50% 50% 30% 30%; }
+.nail-stiletto { border-radius: 50% 50% 10% 10%; }
+.nail-coffin   { border-radius: 20% 20% 5% 5%; }
+
+/* Hair preview */
+.hair-preview-hair {
+  position: absolute;
+  top: 0;
+  width: 90px;
+  height: 140px;
+  border-radius: 50% 50% 30% 30%;
+  background: linear-gradient(180deg, #3d1c02 0%, #7b4a2d 100%);
+  z-index: 1;
+  transition: background 0.4s;
+}

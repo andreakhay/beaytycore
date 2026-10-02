@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ────────────────────────────────────────────────────────
+   Exposed to Tailwind as utilities: bg-deep, text-gold, border-purple-light…
+   ------------------------------------------------------------------------ */
+@theme {
+  /* Backgrounds */
+  --color-deep: #0f0520;
+  --color-card: #1a0a2e;
+  --color-surface: #2d1054;
+
+  /* Accents */
+  --color-purple: #7b2fa0;
+  --color-purple-light: #b040d8;
+  --color-purple-glow: #d060f0;
+  --color-gold: #f0a800;
+  --color-gold-hover: #f5c040;
+  --color-gold-dark: #c88800;
+
+  /* Text */
+  --color-primary: #ffffff;
+  --color-secondary: #e0c8f0;
+  --color-muted: #9a7ab8;
+
+  /* Status */
+  --color-success: #6fcf97;
+  --color-warning: #f0a800;
+  --color-error: #eb5757;
+  --color-info: #56ccf2;
+
+  /* Typography — wired to next/font in app/layout.tsx */
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-deep);
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Keyboard focus stays visible; mouse clicks don't get a ring. */
+  :focus-visible {
+    outline: 2px solid var(--color-purple-light);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-purple);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  /* Frosted panel used by the navbar, auth cards, and modals. */
+  .glass {
+    background: rgba(26, 10, 46, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(176, 64, 216, 0.18);
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #f5c040, #f0a800 55%, #c88800);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-purple) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-purple);
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* Respect users who've asked the OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
