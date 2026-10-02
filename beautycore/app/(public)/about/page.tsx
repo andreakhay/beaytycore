@@ -23,7 +23,7 @@ const values = [
   {
     icon: Sparkles,
     title: 'Honest guidance',
-    body: 'Our AI advisor and our stylists tell you what is realistically achievable from where your hair is today.',
+    body: 'Our AI consultation listens to your preferences. Our stylists can discuss what is achievable in person.',
   },
   {
     icon: Users,

@@ -1,116 +1,126 @@
-'use client';
+"use client";
 
-import StudioPage, {
-  type PresetDesign,
-  type BuilderGroup,
-} from '@/components/StudioPage';
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { GenerationProgress, ResultDialog, StudioPanel, StudioPhoto, StudioShell } from "@/components/ai-studio";
+import { API_BASE_URL, generate, getStyles, type GenerateResponse, type Style } from "@/lib/ai/studio-api";
+import { takeCustomPhoto } from "@/lib/ai/studio-photo-handoff";
 
-const presets: PresetDesign[] = [
-  {
-    id: 'caramel-balayage',
-    name: 'Caramel Balayage',
-    description: 'Hand-painted caramel through the mid-lengths with soft, face-framing layers.',
-    tags: ['Balayage', 'Warm', 'Low upkeep'],
-    price: 1500,
-    gradient: 'linear-gradient(135deg, #6b4423, #c99b6a)',
-  },
-  {
-    id: 'glass-hair',
-    name: 'Mirror Glass Hair',
-    description: 'Pin-straight, high-gloss finish with a seamless shadow root.',
-    tags: ['Sleek', 'Gloss', 'Straight'],
-    price: 1200,
-    gradient: 'linear-gradient(135deg, #2c2c34, #8f9ba8)',
-  },
-  {
-    id: 'money-piece',
-    name: 'Golden Money Piece',
-    description: 'Two bright face-framing panels over your natural base.',
-    tags: ['Highlights', 'Face-framing', 'Quick'],
-    price: 900,
-    gradient: 'linear-gradient(135deg, #2b2118, #e0c27f)',
-  },
-  {
-    id: 'textured-shag',
-    name: 'Textured Shag',
-    description: 'Choppy layers with piecey texture — great for growing out a short cut.',
-    tags: ['Cut', 'Texture', 'Editorial'],
-    price: 650,
-    gradient: 'linear-gradient(135deg, #1f1a24, #5c4f63)',
-  },
-  {
-    id: 'chocolate-gloss',
-    name: 'Chocolate Gloss',
-    description: 'All-over gloss with a warm red undertone and a blunt perimeter.',
-    tags: ['Colour', 'Shine', 'Rich'],
-    price: 1100,
-    gradient: 'linear-gradient(135deg, #3b2314, #8a4b2a)',
-  },
-  {
-    id: 'keratin-smooth',
-    name: 'Keratin Smoothing',
-    description: 'Frizz-eliminating treatment that lasts through several months of humidity.',
-    tags: ['Treatment', 'Smoothing', 'Long-lasting'],
-    price: 2500,
-    gradient: 'linear-gradient(135deg, #4a3f52, #b9a8c4)',
-  },
-];
+const MAX_FILE_BYTES = 8 * 1024 * 1024;
+const ACCEPTED_TYPES = new Set(["image/jpeg", "image/png"]);
 
-const builder: BuilderGroup[] = [
-  {
-    key: 'service',
-    label: 'Service',
-    options: [
-      { id: 'cut', label: 'Cut & Blowdry', price: 0 },
-      { id: 'colour', label: 'Full Colour', price: 450 },
-      { id: 'highlights', label: 'Highlights', price: 850 },
-      { id: 'balayage', label: 'Balayage', price: 1150 },
-      { id: 'treatment', label: 'Treatment', price: 800 },
-    ],
-  },
-  {
-    key: 'tone',
-    label: 'Tone',
-    options: [
-      { id: 'natural', label: 'Keep Natural', price: 0, swatch: '#3b2a1f' },
-      { id: 'caramel', label: 'Caramel', price: 0, swatch: '#c99b6a' },
-      { id: 'ash', label: 'Ash Blonde', price: 120, swatch: '#b9b3aa' },
-      { id: 'chocolate', label: 'Chocolate', price: 0, swatch: '#4a2c1a' },
-      { id: 'burgundy', label: 'Burgundy', price: 120, swatch: '#5c1f2e' },
-      { id: 'copper', label: 'Copper', price: 120, swatch: '#a5502a' },
-    ],
-  },
-  {
-    key: 'length',
-    label: 'Length',
-    options: [
-      { id: 'short', label: 'Short', price: 0 },
-      { id: 'medium', label: 'Medium', price: 150 },
-      { id: 'long', label: 'Long', price: 350 },
-      { id: 'extra', label: 'Extra Long', price: 550 },
-    ],
-  },
-  {
-    key: 'finish',
-    label: 'Finishing',
-    options: [
-      { id: 'blowdry', label: 'Blowdry', price: 0 },
-      { id: 'waves', label: 'Glam Waves', price: 200 },
-      { id: 'straight', label: 'Sleek Straight', price: 180 },
-      { id: 'updo', label: 'Updo', price: 400 },
-    ],
-  },
-];
+export default function Home() {
+  const [styles, setStyles] = useState<Style[]>([]);
+  const [stylesLoading, setStylesLoading] = useState(true);
+  const [stylesError, setStylesError] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [selectedId, setSelectedId] = useState("");
+  const [uploadError, setUploadError] = useState("");
+  const [generateError, setGenerateError] = useState("");
+  const [generating, setGenerating] = useState(false);
+  const [result, setResult] = useState<GenerateResponse | null>(null);
+  const [resultOpen, setResultOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const submittingRef = useRef(false);
+  const previewRef = useRef("");
 
-export default function HairStudio() {
-  return (
-    <StudioPage
-      title="Hair Studio"
-      subtitle="Explore cuts, colour, and treatments — or configure your own and price it live."
-      bookingHref="/booking?service=hair-design"
-      basePrice={350}
-      presets={presets}
-      builder={builder}
-    />
-  );
+  async function loadStyles() {
+    setStylesLoading(true);
+    setStylesError("");
+    try {
+      setStyles(await getStyles("hairstyle"));
+    } catch {
+      setStylesError(`The local API is unavailable at ${API_BASE_URL}. Start the backend and retry.`);
+    } finally {
+      setStylesLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    let mounted = true;
+    const transferred = takeCustomPhoto("hairstyle");
+    if (transferred && ACCEPTED_TYPES.has(transferred.type) && transferred.size > 0 && transferred.size <= MAX_FILE_BYTES) {
+      previewRef.current = URL.createObjectURL(transferred);
+      setPreviewUrl(previewRef.current);
+      setFile(transferred);
+    }
+    getStyles("hairstyle")
+      .then((loaded) => { if (mounted) setStyles(loaded); })
+      .catch(() => { if (mounted) setStylesError(`The local API is unavailable at ${API_BASE_URL}. Start the backend and retry.`); })
+      .finally(() => { if (mounted) setStylesLoading(false); });
+    return () => { mounted = false; if (previewRef.current) URL.revokeObjectURL(previewRef.current); };
+  }, []);
+
+  function resetResult() { setResultOpen(false); setResult(null); }
+
+  function onFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const chosen = event.target.files?.[0];
+    event.target.value = "";
+    if (!chosen) return;
+    if (!ACCEPTED_TYPES.has(chosen.type)) { setUploadError("Choose a JPG or PNG portrait."); return; }
+    if (chosen.size === 0 || chosen.size > MAX_FILE_BYTES) { setUploadError("Choose an image between 1 byte and 8 MB."); return; }
+    if (previewRef.current) URL.revokeObjectURL(previewRef.current);
+    previewRef.current = URL.createObjectURL(chosen);
+    setPreviewUrl(previewRef.current);
+    setFile(chosen);
+    setUploadError("");
+    setGenerateError("");
+    resetResult();
+  }
+
+  function clearImage() {
+    if (previewRef.current) URL.revokeObjectURL(previewRef.current);
+    previewRef.current = "";
+    setFile(null);
+    setPreviewUrl("");
+    resetResult();
+    setUploadError("");
+    setGenerateError("");
+  }
+
+  async function onGenerate() {
+    if (!file || !selectedId || submittingRef.current) return;
+    submittingRef.current = true;
+    setGenerating(true);
+    setGenerateError("");
+    resetResult();
+    try {
+      const generated = await generate("hairstyle", file, selectedId);
+      setResult(generated);
+      setResultOpen(true);
+    } catch (error) {
+      setGenerateError(error instanceof Error ? error.message : "Generation failed. Please try again.");
+    } finally {
+      submittingRef.current = false;
+      setGenerating(false);
+    }
+  }
+
+  const selectedStyle = styles.find((style) => style.id === selectedId);
+  const isMock = false;
+
+  return <StudioShell feature="hairstyle" eyebrow="THE AI BEAUTY STUDIO" title="Discover your" emphasis="next hairstyle."
+    description={isMock ? "Upload a portrait and choose a hairstyle to explore the application flow. In development preview, the result mirrors your original image." : "Upload a portrait, choose a hairstyle, and see it reimagined for you. AI previews can alter facial details."}
+    badge={isMock ? "Development preview" : "Experimental model demo"}>
+    <div className="studio-workspace">
+      <StudioPanel id="portrait-heading" number="01" title="Your portrait" detail="Start with a clear, front-facing photo.">
+        <input ref={inputRef} id="portrait-upload" className="sr-only" type="file" accept="image/jpeg,image/png" onChange={onFileChange} disabled={generating} aria-label="Upload your portrait" aria-describedby="upload-help upload-error" />
+        {previewUrl ? <StudioPhoto src={previewUrl} alt="Preview of your uploaded portrait" /> : <button type="button" className="studio-upload" onClick={() => inputRef.current?.click()}><span className="studio-upload-icon" aria-hidden="true">↑</span><strong>Choose your portrait</strong><small id="upload-help">JPG or PNG image, up to 8 MB. Your original stays available for comparison.</small></button>}
+        {file && <div className="studio-file-row"><div><strong>{file.name}</strong><small>{(file.size / 1024 / 1024).toFixed(2)} MB</small></div><div><button type="button" className="studio-text-button" disabled={generating} onClick={() => inputRef.current?.click()}>Replace</button><button type="button" className="studio-text-button" disabled={generating} onClick={clearImage}>Remove</button></div></div>}
+        {uploadError && <p id="upload-error" role="alert" className="studio-alert">{uploadError}</p>}
+      </StudioPanel>
+      <StudioPanel id="styles-heading" number="02" title="Find your style" detail="Select the look you would like to preview.">
+        {stylesError && <div role="alert" className="studio-alert">{stylesError}<button type="button" onClick={() => void loadStyles()}>Retry connection</button></div>}
+        {stylesLoading ? <p role="status" className="studio-loading-styles">Loading hairstyle choices…</p> : <div className="studio-style-grid">{styles.map((style, index) => <button key={style.id} type="button" className="studio-style-card" disabled={generating} onClick={() => { setSelectedId(style.id); resetResult(); setGenerateError(""); }} aria-pressed={selectedId === style.id}><span className="studio-style-art" data-tone={index % 5} aria-hidden="true"><b>{style.name.charAt(0)}</b></span><span className="studio-style-body"><strong>{style.name}</strong><small>{style.description}</small><em>{style.status}</em></span></button>)}</div>}
+        <p className="studio-tip"><strong>{isMock ? "Development preview" : "Experimental model"}</strong><br />{isMock ? "The generated preview mirrors your original image while the model is unavailable." : "Your selected look uses the active hairstyle adapter. Generation can take about a minute."}</p>
+      </StudioPanel>
+    </div>
+    <section aria-label="Generate preview" className="studio-action-bar"><div><small>03 / CREATE YOUR LOOK</small><h2>Ready to see your preview?</h2><p>{selectedStyle ? `Selected: ${selectedStyle.name}` : "Upload a portrait and choose a style to continue."}</p></div><button type="button" className="studio-primary-button" disabled={!file || !selectedId || generating} onClick={() => void onGenerate()}>{generating ? "Generating preview…" : "Generate preview"} <span aria-hidden="true">✦</span></button></section>
+    {generateError && <p role="alert" className="studio-alert">{generateError}</p>}
+    {result && !resultOpen && <button type="button" className="studio-view-result" onClick={() => setResultOpen(true)}>View your result again</button>}
+    {generating && <GenerationProgress feature="hairstyle" mock={isMock} />}
+    <ResultDialog result={result} open={resultOpen} original={previewUrl} originalAlt="Original uploaded portrait" generatedAlt={isMock ? "Development preview from the mock generator" : "Hairstyle generated by the project trained model"}
+      title={isMock ? "A first look at the flow" : "Your experimental result"} note={isMock ? "AI model not connected yet. This is your normalized original image, not a hairstyle transformation." : "Generated with a project-trained hairstyle LoRA. Facial details may change; review the result before using it."}
+      onClose={() => setResultOpen(false)} onRegenerate={() => void onGenerate()} />
+  </StudioShell>;
 }

@@ -4,6 +4,8 @@
 **Evidence:** repository inspection on 2026-10-02. BeautyCore source commit `351c0d8ca43c384117b13630fb05fa3cd248229c`; HAIR source commit `4f215fb1332d4f72b840cd83b9a4de18097fed63`.
 **Progress:** IN PROGRESS; source import and local contracts VERIFIED. Live Client plus Kaggle acceptance and private client handoff remain NEEDS VERIFICATION.
 
+**Subsequent Client UI decision, 2026-10-02:** The Supervisor explicitly requested that BeautyCore's Client entry points use the actual HAIR Consultation, Hair, Makeup and Nails frontend rather than the earlier BeautyCore Advisor and preset builders. This supersedes the temporary Advisor UI protection below for the follow-on UI import. BeautyCore auth and `/api/ai/*` remain protected. [Mocked import evidence](../experiments/beautycore-original-ai-ui-local.md).
+
 ## Why this direction
 
 The existing BeautyCore client, stylist, and admin application is a Next.js app with Neon, cookie sessions, and its own API routes. The working AI application is a Python FastAPI backend plus an older Next.js frontend. BeautyCore already has a tested Client Consultation page and a server only `/api/ai/*` adapter to the FastAPI contracts. Keeping that boundary preserves database ownership, authorization, consultation validation, and the original AI pipelines. The current BeautyCore launcher still imports `F:\HAIR` and lives on `I:`, so it does not meet the one folder handoff requirement.

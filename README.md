@@ -1,18 +1,18 @@
 # HAIR CAPSTONE
 
-**Unified BeautyCore integration:** The Client, Stylist, and Admin application now lives in [beautycore](beautycore/) inside this AI repository. For the single folder capstone setup, use the [unified installation guide](docs/guides/unified-beautycore.md) and root [START.bat](START.bat) / [STOP.bat](STOP.bat). The original `frontend/` and its `START_CAPSTONE.bat` remain as rollback. The unified source is locally verified; final BeautyCore plus Kaggle live acceptance is pending.
+**Unified BeautyCore integration:** The Client, Stylist, and Admin application now lives in [beautycore](beautycore/) inside this AI repository. Its Client Consultation, Hair, Makeup and Nails pages reuse the existing HAIR frontend experience through BeautyCore's authenticated AI adapter. For the single folder capstone setup, use the [unified installation guide](docs/guides/unified-beautycore.md) and root [START.bat](START.bat) / [STOP.bat](STOP.bat). The original `frontend/` and its `START_CAPSTONE.bat` remain as rollback. This is locally and mock browser verified; final BeautyCore plus Kaggle live acceptance is pending.
 
 The local application has Hairstyle, Makeup, and Nails pages that call one FastAPI backend. Hairstyle supports `MockEngine` or `RemoteFluxEngine`; Makeup supports mock or `RemoteMakeupEngine`; Nails supports mock or a hybrid pipeline. The verified unified model path uses one temporary authenticated Kaggle GPU service configured in `backend/.env`; original separate services remain rollback. Nails uses its GPU LoRA for Red and Black, and a local renderer for Nude Pink, French Tip, and Pink Ombre. No user upload is stored permanently by the application server. Current evidence and quality limits are in [state](context/state.md).
 
 Gate 3 passed reviewed live application integration with one URL and one persistent Base. Set the complete `AI_REMOTE_URL`/`AI_REMOTE_API_KEY` pair to route Hair, Makeup and Nails AI crop generation to that service; original endpoint settings remain rollback when both are removed. Deployment 01 adds startup/readiness/transport diagnostics and is locally validated; its fresh-session rehearsal is pending. Follow the [exact capstone launch runbook](docs/guides/capstone-deployment01.md) and import [the four-cell notebook](notebooks/deployment01_kaggle.ipynb). This is temporary capstone hosting, not persistent public deployment.
 
-Preferred capstone startup is now additive automation: [import the START CAPSTONE notebook](notebooks/capstone_start.ipynb) once with the same private dataset/Secrets/settings, then run its one startup cell and double-click [START_CAPSTONE.bat](START_CAPSTONE.bat). Signed temporary discovery removes manual URL copying and `.env` edits; [STOP_CAPSTONE.bat](STOP_CAPSTONE.bat) stops only launcher-owned local processes. [Short operator guide](docs/guides/capstone-start.md). This workflow is locally verified (343 backend tests); fresh-session acceptance is pending. Original notebooks/runtime/configuration remain rollback.
+For the integrated application, run the configured Kaggle START CAPSTONE cell and then root [START.bat](START.bat). Signed temporary discovery removes manual URL copying and `.env` edits. The older [START_CAPSTONE.bat](START_CAPSTONE.bat) launches the HAIR-only frontend for rollback; do not use it for the normal BeautyCore experience.
 
 The original capstone package includes three TRAIN-001 Hair styles. For Bun and the other ten TRAIN-002 styles, use the separate [expanded private candidate guide](docs/guides/capstone-train002.md). Its real artifacts and mocked shared runtime checks pass locally; live unified TRAIN-002 inference is still pending. The launcher selects the matching catalog automatically from the signed package publication.
 
 The trained model evidence and earlier separate-runtime handoffs are in [TRAIN-001](docs/experiments/TRAIN-001.md), [MAKEUP-001 integration](docs/experiments/MAKEUP-001-integration.md), and [Nails hybrid live handoff](docs/experiments/NAILS-001-hybrid-live-handoff.md). Kaggle remains the current GPU provider. Feature implementations and original runtimes are preserved; see [state](context/state.md).
 
-## Run locally on Windows
+## Legacy HAIR-only local development (rollback)
 
 The verified development machine has Node.js 24 and Python 3.11. Use two PowerShell terminals.
 

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import { AuthProvider } from '@/context/AuthContext';
 import './globals.css';
+import './ai-studio.css';
 
 const inter = Inter({
   subsets: ['latin'],

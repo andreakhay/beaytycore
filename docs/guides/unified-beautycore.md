@@ -14,7 +14,7 @@ The client facing application is `beautycore/`. The existing AI backend, Nails C
 
 1. Run the Kaggle notebook's **START CAPSTONE** cell until `CAPSTONE_AI_READY`.
 2. Double-click root `START.bat`. Wait for `BEAUTYCORE CAPSTONE READY`.
-3. Use the opened BeautyCore site at `http://127.0.0.1:3000`. Client login and `/client/ai-consultation` use BeautyCore's session and server side adapter. Admin and stylist portals remain in this same Next.js application.
+3. Use the opened BeautyCore site at `http://127.0.0.1:3000`. Client login opens the imported HAIR AI experience through `/client/ai-consultation`, `/client/hair-studio`, `/client/makeup-studio`, and `/client/nail-studio`. All four use BeautyCore's session and server side adapter. Admin and stylist portals remain in this same Next.js application. The former `/client/ai-advisor` link redirects to Consultation.
 4. When finished, wait for any active generation to complete, then double-click root `STOP.bat`. Stop the Kaggle notebook separately.
 
 The imported BeautyCore specific [launcher guide](../../beautycore/docs/guides/capstone-start.md) describes stages, logs, and the explicit emergency URL override. The old root `START_CAPSTONE.bat` starts the historical HAIR frontend; use root `START.bat` for the unified BeautyCore experience.
@@ -23,4 +23,4 @@ The imported BeautyCore specific [launcher guide](../../beautycore/docs/guides/c
 
 BeautyCore and FastAPI remain separate **local processes** inside one project folder. This preserves the working Python Nails pipeline, secure Client adapter, and BeautyCore business system. The normal browser only uses BeautyCore. No account, appointment, inventory, service price, or Neon schema migration is part of this import.
 
-The source import, process path relocation, focused adapter/launcher tests, full FastAPI regression, and BeautyCore build are locally checked. **Live Kaggle plus BeautyCore Client acceptance after this move remains pending.** The working source checkpoints and old frontend are retained for rollback. Source control does not include private Nails artifacts, `.env` files, the Kaggle bundle, or generated images; a client install must provide those separately.
+The source import, process path relocation, focused adapter/launcher tests, full FastAPI regression, BeautyCore build and [mocked original AI UI](../experiments/beautycore-original-ai-ui-local.md) are locally checked. **Live Kaggle plus BeautyCore Client acceptance after this move remains pending.** The working source checkpoints and old frontend are retained for rollback. Source control does not include private Nails artifacts, `.env` files, the Kaggle bundle, or generated images; a client install must provide those separately.

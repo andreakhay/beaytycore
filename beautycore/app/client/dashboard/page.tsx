@@ -21,7 +21,7 @@ import {
   formatTime,
   formatPeso,
 } from '@/components/ui';
-import type { AppointmentStatus, StyleType } from '@/db/schema';
+import type { AppointmentStatus } from '@/db/schema';
 
 interface AppointmentRow {
   id: string;
@@ -33,23 +33,12 @@ interface AppointmentRow {
   stylist: { id: string; name: string } | null;
 }
 
-interface GenerationRow {
-  id: string;
-  promptText: string;
-  generatedImageUrl: string | null;
-  styleType: StyleType;
-  analysisResult: {
-    recommendations?: Array<{ title: string }>;
-  } | null;
-  createdAt: string;
-}
-
 const quickActions = [
   {
-    href: '/client/ai-advisor',
+    href: '/client/ai-consultation',
     icon: Sparkles,
-    title: 'AI Advisor',
-    body: 'Upload a photo, get three styles picked for you',
+    title: 'AI Consultation',
+    body: 'Talk through your direction and explore three generated looks',
   },
   {
     href: '/booking',
@@ -61,35 +50,25 @@ const quickActions = [
     href: '/client/nail-studio',
     icon: Hand,
     title: 'Nail Studio',
-    body: 'Browse designs and build your own',
+    body: 'Try a supported nail style on your hand photo',
   },
   {
     href: '/client/hair-studio',
     icon: Scissors,
     title: 'Hair Studio',
-    body: 'Explore cuts, colour, and treatments',
+    body: 'Try a supported hairstyle on your portrait',
   },
 ];
 
 export default function ClientDashboard() {
   const { user } = useAuth();
   const [appointments, setAppointments] = useState<AppointmentRow[]>([]);
-  const [generations, setGenerations] = useState<GenerationRow[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/appointments').then((r) => r.json()),
-      fetch('/api/generations').then((r) => r.json()),
-    ])
-      .then(([a, g]) => {
-        setAppointments(a.appointments ?? []);
-        setGenerations(g.generations ?? []);
-      })
-      .catch(() => {
-        setAppointments([]);
-        setGenerations([]);
-      })
+    fetch('/api/appointments').then((r) => r.json())
+      .then((value) => setAppointments(value.appointments ?? []))
+      .catch(() => setAppointments([]))
       .finally(() => setLoading(false));
   }, []);
 
@@ -226,69 +205,30 @@ export default function ClientDashboard() {
           )}
         </Card>
 
-        {/* Recent AI recommendations */}
+        {/* The current AI studio. Previous Advisor data remains in the database. */}
         <Card>
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="font-serif text-xl text-white">Recent AI Looks</h2>
+            <h2 className="font-serif text-xl text-white">Your AI Studio</h2>
             <Link
-              href="/client/ai-advisor"
+              href="/client/ai-consultation"
               className="text-[10px] font-semibold uppercase tracking-[1.5px] text-gold hover:underline"
             >
-              New analysis
+              Start consultation
             </Link>
           </div>
-
-          {loading ? (
-            <div className="flex flex-col gap-3">
-              {[0, 1, 2].map((i) => (
-                <Skeleton key={i} className="h-16 w-full" />
-              ))}
-            </div>
-          ) : generations.length === 0 ? (
-            <EmptyState
-              icon={Sparkles}
-              title="No analyses yet"
-              body="Upload a photo of your hair or nails and the AI will suggest three styles that suit it."
-              action={
-                <Link
-                  href="/client/ai-advisor"
-                  className="bg-gold px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[1.5px] text-card transition-colors hover:bg-gold-hover"
-                >
-                  Try the Advisor
-                </Link>
-              }
-            />
-          ) : (
-            <ul className="flex flex-col gap-3">
-              {generations.slice(0, 4).map((g) => {
-                const title =
-                  g.analysisResult?.recommendations?.[0]?.title ??
-                  g.promptText.slice(0, 48);
-                return (
-                  <li
-                    key={g.id}
-                    className="flex items-center gap-4 rounded-sm border border-purple-light/10 bg-surface/25 p-4"
-                  >
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-purple-light/20 bg-purple/15">
-                      {g.styleType === 'nail' ? (
-                        <Hand size={16} className="text-purple-glow" />
-                      ) : (
-                        <Scissors size={16} className="text-purple-glow" />
-                      )}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-[13px] font-medium text-white">
-                        {title}
-                      </p>
-                      <p className="text-[11px] capitalize text-muted">
-                        {g.styleType} · {formatDate(g.createdAt)}
-                      </p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
+          <p className="mb-5 text-sm leading-relaxed text-secondary">
+            Start with a short consultation or choose an AI style yourself. Your photo stays in this session.
+          </p>
+          <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-1">
+            {[
+              { href: '/client/hair-studio', name: 'Hairstyle' },
+              { href: '/client/makeup-studio', name: 'Makeup' },
+              { href: '/client/nail-studio', name: 'Nails' },
+            ].map((item) => <Link key={item.href} href={item.href}
+              className="flex items-center justify-between rounded-lg border border-purple-light/15 bg-surface/25 px-4 py-3 text-sm text-white transition-colors hover:border-gold/50">
+              {item.name}<ArrowRight size={15} className="text-gold" />
+            </Link>)}
+          </div>
         </Card>
       </div>
     </>

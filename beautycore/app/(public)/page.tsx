@@ -84,8 +84,8 @@ export default function HomePage() {
               transition={{ duration: 0.7 }}
               className="mb-4 max-w-lg text-[15px] leading-relaxed text-secondary"
             >
-              Hair, nails, skin, and wellness under one roof — with an AI advisor
-              that reads your photo and recommends what genuinely suits you.
+              Hair, nails, skin, and wellness under one roof. Our AI consultation
+              listens to your preferences and helps you explore supported looks.
             </motion.p>
 
             <motion.p
@@ -105,11 +105,11 @@ export default function HomePage() {
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
-                href="/client/ai-advisor"
+                href="/client/ai-consultation"
                 className="flex items-center gap-2 border border-purple-light/40 px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[2px] text-secondary transition-all hover:border-purple-light hover:text-white"
               >
                 <Sparkles size={14} />
-                Try the AI Advisor
+                Try AI Consultation
               </Link>
             </motion.div>
           </motion.div>
@@ -215,7 +215,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── AI Advisor ───────────────────────────────────────────────── */}
+      {/* AI Consultation */}
       <section className="relative overflow-hidden border-y border-purple-light/15 bg-card px-6 py-24 lg:px-10">
         <div
           aria-hidden
@@ -235,15 +235,15 @@ export default function HomePage() {
             Not sure what suits you?
           </h2>
           <p className="mb-8 text-[15px] leading-relaxed text-secondary">
-            Upload a photo of your hair or nails. Our AI advisor reads what&apos;s
-            actually there — length, tone, shape, condition — and suggests three
-            styles with the reasoning behind each one.
+            Tell our AI consultant what you are looking for. It suggests three
+            supported styles, then our existing AI studio lets you preview them
+            on your photo. The conversation does not analyze the image.
           </p>
           <Link
-            href="/client/ai-advisor"
+            href="/client/ai-consultation"
             className="group inline-flex items-center gap-2 bg-gold px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[2px] text-card transition-all hover:bg-gold-hover"
           >
-            Get a Recommendation
+            Start AI Consultation
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
           </Link>
         </motion.div>
