@@ -425,6 +425,9 @@ export default function ConsultationPage() {
             {activeCard.error && <p role="alert" className="consult-card-error">{activeCard.error}</p>}
             <div className="consult-card-actions">{activeCard.status === "completed" && <><button type="button" className="studio-primary-button"
               onClick={() => void select(activeCard)}>{selectedId === activeCard.recommendation.id ? "Selected" : "Select This Look"}</button>
+              <Link className="studio-primary-button" href={`/booking?service=${activeCard.recommendation.primary.feature}&serviceName=${encodeURIComponent(activeCard.recommendation.primary.service.name)}&look=${encodeURIComponent(activeCard.recommendation.primary.style_name)}&notes=${encodeURIComponent(`AI Consultation Look: ${activeCard.recommendation.primary.style_name} (${activeCard.recommendation.primary.service.name})`)}`}>
+                Book this look <span aria-hidden="true">✦</span>
+              </Link>
               <a className="studio-secondary-button" href={activeCard.result!.image.data_url}
                 download={`andreas-${activeCard.recommendation.primary.style_id}.${activeCard.result!.image.content_type === "image/jpeg" ? "jpg" : "png"}`}>Download</a></>}
               {activeCard.canRetry && <button type="button" className="studio-secondary-button" disabled={busy}
@@ -448,9 +451,14 @@ export default function ConsultationPage() {
       {phase === "attention" && cards.some((card) => card.status === "pending") && !cards.some((card) => card.status === "unknown")
         && <button type="button" className="studio-secondary-button consult-continue" onClick={() => void continuePending()}>Continue remaining looks</button>}
       {selected && <section className="consult-selection" aria-label="Selected recommendation"><p className="studio-eyebrow">YOUR SELECTED LOOK</p>
-        <h2>{selected.recommendation.primary.style_name}</h2><p>Saved to this consultation for the current session. No booking has been made.</p>
+        <h2>{selected.recommendation.primary.style_name}</h2><p>Saved to this consultation for the current session.</p>
         <p>{selected.recommendation.primary.service.name} · ₱{selected.recommendation.primary.service.estimated_price.toLocaleString()} · {selected.recommendation.primary.service.estimated_duration_minutes} min (demo estimate)</p>
         {selected.recommendation.complements.length > 0 && <p>Suggested complements: {selected.recommendation.complements.map((item) => item.style_name).join(", ")}</p>}
+        <div style={{ marginTop: "1.25rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <Link className="studio-primary-button" href={`/booking?service=${selected.recommendation.primary.feature}&serviceName=${encodeURIComponent(selected.recommendation.primary.service.name)}&look=${encodeURIComponent(selected.recommendation.primary.style_name)}&notes=${encodeURIComponent(`AI Consultation Selected Look: ${selected.recommendation.primary.style_name} (${selected.recommendation.primary.service.name})`)}`}>
+            Book This Look Now <span aria-hidden="true">✦</span>
+          </Link>
+        </div>
       </section>}
       <div className="consult-stage-footer">{customLink}</div>
     </section>}

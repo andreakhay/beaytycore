@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { GenerationProgress, ResultDialog, StudioPanel, StudioPhoto, StudioShell } from "@/components/ai-studio";
 import { API_BASE_URL, generate, getStyles, type GenerateResponse, type Style } from "@/lib/ai/studio-api";
 import { takeCustomPhoto } from "@/lib/ai/studio-photo-handoff";
@@ -113,10 +114,16 @@ export default function MakeupPage() {
     </div>
     <section aria-label="Generate makeup preview" className="studio-action-bar"><div><small>03 / CREATE YOUR LOOK</small><h2>Ready for your makeup preview?</h2><p>{selectedStyle ? `Selected: ${selectedStyle.name}` : "Upload a portrait and choose a makeup style."}</p></div><button type="button" className="studio-primary-button" disabled={!file || !selectedId || generating} onClick={() => void onGenerate()}>{generating ? (liveMode ? "Generating makeup…" : "Preparing preview…") : (liveMode ? "Generate makeup" : "Generate preview")} <span aria-hidden="true">✦</span></button></section>
     {generateError && <p role="alert" className="studio-alert">{generateError}</p>}
-    {result && !resultOpen && <button type="button" className="studio-view-result" onClick={() => setResultOpen(true)}>View your result again</button>}
+    {result && !resultOpen && <div style={{ display: "flex", gap: "10px", marginTop: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+      <button type="button" className="studio-view-result" onClick={() => setResultOpen(true)}>View your result again</button>
+      <Link className="studio-primary-button" href={`/booking?service=face-laser&look=${encodeURIComponent(result.style.name)}&notes=${encodeURIComponent(`AI Makeup Look: ${result.style.name}`)}`}>
+        Book this makeup look <span aria-hidden="true">✦</span>
+      </Link>
+    </div>}
     {generating && <GenerationProgress feature="makeup" mock={!liveMode} />}
     <ResultDialog result={result} open={resultOpen} original={previewUrl} originalAlt="Original uploaded portrait" generatedAlt={realResult ? `MAKEUP-001 generated ${result?.style.name} result` : "Normalized original portrait returned by the makeup prototype"}
       title={realResult ? "Your MAKEUP-001 result" : "A preview of the workflow"} note={realResult ? "Generated with FLUX.2 Klein Base + MAKEUP-001. This AI preview may change facial details, skin tone, lighting or texture; it is not an exact prediction of real cosmetics." : "No makeup was applied. This is your normalized original image, not an AI makeup transformation."}
+      feature="makeup"
       onClose={() => setResultOpen(false)} onRegenerate={() => void onGenerate()} />
   </StudioShell>;
 }

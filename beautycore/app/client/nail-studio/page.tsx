@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { GenerationProgress, ResultDialog, StudioPanel, StudioPhoto, StudioShell } from "@/components/ai-studio";
 import { API_BASE_URL, generate as generateFeature, getStyles, type GenerateResponse, type Style } from "@/lib/ai/studio-api";
 import { takeCustomPhoto } from "@/lib/ai/studio-photo-handoff";
@@ -103,10 +104,16 @@ export default function NailsPage() {
     </div>
     <section aria-label="Generate nails preview" className="studio-action-bar"><div><small>03 / CREATE YOUR LOOK</small><h2>Ready for your nail preview?</h2><p>{selectedStyle ? `Selected: ${selectedStyle.name}` : "Upload a hand photo and select a style."}</p></div><button type="button" className="studio-primary-button" disabled={!file || !styleId || working} onClick={() => void generate()}>{working ? "Applying nail style…" : "Try this style"} <span aria-hidden="true">✦</span></button></section>
     {error && <p role="alert" className="studio-alert">{error}</p>}
-    {result && !resultOpen && <button type="button" className="studio-view-result" onClick={() => setResultOpen(true)}>View your result again</button>}
+    {result && !resultOpen && <div style={{ display: "flex", gap: "10px", marginTop: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+      <button type="button" className="studio-view-result" onClick={() => setResultOpen(true)}>View your result again</button>
+      <Link className="studio-primary-button" href={`/booking?service=nail-studio&look=${encodeURIComponent(result.style.name)}&notes=${encodeURIComponent(`AI Nail Style Look: ${result.style.name}`)}`}>
+        Book this nail style <span aria-hidden="true">✦</span>
+      </Link>
+    </div>}
     {working && <GenerationProgress feature="nails" />}
     <ResultDialog result={result} open={resultOpen} original={preview} originalAlt="Original hand photo" generatedAlt={result?.status === "placeholder" ? "Original photo preview" : `Hand with ${result?.style.name} nails`}
       title={result?.status === "placeholder" ? "A preview of the workflow" : "Your nail look is ready"} note={result?.status === "placeholder" ? "Nail styling is unavailable in this development preview." : "AI previews may differ from real polish. Check the comparison before downloading."}
+      feature="nails"
       onClose={() => setResultOpen(false)} onRegenerate={() => void generate()} />
   </StudioShell>;
 }

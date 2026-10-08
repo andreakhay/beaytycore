@@ -1,5 +1,16 @@
 # Current state
 
+## Booking UI & Navigation Refinement, 2026-10-08
+
+**IMPLEMENTED AND VERIFIED.** 
+1. **Enhanced Booking Form Design (`booking-form.tsx`):** Elevated the appointment booking experience into a luxury two-column stepped concierge interface. Added curated interactive time-slot chips (Morning, Afternoon, Evening), instant treatment search, quick date shortcuts, stylist preference cards with avatars/initials, consultation note add-ons, and a sticky reservation desk summary card with price and AI look synchronization.
+2. **Removed Market Trends from Admin Portal (`components/AdminSidebar.tsx`):** Removed the Market Trends navigation entry from the admin sidebar.
+3. Typecheck and production build passed with exit code 0 across all 42 routes. Zero changes made to training datasets, LoRAs, or model pipelines.
+
+## Direct Look Booking Flow, 2026-10-08
+
+**IMPLEMENTED AND VERIFIED.** Added seamless appointment booking directly from AI-generated previews across AI Consultation (`/client/ai-consultation`) and AI Studios (Hair, Makeup, Nails). When a preview is completed or selected, users can click "Book this look", which routes to `/booking` with the appropriate service category preselected, the specific style name attached, and notes pre-filled for the stylist. Typecheck and production build passed with exit code 0. No model weights, prompts, or training data were modified.
+
 ## Unified BeautyCore folder, 2026-10-02
 
 **CLIENT AI UI IMPORT LOCAL VERIFIED; LIVE ACCEPTANCE NEEDS VERIFICATION.** The BeautyCore Client Consultation, Hair, Makeup and Nails routes now reuse the actual HAIR frontend pages and shared AI studio styling. A narrow browser bridge calls the existing secure BeautyCore `/api/ai/*` adapter; the original frontend's direct FastAPI client is not used. Old Advisor Client UI redirects to Consultation, and Client navigation leads to the real AI pages. Typecheck, build, 26 focused tests and one mocked desktop/mobile browser flow passed; real Gemini/Kaggle generation through these adapted pages has not run. [Evidence](../docs/experiments/beautycore-original-ai-ui-local.md).

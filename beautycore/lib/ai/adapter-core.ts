@@ -154,6 +154,8 @@ export async function handleAiRequest(request: Request, parts: string[], deps: A
     return json(502, 'AI service is unavailable. Check generation status before retrying.');
   }
   if (!upstream.ok) {
+    const errorBody = await upstream.text().catch(() => '');
+    console.error('[ai-adapter] Upstream error from FastAPI:', upstream.status, errorBody);
     const allowed = new Set([400, 401, 403, 404, 409, 413, 415, 422, 429, 502, 503, 504]);
     const status = allowed.has(upstream.status) ? upstream.status : 502;
     return json(status, status < 500 ? 'AI request could not be completed.' : 'AI service could not complete the request.');

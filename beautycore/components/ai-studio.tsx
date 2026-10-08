@@ -80,9 +80,10 @@ export function GenerationProgress({ feature, mock = false }: { feature: Feature
   </div>;
 }
 
-export function ResultDialog({ result, open, original, originalAlt, generatedAlt, title, note, onClose, onRegenerate }: {
+export function ResultDialog({ result, open, original, originalAlt, generatedAlt, title, note, onClose, onRegenerate, feature }: {
   result: GenerateResponse | null; original: string; originalAlt: string; generatedAlt: string;
   open: boolean; title: string; note?: string; onClose: () => void; onRegenerate: () => void;
+  feature?: FeatureId;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -94,12 +95,20 @@ export function ResultDialog({ result, open, original, originalAlt, generatedAlt
   if (!result) return null;
   const extension = result.image.content_type === "image/jpeg" ? "jpg" : "png";
   const filename = `andreas-${result.style.id}.${extension}`;
+  const bookingCategory = feature === "hairstyle" ? "hair-design" : feature === "makeup" ? "face-laser" : feature === "nails" ? "nail-studio" : "hair-design";
+  const bookingUrl = `/booking?service=${bookingCategory}&look=${encodeURIComponent(result.style.name)}&notes=${encodeURIComponent(`AI Studio look preview: ${result.style.name}`)}`;
+
   return <dialog ref={ref} className="studio-result-dialog" aria-labelledby="studio-result-title" onClose={onClose} onClick={(event) => { if (event.target === ref.current) ref.current?.close(); }}>
     <div className="studio-result-content">
       <div className="studio-result-header"><div><p className="studio-eyebrow">YOUR NEW LOOK IS READY</p><h2 id="studio-result-title">{title}</h2><p>{result.style.name} · {result.status === "completed" ? "AI preview" : "Development preview"}</p></div><button type="button" className="studio-icon-button" aria-label="Close result" onClick={() => ref.current?.close()}>×</button></div>
       <div className="studio-result-grid"><div className="studio-result-image"><span>01 / ORIGINAL IMAGE</span><StudioPhoto src={original} alt={originalAlt} /></div><div className="studio-result-image studio-result-generated"><span>02 / GENERATED IMAGE</span><StudioPhoto src={result.image.data_url} alt={generatedAlt} /></div></div>
       {note && <p className="studio-result-note">{note}</p>}
-      <div className="studio-result-actions"><button type="button" className="studio-secondary-button" onClick={() => ref.current?.close()}>Close</button><button type="button" className="studio-secondary-button" onClick={() => { ref.current?.close(); onRegenerate(); }}>Regenerate</button><a className="studio-primary-button" href={result.image.data_url} download={filename}>Download image <span aria-hidden="true">↗</span></a></div>
+      <div className="studio-result-actions">
+        <button type="button" className="studio-secondary-button" onClick={() => ref.current?.close()}>Close</button>
+        <button type="button" className="studio-secondary-button" onClick={() => { ref.current?.close(); onRegenerate(); }}>Regenerate</button>
+        <a className="studio-secondary-button" href={result.image.data_url} download={filename}>Download image <span aria-hidden="true">↗</span></a>
+        <Link className="studio-primary-button" href={bookingUrl}>Book this look <span aria-hidden="true">✦</span></Link>
+      </div>
     </div>
   </dialog>;
 }
