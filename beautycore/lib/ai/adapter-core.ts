@@ -185,9 +185,7 @@ export async function handleAiRequest(request: Request, parts: string[], deps: A
     console.warn('[ai-adapter] Upstream fetch failed, falling back to local handlers:', error);
   }
 
-  const isUpstreamValid = upstream && upstream.ok && upstream.headers.get('content-type')?.toLowerCase().includes('application/json');
-
-  if (!isUpstreamValid) {
+  if (!upstream || !upstream.ok || !upstream.headers.get('content-type')?.toLowerCase().includes('application/json')) {
     const fallback = await getFallbackResponse(op, user, deps, body);
     if (fallback) return fallback;
     if (upstream && !upstream.ok) {
