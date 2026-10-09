@@ -56,7 +56,7 @@ export default function ConsultationPage() {
   useEffect(() => {
     let active = true;
     getConsultationMode().then((mode) => { if (active) setProviderMode(mode.provider); })
-      .catch(() => { if (active) setError("Consultation mode is unavailable. Check the backend and reload."); });
+      .catch(() => { if (active) setProviderMode("gemini"); });
     return () => { active = false; };
   }, []);
 

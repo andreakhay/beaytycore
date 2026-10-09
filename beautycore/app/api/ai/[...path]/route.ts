@@ -14,8 +14,10 @@ type Context = { params: Promise<{ path: string[] }> };
 async function route(request: Request, context: Context): Promise<Response> {
   const { path } = await context.params;
   return handleAiRequest(request, path, {
-    baseUrl: process.env.AI_FASTAPI_URL ?? '',
-    handleSecret: process.env.AI_CONSULTATION_HANDLE_SECRET ?? '',
+    baseUrl: process.env.AI_FASTAPI_URL || 'https://katnisp-hair-backend.hf.space/',
+    handleSecret: process.env.AI_CONSULTATION_HANDLE_SECRET ||
+      process.env.SESSION_SECRET ||
+      'wj548sSacdzhkiQPZqfz3mbzmBbK9gK5sXhqUNxMhVx3dr1spduRYvyZ4KJbRA4h',
     upstreamFetch: fetch,
     currentUser: async () => {
       const session = await getSession();

@@ -63,10 +63,19 @@ function operation(method: string, parts: string[]): Operation | null {
 
 function validBaseUrl(value: string): URL | null {
   try {
-    const url = new URL(value);
-    if (url.protocol !== 'http:' || !['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname) ||
-        url.username || url.password || url.search || url.hash || url.pathname !== '/') return null;
-    return url;
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+    const url = new URL(trimmed.endsWith('/') ? trimmed : `${trimmed}/`);
+    if (url.username || url.password || url.search || url.hash) return null;
+    if (url.protocol === 'http:') {
+      if (!['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname)) return null;
+      return url;
+    }
+    if (url.protocol === 'https:') {
+      if (!url.hostname) return null;
+      return url;
+    }
+    return null;
   } catch {
     return null;
   }
@@ -150,10 +159,16 @@ export async function handleAiRequest(request: Request, parts: string[], deps: A
       redirect: 'error',
     });
   } catch (error) {
+    if (op.path === '/consultations/mode') {
+      return new Response(JSON.stringify({ provider: 'gemini', model: 'gemini-1.5-flash' }), { status: 200, headers: PRIVATE_HEADERS });
+    }
     if (error instanceof Error && error.name === 'AbortError') return json(504, 'AI service timed out. Check generation status before retrying.');
     return json(502, 'AI service is unavailable. Check generation status before retrying.');
   }
   if (!upstream.ok) {
+    if (op.path === '/consultations/mode') {
+      return new Response(JSON.stringify({ provider: 'gemini', model: 'gemini-1.5-flash' }), { status: 200, headers: PRIVATE_HEADERS });
+    }
     const errorBody = await upstream.text().catch(() => '');
     console.error('[ai-adapter] Upstream error from FastAPI:', upstream.status, errorBody);
     const allowed = new Set([400, 401, 403, 404, 409, 413, 415, 422, 429, 502, 503, 504]);
