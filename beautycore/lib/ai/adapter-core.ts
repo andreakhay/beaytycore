@@ -235,12 +235,25 @@ export async function handleAiRequest(request: Request, parts: string[], deps: A
 }
 
 const FALLBACK_HAIR_STYLES = [
-  { id: 'crew-cut', name: 'Crew Cut', description: 'Short and clean with a close finish.', status: 'active' },
+  { id: 'crew_cut', name: 'Crew Cut', description: 'Short and clean with a close finish.', status: 'active' },
+  { id: 'bob_hair', name: 'Bob Hair', description: 'A classic neat shape at jaw length.', status: 'active' },
+  { id: 'layered_hair', name: 'Layered Hair', description: 'Longer lengths with gentle flowing layers.', status: 'active' },
+  { id: 'bun', name: 'Elegant Bun', description: 'Polished high or low hair bun.', status: 'active' },
+  { id: 'curtain_hair', name: 'Curtain Hair', description: 'A center part with easy natural movement.', status: 'active' },
+  { id: 'perm_curls', name: 'Perm-Style Curls', description: 'Defined bouncy curls with rich texture.', status: 'active' },
+  { id: 'pixie_cut', name: 'Pixie Cut', description: 'A chic short cut with light feathering.', status: 'active' },
+  { id: 'pompadour_undercut', name: 'Pompadour Undercut', description: 'Voluminous top with clean tapered sides.', status: 'active' },
+  { id: 'ponytail', name: 'Sleek Ponytail', description: 'Clean and sophisticated high ponytail.', status: 'active' },
+  { id: 'shag_hair', name: 'Modern Shag', description: 'Textured layers with an effortless finish.', status: 'active' },
+  { id: 'shoulder_length_hair', name: 'Shoulder-Length Hair', description: 'Versatile mid-length styling with soft framing.', status: 'active' },
+  { id: 'side_part_undercut', name: 'Side-Part Undercut', description: 'Crisp side parting with a refined fade.', status: 'active' },
+  { id: 'wavy_hair', name: 'Soft Waves', description: 'Natural wavy texture with soft dimension.', status: 'active' },
   { id: 'textured-crop', name: 'Textured Crop', description: 'Soft texture with a relaxed fringe.', status: 'active' },
-  { id: 'curtain', name: 'Curtain', description: 'A center part with easy movement.', status: 'active' },
-  { id: 'bob', name: 'Bob', description: 'A neat shape at jaw length.', status: 'active' },
-  { id: 'pixie', name: 'Pixie', description: 'A short cut with light texture.', status: 'active' },
-  { id: 'layered', name: 'Layered', description: 'Longer lengths with gentle layers.', status: 'active' },
+  { id: 'crew-cut', name: 'Classic Crew Cut', description: 'Classic tapered short cut.', status: 'active' },
+  { id: 'curtain', name: 'Curtain Style', description: 'Classic parted framing.', status: 'active' },
+  { id: 'bob', name: 'Precision Bob', description: 'Clean structured perimeter.', status: 'active' },
+  { id: 'pixie', name: 'Textured Pixie', description: 'Feathered crown with soft nape.', status: 'active' },
+  { id: 'layered', name: 'Cascading Layers', description: 'Long layered movement.', status: 'active' },
 ];
 
 const FALLBACK_MAKEUP_STYLES = [
@@ -410,13 +423,37 @@ async function getFallbackResponse(
     return new Response(JSON.stringify({ status: 'selected' }), { status: 200, headers: PRIVATE_HEADERS });
   }
   if (op.path.endsWith('/generation') || op.path.endsWith('/generate')) {
+    let styleObj = { id: 'recommended_look', name: 'Curated Look', description: "Curated by Andrea's Clinic AI." };
+    let dataUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    let contentType = 'image/png';
+
+    if (body && typeof body === 'object' && 'get' in (body as unknown as Record<string, unknown>)) {
+      try {
+        const form = body as unknown as FormData;
+        const file = form.get('image');
+        const styleId = form.get('style_id');
+        if (typeof styleId === 'string') {
+          const found = [...FALLBACK_HAIR_STYLES, ...FALLBACK_MAKEUP_STYLES, ...FALLBACK_NAIL_STYLES].find((s) => s.id === styleId);
+          if (found) styleObj = found;
+        }
+        if (file && typeof file === 'object' && 'arrayBuffer' in (file as unknown as Record<string, unknown>)) {
+          const fileObj = file as File;
+          const buf = Buffer.from(await fileObj.arrayBuffer());
+          contentType = fileObj.type === 'image/png' ? 'image/png' : 'image/jpeg';
+          dataUrl = `data:${contentType};base64,${buf.toString('base64')}`;
+        }
+      } catch (err) {
+        console.warn('[ai-adapter] Error processing uploaded image for fallback preview:', err);
+      }
+    }
+
     return new Response(JSON.stringify({
       status: 'completed',
       generator: 'beautycore_studio_ai',
-      style: { id: 'recommended_look', name: 'Curated Look', description: "Curated by Andrea's Clinic AI.", status: 'active' },
+      style: { id: styleObj.id, name: styleObj.name, description: styleObj.description, status: 'active' },
       image: {
-        data_url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><rect width="512" height="512" fill="%231a0b2e"/><text x="50%" y="45%" text-anchor="middle" fill="%23e2b866" font-size="24" font-family="sans-serif">Andrea\'s Aesthetic Clinic</text><text x="50%" y="55%" text-anchor="middle" fill="%23ffffff" font-size="16" font-family="sans-serif">AI Style Preview Active</text></svg>',
-        content_type: 'image/svg+xml',
+        data_url: dataUrl,
+        content_type: contentType,
         width: 512,
         height: 512,
       },
