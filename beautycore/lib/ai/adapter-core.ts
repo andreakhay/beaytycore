@@ -131,6 +131,28 @@ export async function handleAiRequest(request: Request, parts: string[], deps: A
   if (request.method !== 'GET' && request.headers.get('origin') !== new URL(request.url).origin)
     return json(403, 'Same-origin request required.');
 
+  if (op.path === '/features') {
+    return new Response(JSON.stringify(FALLBACK_FEATURES), { status: 200, headers: PRIVATE_HEADERS });
+  }
+  if (op.path === '/features/hairstyle/styles' || op.path === '/styles') {
+    return new Response(JSON.stringify(FALLBACK_HAIR_STYLES), { status: 200, headers: PRIVATE_HEADERS });
+  }
+  if (op.path === '/features/makeup/styles' || op.path === '/makeup/styles') {
+    return new Response(JSON.stringify(FALLBACK_MAKEUP_STYLES), { status: 200, headers: PRIVATE_HEADERS });
+  }
+  if (op.path === '/features/nails/styles' || op.path === '/nails/styles') {
+    return new Response(JSON.stringify(FALLBACK_NAIL_STYLES), { status: 200, headers: PRIVATE_HEADERS });
+  }
+  if (op.path === '/consultations/mode') {
+    return new Response(JSON.stringify({ provider: 'gemini', model: 'gemini-1.5-flash' }), { status: 200, headers: PRIVATE_HEADERS });
+  }
+  if (op.path === '/consultations/catalog') {
+    return new Response(JSON.stringify({
+      features: FALLBACK_FEATURES,
+      styles: { hairstyle: FALLBACK_HAIR_STYLES, makeup: FALLBACK_MAKEUP_STYLES, nails: FALLBACK_NAIL_STYLES },
+    }), { status: 200, headers: PRIVATE_HEADERS });
+  }
+
   const base = validBaseUrl(deps.baseUrl);
   if (!base || deps.handleSecret.length < 32) return json(503, 'AI service is not configured.');
 
@@ -157,6 +179,7 @@ export async function handleAiRequest(request: Request, parts: string[], deps: A
       body,
       cache: 'no-store',
       redirect: 'error',
+      signal: AbortSignal.timeout(6000),
     });
   } catch (error) {
     console.warn('[ai-adapter] Upstream fetch failed, falling back to local handlers:', error);
